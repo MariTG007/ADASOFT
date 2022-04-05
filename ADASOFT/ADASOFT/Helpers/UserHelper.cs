@@ -1,5 +1,6 @@
 ﻿using ADASOFT.Data;
 using ADASOFT.Data.Entities;
+using ADASOFT.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -52,5 +53,20 @@ namespace ADASOFT.Helpers
         {
             return await _userManager.IsInRoleAsync(user, roleName);
         }
+
+        public async Task<SignInResult> LoginAsync(LoginViewModel model)
+        {
+            return await _signInManager.PasswordSignInAsync(
+                model.Username,
+                model.Password,
+                model.RememberMe,
+                false);
+        }
+
+        public async Task LogoutAsync()
+        {
+            await _signInManager.SignOutAsync();
+        }
+
     }
 }

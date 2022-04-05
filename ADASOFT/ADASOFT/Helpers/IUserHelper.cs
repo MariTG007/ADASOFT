@@ -1,4 +1,5 @@
 ﻿using ADASOFT.Data.Entities;
+using ADASOFT.Models;
 using Microsoft.AspNetCore.Identity;
 
 namespace ADASOFT.Helpers
@@ -15,6 +16,9 @@ namespace ADASOFT.Helpers
 
         Task<bool> IsUserInRoleAsync(User user, string roleName);
 
-        
+        Task<SignInResult> LoginAsync(LoginViewModel model);
+
+        Task LogoutAsync();
+
     }
 }

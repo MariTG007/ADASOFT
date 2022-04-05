@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿#nullable disable
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ADASOFT.Data;
 using ADASOFT.Data.Entities;
@@ -6,8 +8,10 @@ using ADASOFT.Models;
 
 namespace ADASOFT.Controllers
 {
+     //[Authorize(Roles = "Admin")]
     public class LocationsController : Controller
     {
+        
         private readonly DataContext _context;
 
         public LocationsController(DataContext context)
@@ -23,7 +27,7 @@ namespace ADASOFT.Controllers
                 .ToListAsync());
         }
 
-
+       
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -33,7 +37,7 @@ namespace ADASOFT.Controllers
 
             State state = await _context.States
                 .Include(s => s.Cities)
-                .ThenInclude(s => s.Campuses) 
+                .ThenInclude(s => s.Campuses)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (state == null)
             {
@@ -485,7 +489,7 @@ namespace ADASOFT.Controllers
 
             City city = await _context.Cities
                 .Include(c => c.State)
-                .FirstOrDefaultAsync(s => s.Id == id); 
+                .FirstOrDefaultAsync(s => s.Id == id);
             if (city == null)
             {
                 return NotFound();
@@ -537,5 +541,6 @@ namespace ADASOFT.Controllers
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(DetailsCity), new { Id = campus.City.Id });
         }
+        
     }
 }
