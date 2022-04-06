@@ -1,21 +1,68 @@
 ﻿using ADASOFT.Data.Entities;
+using ADASOFT.Enums;
+using ADASOFT.Helpers;
 
 namespace ADASOFT.Data
 {
     public class SeedDb
     {
         private readonly DataContext _context;
+        private readonly IUserHelper _userHelper;
 
-        public SeedDb(DataContext context)//inject Data Base
+        public SeedDb(DataContext context, IUserHelper userHelper)
         {
             _context = context;
+            _userHelper = userHelper;
         }
 
         public async Task SeedAsync()//Similar to void
         {
             await _context.Database.EnsureCreatedAsync();//when you don't have data base
-            await CheckCoursesAsync(); //Verificate if categories exist
             await CheckLocationsAsync();
+            await CheckRolesAsync(); // check if roles is null
+            await CheckUserAsync("1010", "Andres", "Perez", "andres@yopmail.com", "314 587 9758", "Carrera 50b # 47-58", UserType.Admin);
+            await CheckUserAsync("2020", "Mariana", "Trejos", "mariana@yopmail.com", "322 311 2031", "Calle Luna Calle Sol", UserType.User);
+            //await CheckUserAsync("1010", "Julio", "Jimenez", "julio@yopmail.com", "311 739 1132", "carrera 45 # 23a", UserType.Teacher);
+        }
+
+        private async Task<User> CheckUserAsync(
+            string document,
+            string firstName,
+            string lastName,
+            string email,
+            string phone,
+            string address,
+            UserType userType)
+        {
+            User user = await _userHelper.GetUserAsync(email);
+            if (user == null)
+            {
+                user = new User
+                {
+                    FirstName = firstName,
+                    LastName = lastName,
+                    Email = email,
+                    UserName = email,
+                    PhoneNumber = phone,
+                    Address = address,
+                    Document = document,
+                    City = _context.Cities.FirstOrDefault(),
+                    UserType = userType,
+                };
+
+                await _userHelper.AddUserAsync(user, "123456");
+                await _userHelper.AddUserToRoleAsync(user, userType.ToString());
+            }
+
+            return user;
+        }
+
+
+        private async Task CheckRolesAsync()
+        {
+            await _userHelper.CheckRoleAsync(UserType.Admin.ToString());
+            //await _userHelper.CheckRoleAsync(UserType.Teacher.ToString());
+            await _userHelper.CheckRoleAsync(UserType.User.ToString()); //User Types are only in classes usertype and seedDb 
         }
 
         private async Task CheckLocationsAsync()
@@ -35,7 +82,7 @@ namespace ADASOFT.Data
                                 new Campus() { Name = "Fraternidad" },
                                 new Campus() { Name = "Floresta" },
                                 new Campus() { Name = "Castilla" },
-                               
+
                             }
                         },
                         new City()
@@ -44,7 +91,7 @@ namespace ADASOFT.Data
                             Campuses = new List<Campus>() {
                                 new Campus() { Name = "Las Palmas" },
                                 new Campus() { Name = "Área Urbana" },
-                                
+
                             }
                         },
                     }
@@ -61,7 +108,7 @@ namespace ADASOFT.Data
                                 new Campus() { Name = "Sagrado Corazón" },
                                 new Campus() { Name = "La Macarena" },
                                 new Campus() { Name = "Lourdes" },
-                                
+
                             }
                         },
                         new City()
@@ -71,31 +118,14 @@ namespace ADASOFT.Data
                                 new Campus() { Name = "Chicó Lago" },
                                 new Campus() { Name = "El Refugio" },
                                 new Campus() { Name = "Pardo Rubio" },
-                                
+
                             }
                         },
                     }
                 });
-            }
-
-            await _context.SaveChangesAsync();
-        }
-
-
-        private async Task CheckCoursesAsync()
-        {
-            if (!_context.Categories.Any())
-            {
-                _context.Categories.Add(new Category { Name = "Tecnología" });
-                _context.Categories.Add(new Category { Name = "Ropa" });
-                _context.Categories.Add(new Category { Name = "Calzado" });
-                _context.Categories.Add(new Category { Name = "Belleza" });
-                _context.Categories.Add(new Category { Name = "Nutrición" });
-                _context.Categories.Add(new Category { Name = "Deportes" });
-                _context.Categories.Add(new Category { Name = "Apple" });
-                _context.Categories.Add(new Category { Name = "Mascotas" });
                 await _context.SaveChangesAsync();
             }
         }
     }
+    
 }

@@ -1,9 +1,10 @@
 ﻿using ADASOFT.Data.Entities;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace ADASOFT.Data
 {
-    public class DataContext : DbContext
+    public class DataContext : IdentityDbContext<User>
     {
         public DataContext(DbContextOptions<DataContext> options) : base(options)
         {
@@ -14,7 +15,6 @@ namespace ADASOFT.Data
 
         public DbSet<Campus> Campuses { get; set; }
         public DbSet<City> Cities { get; set; }
-
         public DbSet<State> States { get; set; }
 
         public DbSet<Course> Courses{ get; set; }
@@ -26,6 +26,7 @@ namespace ADASOFT.Data
             modelBuilder.Entity<State>().HasIndex(s => s.Name).IsUnique();
             modelBuilder.Entity<City>().HasIndex("Name", "StateId").IsUnique(); 
             modelBuilder.Entity<Campus>().HasIndex("Name", "CityId").IsUnique();
+
         }
     }
 }

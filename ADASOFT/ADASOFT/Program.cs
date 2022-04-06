@@ -1,5 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using ADASOFT.Data;
+using ADASOFT.Helpers;
+using ADASOFT.Data.Entities;
+using Microsoft.AspNetCore.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,9 +14,20 @@ builder.Services.AddDbContext<DataContext>(o =>
     o.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
 
+//TODO: Make strongest password - hard conditions 
+builder.Services.AddIdentity<User, IdentityRole>(cfg =>
+{
+    cfg.User.RequireUniqueEmail = true;
+    cfg.Password.RequireDigit = false;
+    cfg.Password.RequiredUniqueChars = 0;
+    cfg.Password.RequireLowercase = false;
+    cfg.Password.RequireNonAlphanumeric = false;
+    cfg.Password.RequireUppercase = false;
+    //cfg.Password.RequiredLength = 8
+}).AddEntityFrameworkStores<DataContext>();
+
 builder.Services.AddTransient<SeedDb>();
-//builder.Services.AddScoped<SeedDb>();//Injects every time it's needed
-//builder.Services.AddSingleton<SeedDb>();//Injects one time and never destroys it
+builder.Services.AddScoped<IUserHelper, UserHelper>(); //mando interfaz para pruebas unitarias
 builder.Services.AddRazorPages().AddRazorRuntimeCompilation();
 
 var app = builder.Build();
@@ -28,7 +42,6 @@ void SeedData()
         SeedDb? service = scope.ServiceProvider.GetService<SeedDb>();
         service.SeedAsync().Wait();
     }
-
 }
 
 if (!app.Environment.IsDevelopment())
@@ -40,10 +53,9 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-
 app.UseRouting();
-
 app.UseAuthorization();
+app.UseAuthentication();
 
 app.MapControllerRoute(
     name: "default",
