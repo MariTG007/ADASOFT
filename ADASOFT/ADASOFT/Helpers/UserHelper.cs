@@ -56,7 +56,8 @@ namespace ADASOFT.Helpers
 
         public async Task<SignInResult> LoginAsync(LoginViewModel model)
         {
-            return await _signInManager.PasswordSignInAsync(
+            return await _signInManager.PasswordSignInAsync //Question
+             (
                 model.Username,
                 model.Password,
                 model.RememberMe,

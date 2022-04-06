@@ -28,7 +28,7 @@ namespace ADASOFT.Controllers
         {
             if (ModelState.IsValid)
             {
-                Microsoft.AspNetCore.Identity.SignInResult result = await _userHelper.LoginAsync(model);
+                Microsoft.AspNetCore.Identity.SignInResult result = await _userHelper.LoginAsync(model);//Question
                 if (result.Succeeded)
                 {
                     return RedirectToAction("Index", "Home");
