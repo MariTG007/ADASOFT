@@ -136,10 +136,7 @@ namespace ADASOFT.Migrations
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
 
-                    b.Property<int?>("CampusId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("CityId")
+                    b.Property<int>("CampusId")
                         .HasColumnType("int");
 
                     b.Property<string>("ConcurrencyStamp")
@@ -210,8 +207,6 @@ namespace ADASOFT.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("CampusId");
-
-                    b.HasIndex("CityId");
 
                     b.HasIndex("NormalizedEmail")
                         .HasDatabaseName("EmailIndex");
@@ -381,17 +376,13 @@ namespace ADASOFT.Migrations
 
             modelBuilder.Entity("ADASOFT.Data.Entities.User", b =>
                 {
-                    b.HasOne("ADASOFT.Data.Entities.Campus", null)
+                    b.HasOne("ADASOFT.Data.Entities.Campus", "Campus")
                         .WithMany("Users")
-                        .HasForeignKey("CampusId");
-
-                    b.HasOne("ADASOFT.Data.Entities.City", "City")
-                        .WithMany()
-                        .HasForeignKey("CityId")
+                        .HasForeignKey("CampusId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("City");
+                    b.Navigation("Campus");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

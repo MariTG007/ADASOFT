@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ADASOFT.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20220405224829_AddAuthorize")]
-    partial class AddAuthorize
+    [Migration("20220411032928_AddUserEntities")]
+    partial class AddUserEntities
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -76,6 +76,34 @@ namespace ADASOFT.Migrations
                     b.ToTable("Cities");
                 });
 
+            modelBuilder.Entity("ADASOFT.Data.Entities.Course", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Date")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<DateTime>("Schedule")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
+
+                    b.ToTable("Courses");
+                });
+
             modelBuilder.Entity("ADASOFT.Data.Entities.State", b =>
                 {
                     b.Property<int>("Id")
@@ -110,10 +138,7 @@ namespace ADASOFT.Migrations
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
 
-                    b.Property<int?>("CampusId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("CityId")
+                    b.Property<int>("CampusId")
                         .HasColumnType("int");
 
                     b.Property<string>("ConcurrencyStamp")
@@ -184,8 +209,6 @@ namespace ADASOFT.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("CampusId");
-
-                    b.HasIndex("CityId");
 
                     b.HasIndex("NormalizedEmail")
                         .HasDatabaseName("EmailIndex");
@@ -355,17 +378,13 @@ namespace ADASOFT.Migrations
 
             modelBuilder.Entity("ADASOFT.Data.Entities.User", b =>
                 {
-                    b.HasOne("ADASOFT.Data.Entities.Campus", null)
+                    b.HasOne("ADASOFT.Data.Entities.Campus", "Campus")
                         .WithMany("Users")
-                        .HasForeignKey("CampusId");
-
-                    b.HasOne("ADASOFT.Data.Entities.City", "City")
-                        .WithMany()
-                        .HasForeignKey("CityId")
+                        .HasForeignKey("CampusId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("City");
+                    b.Navigation("Campus");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

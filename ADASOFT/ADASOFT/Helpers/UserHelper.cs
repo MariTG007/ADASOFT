@@ -23,6 +23,7 @@ namespace ADASOFT.Helpers
         public async Task<IdentityResult> AddUserAsync(User user, string password)
         {
             return await _userManager.CreateAsync(user, password);
+
         }
 
         public async Task AddUserToRoleAsync(User user, string roleName)
@@ -32,6 +33,7 @@ namespace ADASOFT.Helpers
 
         public async Task CheckRoleAsync(string roleName)
         {
+
             bool roleExists = await _roleManager.RoleExistsAsync(roleName);
             if (!roleExists)
             {
@@ -40,28 +42,25 @@ namespace ADASOFT.Helpers
                     Name = roleName
                 });
             }
+
         }
 
         public async Task<User> GetUserAsync(string email)
         {
             return await _context.Users
-                .Include(u => u.City)
+                .Include(u => u.Campus)
                 .FirstOrDefaultAsync(u => u.Email == email);
         }
 
         public async Task<bool> IsUserInRoleAsync(User user, string roleName)
         {
             return await _userManager.IsInRoleAsync(user, roleName);
+
         }
 
         public async Task<SignInResult> LoginAsync(LoginViewModel model)
         {
-            return await _signInManager.PasswordSignInAsync //Question
-             (
-                model.Username,
-                model.Password,
-                model.RememberMe,
-                false);
+            return await _signInManager.PasswordSignInAsync (model.Username, model.Password, model.RememberMe, false); //Question
         }
 
         public async Task LogoutAsync()
