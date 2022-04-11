@@ -8,7 +8,7 @@ using ADASOFT.Models;
 
 namespace ADASOFT.Controllers
 {
-     //[Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin")]
     public class LocationsController : Controller
     {
         

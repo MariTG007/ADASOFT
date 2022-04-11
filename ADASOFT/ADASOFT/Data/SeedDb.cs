@@ -46,7 +46,7 @@ namespace ADASOFT.Data
                     PhoneNumber = phone,
                     Address = address,
                     Document = document,
-                    City = _context.Cities.FirstOrDefault(),
+                    Campus = _context.Campuses.FirstOrDefault(),
                     UserType = userType,
                 };
 
@@ -60,10 +60,11 @@ namespace ADASOFT.Data
 
         private async Task CheckRolesAsync()
         {
-            await _userHelper.CheckRoleAsync(UserType.Admin.ToString());
-            //await _userHelper.CheckRoleAsync(UserType.Teacher.ToString());
-            await _userHelper.CheckRoleAsync(UserType.User.ToString()); //User Types are only in classes usertype and seedDb 
+                 await _userHelper.CheckRoleAsync(UserType.Admin.ToString());
+                //await _userHelper.CheckRoleAsync(UserType.Teacher.ToString());
+                await _userHelper.CheckRoleAsync(UserType.User.ToString()); //User Types are only in classes usertype and seedDb 
         }
+
 
         private async Task CheckLocationsAsync()
         {
