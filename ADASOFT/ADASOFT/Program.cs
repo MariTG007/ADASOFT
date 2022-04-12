@@ -55,7 +55,7 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
 app.UseAuthentication();
-app.UseAuthorization();
+app.UseAuthorization();//this is the solution
 
 app.MapControllerRoute(
     name: "default",
