@@ -48,7 +48,7 @@ namespace ADASOFT.Helpers
         public async Task<User> GetUserAsync(string email)
         {
             return await _context.Users
-                .Include(u => u.Campus)
+                .Include(u => u.City)
                 .FirstOrDefaultAsync(u => u.Email == email);
         }
 

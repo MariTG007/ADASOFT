@@ -46,7 +46,7 @@ namespace ADASOFT.Data
                     PhoneNumber = phone,
                     Address = address,
                     Document = document,
-                    Campus = _context.Campuses.FirstOrDefault(),
+                    City = _context.Cities.FirstOrDefault(),
                     UserType = userType,
                 };
 
