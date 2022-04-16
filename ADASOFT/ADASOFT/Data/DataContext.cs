@@ -19,6 +19,8 @@ namespace ADASOFT.Data
 
         public DbSet<Course> Courses{ get; set; }
 
+        public DbSet<Attendant> Attendantes { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -26,6 +28,7 @@ namespace ADASOFT.Data
             modelBuilder.Entity<State>().HasIndex(s => s.Name).IsUnique();
             modelBuilder.Entity<City>().HasIndex("Name", "StateId").IsUnique(); 
             modelBuilder.Entity<Campus>().HasIndex("Name", "CityId").IsUnique();
+            modelBuilder.Entity<Attendant>().HasIndex("FirstName", "UserId").IsUnique();
 
         }
     }
