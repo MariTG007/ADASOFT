@@ -199,14 +199,7 @@ namespace ADASOFT.Migrations
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
 
-<<<<<<< HEAD
-                    b.Property<int>("CampusId")
-=======
                     b.Property<int?>("CampusId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("CityId")
->>>>>>> 3fd12844d2ababa60b2aab8523be1c9289794fb6
                         .HasColumnType("int");
 
                     b.Property<string>("ConcurrencyStamp")
@@ -459,17 +452,7 @@ namespace ADASOFT.Migrations
                 {
                     b.HasOne("ADASOFT.Data.Entities.Campus", "Campus")
                         .WithMany("Users")
-<<<<<<< HEAD
-                        .HasForeignKey("CampusId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-=======
                         .HasForeignKey("CampusId");
-
-                    b.HasOne("ADASOFT.Data.Entities.City", "City")
-                        .WithMany()
-                        .HasForeignKey("CityId");
->>>>>>> 3fd12844d2ababa60b2aab8523be1c9289794fb6
 
                     b.Navigation("Campus");
                 });

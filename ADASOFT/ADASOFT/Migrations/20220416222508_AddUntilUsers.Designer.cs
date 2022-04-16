@@ -12,13 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ADASOFT.Migrations
 {
     [DbContext(typeof(DataContext))]
-<<<<<<< HEAD:ADASOFT/ADASOFT/Migrations/20220416203436_DbUntilUsers.Designer.cs
-    [Migration("20220416203436_DbUntilUsers")]
-    partial class DbUntilUsers
-=======
-    [Migration("20220416171958_AddEntities")]
-    partial class AddEntities
->>>>>>> 3fd12844d2ababa60b2aab8523be1c9289794fb6:ADASOFT/ADASOFT/Migrations/20220416171958_AddEntities.Designer.cs
+    [Migration("20220416222508_AddUntilUsers")]
+    partial class AddUntilUsers
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -206,14 +201,7 @@ namespace ADASOFT.Migrations
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
 
-<<<<<<< HEAD:ADASOFT/ADASOFT/Migrations/20220416203436_DbUntilUsers.Designer.cs
-                    b.Property<int>("CampusId")
-=======
                     b.Property<int?>("CampusId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("CityId")
->>>>>>> 3fd12844d2ababa60b2aab8523be1c9289794fb6:ADASOFT/ADASOFT/Migrations/20220416171958_AddEntities.Designer.cs
                         .HasColumnType("int");
 
                     b.Property<string>("ConcurrencyStamp")
@@ -466,17 +454,7 @@ namespace ADASOFT.Migrations
                 {
                     b.HasOne("ADASOFT.Data.Entities.Campus", "Campus")
                         .WithMany("Users")
-<<<<<<< HEAD:ADASOFT/ADASOFT/Migrations/20220416203436_DbUntilUsers.Designer.cs
-                        .HasForeignKey("CampusId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-=======
                         .HasForeignKey("CampusId");
-
-                    b.HasOne("ADASOFT.Data.Entities.City", "City")
-                        .WithMany()
-                        .HasForeignKey("CityId");
->>>>>>> 3fd12844d2ababa60b2aab8523be1c9289794fb6:ADASOFT/ADASOFT/Migrations/20220416171958_AddEntities.Designer.cs
 
                     b.Navigation("Campus");
                 });

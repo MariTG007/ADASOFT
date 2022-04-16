@@ -5,11 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace ADASOFT.Migrations
 {
-<<<<<<< HEAD:ADASOFT/ADASOFT/Migrations/20220416203436_DbUntilUsers.cs
-    public partial class DbUntilUsers : Migration
-=======
-    public partial class AddEntities : Migration
->>>>>>> 3fd12844d2ababa60b2aab8523be1c9289794fb6:ADASOFT/ADASOFT/Migrations/20220416171958_AddEntities.cs
+    public partial class AddUntilUsers : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -122,11 +118,7 @@ namespace ADASOFT.Migrations
                     Document = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
                     FirstName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     LastName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-<<<<<<< HEAD:ADASOFT/ADASOFT/Migrations/20220416203436_DbUntilUsers.cs
-                    CampusId = table.Column<int>(type: "int", nullable: false),
-=======
-                    CityId = table.Column<int>(type: "int", nullable: true),
->>>>>>> 3fd12844d2ababa60b2aab8523be1c9289794fb6:ADASOFT/ADASOFT/Migrations/20220416171958_AddEntities.cs
+                    CampusId = table.Column<int>(type: "int", nullable: true),
                     Address = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
                     ImageId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     UserType = table.Column<int>(type: "int", nullable: false),
@@ -152,17 +144,7 @@ namespace ADASOFT.Migrations
                         name: "FK_AspNetUsers_Campuses_CampusId",
                         column: x => x.CampusId,
                         principalTable: "Campuses",
-<<<<<<< HEAD:ADASOFT/ADASOFT/Migrations/20220416203436_DbUntilUsers.cs
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-=======
                         principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_AspNetUsers_Cities_CityId",
-                        column: x => x.CityId,
-                        principalTable: "Cities",
-                        principalColumn: "Id");
->>>>>>> 3fd12844d2ababa60b2aab8523be1c9289794fb6:ADASOFT/ADASOFT/Migrations/20220416171958_AddEntities.cs
                 });
 
             migrationBuilder.CreateTable(
