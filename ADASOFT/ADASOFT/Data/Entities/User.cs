@@ -40,7 +40,7 @@ namespace ADASOFT.Data.Entities
        
         public string ImageFullPath => ImageId == Guid.Empty
             ? $"https://localhost:7187/images/noimage.png"
-            : $"https://shoppingprep.blob.core.windows.net/users/{ImageId}";
+            : $"https://shoppinzulu.blob.core.windows.net/users/{ImageId}";
 
         [Display(Name = "Tipo de usuario")]
         public UserType UserType { get; set; }
@@ -50,5 +50,7 @@ namespace ADASOFT.Data.Entities
 
         [Display(Name = "Usuario")]
         public string FullNameWithDocument => $"{FirstName} {LastName} - {Document}";
+
+        public ICollection<Attendant> Attendant { get; set; }
     }
 }
