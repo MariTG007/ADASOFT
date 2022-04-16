@@ -23,8 +23,36 @@ namespace ADASOFT.Helpers
         public async Task<IdentityResult> AddUserAsync(User user, string password)
         {
             return await _userManager.CreateAsync(user, password);
-
         }
+
+        public async Task<User> AddUserAsync(AddUserViewModel model)
+        {
+            User user = new User
+            {
+                Address = model.Address,
+                Document = model.Document,
+                Email = model.Username,
+                FirstName = model.FirstName,
+                LastName = model.LastName,
+                ImageId = model.ImageId,
+                PhoneNumber = model.PhoneNumber,
+                Campus = await _context.Campuses.FindAsync(model.CampusId), //there is campus. not city
+                UserName = model.Username,
+                UserType = model.UserType
+            };
+
+            IdentityResult result = await _userManager.CreateAsync(user, model.Password);
+            if (result != IdentityResult.Success)
+            {
+                return null;
+            }
+
+            User newUser = await GetUserAsync(model.Username);
+            await AddUserToRoleAsync(newUser, user.UserType.ToString());
+            return newUser;
+        }
+
+    
 
         public async Task AddUserToRoleAsync(User user, string roleName)
         {
@@ -48,7 +76,7 @@ namespace ADASOFT.Helpers
         public async Task<User> GetUserAsync(string email)
         {
             return await _context.Users
-                .Include(u => u.City)
+                .Include(u => u.Campus) //cambie city por campus
                 .FirstOrDefaultAsync(u => u.Email == email);
         }
 

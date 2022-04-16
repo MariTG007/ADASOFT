@@ -10,9 +10,6 @@ namespace ADASOFT.Data
         {
 
         }
-
-
-
         public DbSet<Campus> Campuses { get; set; }
         public DbSet<City> Cities { get; set; }
         public DbSet<State> States { get; set; }

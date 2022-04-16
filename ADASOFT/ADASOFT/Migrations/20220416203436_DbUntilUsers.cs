@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace ADASOFT.Migrations
 {
-    public partial class AddUsers : Migration
+    public partial class DbUntilUsers : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -120,11 +120,10 @@ namespace ADASOFT.Migrations
                     Document = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
                     FirstName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     LastName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    CityId = table.Column<int>(type: "int", nullable: false),
+                    CampusId = table.Column<int>(type: "int", nullable: false),
                     Address = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
                     ImageId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     UserType = table.Column<int>(type: "int", nullable: false),
-                    CampusId = table.Column<int>(type: "int", nullable: true),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -147,11 +146,6 @@ namespace ADASOFT.Migrations
                         name: "FK_AspNetUsers_Campuses_CampusId",
                         column: x => x.CampusId,
                         principalTable: "Campuses",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_AspNetUsers_Cities_CityId",
-                        column: x => x.CityId,
-                        principalTable: "Cities",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -277,11 +271,6 @@ namespace ADASOFT.Migrations
                 name: "IX_AspNetUsers_CampusId",
                 table: "AspNetUsers",
                 column: "CampusId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_AspNetUsers_CityId",
-                table: "AspNetUsers",
-                column: "CityId");
 
             migrationBuilder.CreateIndex(
                 name: "UserNameIndex",

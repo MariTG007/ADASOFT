@@ -28,6 +28,8 @@ builder.Services.AddIdentity<User, IdentityRole>(cfg =>
 
 builder.Services.AddTransient<SeedDb>();
 builder.Services.AddScoped<IUserHelper, UserHelper>(); //mando interfaz para pruebas unitarias
+builder.Services.AddScoped<IBlobHelper, BlobHelper>();
+builder.Services.AddScoped<ICombosHelper, CombosHelper>();
 builder.Services.AddRazorPages().AddRazorRuntimeCompilation();
 
 var app = builder.Build();

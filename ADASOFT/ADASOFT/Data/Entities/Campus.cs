@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace ADASOFT.Data.Entities
 {
@@ -12,6 +13,7 @@ namespace ADASOFT.Data.Entities
 
         public string Name { get; set; }
 
+        [JsonIgnore]
         public City City { get; set; }
 
         public ICollection<User> Users { get; set; }
