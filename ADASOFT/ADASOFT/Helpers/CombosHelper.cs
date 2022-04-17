@@ -15,6 +15,11 @@ namespace ADASOFT.Helpers
             _context = context;
         }
 
+        public Task<IEnumerable<SelectListItem>> GetComboAttendantAsync()
+        {
+            throw new NotImplementedException();
+        }
+
         //TODO: check this method for three levels model
 
         public async Task<IEnumerable<SelectListItem>> GetComboCampusesAsync(int cityId)
