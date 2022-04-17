@@ -1,5 +1,6 @@
 ﻿using ADASOFT.Data;
 using ADASOFT.Data.Entities;
+using ADASOFT.Enums;
 using ADASOFT.Helpers;
 using ADASOFT.Models;
 using Microsoft.AspNetCore.Authorization;
@@ -13,9 +14,9 @@ namespace ADASOFT.Controllers
     {
         private readonly DataContext _context;
         private readonly IUserHelper _userHelper;
-        // private readonly IBlobHelper _blobHelper;
-        // private readonly ICombosHelper _combosHelper;
-        /*
+        private readonly IBlobHelper _blobHelper;
+        private readonly ICombosHelper _combosHelper;
+        
          public UsersController(DataContext context, IUserHelper userHelper, IBlobHelper blobHelper, ICombosHelper combosHelper)
          {
              _context = context;
@@ -27,9 +28,9 @@ namespace ADASOFT.Controllers
          public async Task<IActionResult> Index()
          {
              return View(await _context.Users
-                 .Include(u => u.City)
+                 .Include(u => u.Campus)
+                 .ThenInclude(c => c.City)
                  .ThenInclude(c => c.State)
-                 .ThenInclude(s => s.Country)
                  .ToListAsync());
          }
 
@@ -38,9 +39,9 @@ namespace ADASOFT.Controllers
              AddUserViewModel model = new()
              {
                  Id = Guid.Empty.ToString(),
-                 Countries = await _combosHelper.GetComboCountriesAsync(),
-                 States = await _combosHelper.GetComboStatesAsync(0),
+                 States = await _combosHelper.GetComboStatesAsync(),
                  Cities = await _combosHelper.GetComboCitiesAsync(0),
+                 Campuses = await _combosHelper.GetComboCampusesAsync(0),
                  UserType = UserType.Admin,
              };
 
@@ -65,46 +66,46 @@ namespace ADASOFT.Controllers
                  if (user == null)
                  {
                      ModelState.AddModelError(string.Empty, "Este correo ya está siendo usado.");
-                     model.Countries = await _combosHelper.GetComboCountriesAsync();
-                     model.States = await _combosHelper.GetComboStatesAsync(model.CountryId);
+                     model.States = await _combosHelper.GetComboStatesAsync();
                      model.Cities = await _combosHelper.GetComboCitiesAsync(model.StateId);
-                     return View(model);
+                     model.Campuses = await _combosHelper.GetComboCampusesAsync(model.CityId);
+                    return View(model);
                  }
 
                  return RedirectToAction("Index", "Home");
              }
 
-             model.Countries = await _combosHelper.GetComboCountriesAsync();
-             model.States = await _combosHelper.GetComboStatesAsync(model.CountryId);
+             model.States = await _combosHelper.GetComboStatesAsync();
              model.Cities = await _combosHelper.GetComboCitiesAsync(model.StateId);
-             return View(model);
+             model.Campuses = await _combosHelper.GetComboCampusesAsync(model.CityId);
+            return View(model);
          }
 
-         public JsonResult GetStates(int countryId)
-         {
-             Country country = _context.Countries
-                 .Include(c => c.States)
-                 .FirstOrDefault(c => c.Id == countryId);
-             if (country == null)
-             {
-                 return null;
-             }
-
-             return Json(country.States.OrderBy(d => d.Name));
-         }
-
-         public JsonResult GetCities(int stateId)
+         public JsonResult GetCities(int StateId)
          {
              State state = _context.States
                  .Include(s => s.Cities)
-                 .FirstOrDefault(s => s.Id == stateId);
+                 .FirstOrDefault(s => s.Id == StateId);
              if (state == null)
              {
                  return null;
              }
 
              return Json(state.Cities.OrderBy(c => c.Name));
-         } */
+         }
+
+         public JsonResult GetCampuses(int CityId)
+         {
+             City city = _context.Cities
+                 .Include(c => c.Campuses)
+                 .FirstOrDefault(c => c.Id == CityId);
+             if (city == null)
+             {
+                 return null;
+             }
+
+             return Json(city.Campuses.OrderBy(c => c.Name));
+         } 
 
         
        public async Task<IActionResult> AddAttendant(int? id)

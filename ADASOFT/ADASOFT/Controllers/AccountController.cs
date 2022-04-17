@@ -1,4 +1,7 @@
-﻿using ADASOFT.Helpers;
+﻿using ADASOFT.Data;
+using ADASOFT.Data.Entities;
+using ADASOFT.Enums;
+using ADASOFT.Helpers;
 using ADASOFT.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
