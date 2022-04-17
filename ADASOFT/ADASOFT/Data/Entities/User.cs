@@ -21,8 +21,11 @@ namespace ADASOFT.Data.Entities
         [Required(ErrorMessage = "El campo {0} es obligatorio.")]
         public string LastName { get; set; }
 
-        [Display(Name = "Ciudad")]
-        public City City { get; set; }
+        //[Display(Name = "Ciudad")]
+        //public City City { get; set; }
+
+        [Display(Name = "Campus")]
+        public Campus Campus { get; set; }
 
         [Display(Name = "Dirección")]
         [MaxLength(200, ErrorMessage = "El campo {0} debe tener máximo {1} caractéres.")]
@@ -37,7 +40,7 @@ namespace ADASOFT.Data.Entities
        
         public string ImageFullPath => ImageId == Guid.Empty
             ? $"https://localhost:7187/images/noimage.png"
-            : $"https://shoppingprep.blob.core.windows.net/users/{ImageId}";
+            : $"https://shoppinzulu.blob.core.windows.net/users/{ImageId}";
 
         [Display(Name = "Tipo de usuario")]
         public UserType UserType { get; set; }
@@ -47,5 +50,9 @@ namespace ADASOFT.Data.Entities
 
         [Display(Name = "Usuario")]
         public string FullNameWithDocument => $"{FirstName} {LastName} - {Document}";
+
+        public ICollection<Attendant> Attendant { get; set; }
+        
+        public ICollection<Enrollment> Enrollment { get; set; }
     }
 }

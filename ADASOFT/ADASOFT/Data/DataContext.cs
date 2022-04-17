@@ -10,14 +10,15 @@ namespace ADASOFT.Data
         {
 
         }
-
-
-
         public DbSet<Campus> Campuses { get; set; }
         public DbSet<City> Cities { get; set; }
         public DbSet<State> States { get; set; }
 
         public DbSet<Course> Courses{ get; set; }
+
+        public DbSet<Attendant> Attendantes { get; set; }
+
+        public DbSet<Enrollment> Enrollmentes { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -26,6 +27,8 @@ namespace ADASOFT.Data
             modelBuilder.Entity<State>().HasIndex(s => s.Name).IsUnique();
             modelBuilder.Entity<City>().HasIndex("Name", "StateId").IsUnique(); 
             modelBuilder.Entity<Campus>().HasIndex("Name", "CityId").IsUnique();
+            modelBuilder.Entity<Attendant>().HasIndex("FirstName", "UserId").IsUnique();
+            modelBuilder.Entity<Enrollment>().HasIndex("Id", "UserId").IsUnique();
 
         }
     }
