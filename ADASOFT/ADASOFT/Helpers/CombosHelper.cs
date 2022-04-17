@@ -1,27 +1,68 @@
-﻿using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using ADASOFT.Data;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 
 namespace ADASOFT.Helpers
 {
     public class CombosHelper : ICombosHelper
     {
-        public Task<IEnumerable<SelectListItem>> GetComboAttendantAsync()
+        
+        
+        private readonly DataContext _context;
+
+        public CombosHelper(DataContext context)
         {
-            throw new NotImplementedException();
+            _context = context;
         }
 
-        public Task<IEnumerable<SelectListItem>> GetComboCampusAsync(int cityId)
+        //TODO: check this method for three levels model
+
+        public async Task<IEnumerable<SelectListItem>> GetComboCampusesAsync(int cityId)
         {
-            throw new NotImplementedException();
+            List<SelectListItem> list = await _context.Campuses
+                           .Where(s => s.City.Id == cityId)
+                           .Select(c => new SelectListItem
+                           {
+                               Text = c.Name,
+                               Value = c.Id.ToString()
+                           })
+                           .OrderBy(c => c.Text)
+                           .ToListAsync();
+
+            list.Insert(0, new SelectListItem { Text = "[Seleccione un campus...", Value = "0" });
+            return list;
         }
 
-        public Task<IEnumerable<SelectListItem>> GetComboCitiesAsync(int stateId)
+        public async Task<IEnumerable<SelectListItem>> GetComboCitiesAsync(int stateId)
         {
-            throw new NotImplementedException();
+            List<SelectListItem> list = await _context.Cities
+                            .Where(s => s.State.Id == stateId)
+                            .Select(c => new SelectListItem
+                            {
+                                Text = c.Name,
+                                Value = c.Id.ToString()
+                            })
+                            .OrderBy(c => c.Text)
+                            .ToListAsync();
+
+            list.Insert(0, new SelectListItem { Text = "[Seleccione una ciudad...", Value = "0" });
+            return list;
         }
 
-        public Task<IEnumerable<SelectListItem>> GetComboStatesAsync()
+        public async Task<IEnumerable<SelectListItem>> GetComboStatesAsync()
         {
-            throw new NotImplementedException();
+            List<SelectListItem> list = await _context.States.Select(s => new SelectListItem
+            {
+                Text = s.Name,
+                Value = s.Id.ToString()
+            })
+                 .OrderBy(s => s.Text)
+                 .ToListAsync();
+
+            list.Insert(0, new SelectListItem { Text = "[Seleccione un departamento...", Value = "0" });
+            return list;
         }
     }
+        
+    
 }
