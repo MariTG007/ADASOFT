@@ -21,6 +21,8 @@ namespace ADASOFT.Data
 
         public DbSet<Attendant> Attendantes { get; set; }
 
+        public DbSet<Enrollment> Enrollmentes { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -29,6 +31,7 @@ namespace ADASOFT.Data
             modelBuilder.Entity<City>().HasIndex("Name", "StateId").IsUnique(); 
             modelBuilder.Entity<Campus>().HasIndex("Name", "CityId").IsUnique();
             modelBuilder.Entity<Attendant>().HasIndex("FirstName", "UserId").IsUnique();
+            modelBuilder.Entity<Enrollment>().HasIndex("Id", "UserId").IsUnique();
 
         }
     }

@@ -1,16 +1,21 @@
-﻿using ADASOFT.Helpers;
+﻿using ADASOFT.Data;
+using ADASOFT.Data.Entities;
+using ADASOFT.Helpers;
 using ADASOFT.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace ADASOFT.Controllers
 {
     public class AccountController : Controller
     {
         private readonly IUserHelper _userHelper;
+        private readonly DataContext _context;
 
-        public AccountController(IUserHelper userHelper)
+        public AccountController(IUserHelper userHelper, DataContext context)
         {
             _userHelper = userHelper;
+            _context = context;
         }
 
         public IActionResult Login()
@@ -45,6 +50,8 @@ namespace ADASOFT.Controllers
             await _userHelper.LogoutAsync();
             return RedirectToAction("Index", "Home");
         }
+       
+
     }
 
 }

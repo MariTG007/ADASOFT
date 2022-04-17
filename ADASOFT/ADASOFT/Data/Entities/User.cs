@@ -49,5 +49,7 @@ namespace ADASOFT.Data.Entities
         public string FullNameWithDocument => $"{FirstName} {LastName} - {Document}";
 
         public ICollection<Attendant> Attendant { get; set; }
+        
+        public ICollection<Enrollment> Enrollment { get; set; }
     }
 }

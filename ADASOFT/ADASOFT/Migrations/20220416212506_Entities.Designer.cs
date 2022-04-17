@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ADASOFT.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20220416171958_AddEntities")]
-    partial class AddEntities
+    [Migration("20220416212506_Entities")]
+    partial class Entities
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -159,12 +159,42 @@ namespace ADASOFT.Migrations
                     b.Property<DateTime>("Schedule")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.HasKey("Id");
 
                     b.HasIndex("Name")
                         .IsUnique();
 
+                    b.HasIndex("UserId");
+
                     b.ToTable("Courses");
+                });
+
+            modelBuilder.Entity("ADASOFT.Data.Entities.Enrollment", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.HasIndex("Id", "UserId")
+                        .IsUnique()
+                        .HasFilter("[UserId] IS NOT NULL");
+
+                    b.ToTable("Enrollmentes");
                 });
 
             modelBuilder.Entity("ADASOFT.Data.Entities.State", b =>
@@ -455,6 +485,24 @@ namespace ADASOFT.Migrations
                     b.Navigation("State");
                 });
 
+            modelBuilder.Entity("ADASOFT.Data.Entities.Course", b =>
+                {
+                    b.HasOne("ADASOFT.Data.Entities.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("ADASOFT.Data.Entities.Enrollment", b =>
+                {
+                    b.HasOne("ADASOFT.Data.Entities.User", "User")
+                        .WithMany("Enrollment")
+                        .HasForeignKey("UserId");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("ADASOFT.Data.Entities.User", b =>
                 {
                     b.HasOne("ADASOFT.Data.Entities.Campus", null)
@@ -537,6 +585,8 @@ namespace ADASOFT.Migrations
             modelBuilder.Entity("ADASOFT.Data.Entities.User", b =>
                 {
                     b.Navigation("Attendant");
+
+                    b.Navigation("Enrollment");
                 });
 #pragma warning restore 612, 618
         }

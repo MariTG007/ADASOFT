@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace ADASOFT.Data.Entities
+namespace ADASOFT.Models
 {
-    public class Course
+    public class CourseViewModel
     {
         public int Id { get; set; }
 
@@ -11,7 +11,7 @@ namespace ADASOFT.Data.Entities
         [Required(ErrorMessage = "El campo {0} es obligatorio.")]
         public string Name { get; set; }
 
-        public User User { get; set; }
+        public string UserId { get; set; }
         public DateTime Schedule { get; set; }
         public String Date { get; set; }
 
