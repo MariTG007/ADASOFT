@@ -4,7 +4,7 @@ namespace ADASOFT.Helpers
 {
     public interface ICombosHelper
     {
-        Task<IEnumerable<SelectListItem>> GetComboAttendantAsync();
+        //Task<IEnumerable<SelectListItem>> GetComboAttendantAsync();
 
         Task<IEnumerable<SelectListItem>> GetComboStatesAsync();
 
