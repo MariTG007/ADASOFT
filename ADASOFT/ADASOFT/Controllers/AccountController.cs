@@ -3,6 +3,7 @@ using ADASOFT.Data.Entities;
 using ADASOFT.Enums;
 using ADASOFT.Helpers;
 using ADASOFT.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -55,6 +56,9 @@ namespace ADASOFT.Controllers
                 if (user == null)
                 {
                     ModelState.AddModelError(string.Empty, "Este correo ya está siendo usado.");
+                    model.States = await _combosHelper.GetComboStatesAsync();
+                    model.Cities = await _combosHelper.GetComboCitiesAsync(model.StateId);
+                    model.Campuses = await _combosHelper.GetComboCampusesAsync(model.CityId);
                     return View(model);
                 }
 
@@ -73,6 +77,9 @@ namespace ADASOFT.Controllers
                 }
             }
 
+            model.States = await _combosHelper.GetComboStatesAsync();
+            model.Cities = await _combosHelper.GetComboCitiesAsync(model.StateId);
+            model.Campuses = await _combosHelper.GetComboCampusesAsync(model.CityId);
             return View(model);
         }
 
@@ -142,6 +149,104 @@ namespace ADASOFT.Controllers
             return View();
         }
 
+        public async Task<IActionResult> ChangeUser()
+        {
+            User user = await _userHelper.GetUserAsync(User.Identity.Name);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            EditUserViewModel model = new()
+            {
+                Address = user.Address,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                PhoneNumber = user.PhoneNumber,
+                ImageId = user.ImageId,
+                Campuses = await _combosHelper.GetComboCampusesAsync(user.Campus.City.Id),
+                CampusId = user.Campus.Id,
+                States = await _combosHelper.GetComboStatesAsync(),
+                StateId = user.Campus.City.State.Id,
+                CityId = user.Campus.City.Id,
+                Cities = await _combosHelper.GetComboCitiesAsync(user.Campus.City.State.Id),
+                Id = user.Id,
+                Document = user.Document
+            };
+
+            return View(model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ChangeUser(EditUserViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                Guid imageId = model.ImageId;
+
+                if (model.ImageFile != null)
+                {
+                    imageId = await _blobHelper.UploadBlobAsync(model.ImageFile, "users");
+                }
+
+                User user = await _userHelper.GetUserAsync(User.Identity.Name);
+
+                user.FirstName = model.FirstName;
+                user.LastName = model.LastName;
+                user.Address = model.Address;
+                user.PhoneNumber = model.PhoneNumber;
+                user.ImageId = imageId;
+                user.Campus = await _context.Campuses.FindAsync(model.CampusId);
+                user.Document = model.Document;
+
+                await _userHelper.UpdateUserAsync(user);
+                return RedirectToAction("Index", "Home");
+            }
+
+            model.States = await _combosHelper.GetComboStatesAsync();
+            model.Cities = await _combosHelper.GetComboCitiesAsync(model.StateId);
+            model.Campuses = await _combosHelper.GetComboCampusesAsync(model.CityId);
+            return View(model);
+        }
+
+        public IActionResult ChangePassword()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ChangePassword(ChangePasswordViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                if (model.OldPassword == model.NewPassword)
+                {
+                    ModelState.AddModelError(string.Empty, "Debes ingresar una contraseña diferente.");
+                    return View(model);
+                }
+
+                User? user = await _userHelper.GetUserAsync(User.Identity.Name);
+                if (user != null)
+                {
+                    IdentityResult? result = await _userHelper.ChangePasswordAsync(user, model.OldPassword, model.NewPassword);
+                    if (result.Succeeded)
+                    {
+                        return RedirectToAction("ChangeUser");
+                    }
+                    else
+                    {
+                        ModelState.AddModelError(string.Empty, result.Errors.FirstOrDefault().Description);
+                    }
+                }
+                else
+                {
+                    ModelState.AddModelError(string.Empty, "Usuario no encontrado.");
+                }
+            }
+
+            return View(model);
+        }
     }
 
 }

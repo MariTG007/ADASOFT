@@ -76,7 +76,9 @@ namespace ADASOFT.Helpers
         public async Task<User> GetUserAsync(string email)
         {
             return await _context.Users
-                .Include(u => u.Campus) //cambie city por campus
+                .Include(u => u.Campus) 
+                .ThenInclude(c=> c.City)
+                .ThenInclude(s=> s.State)
                 .FirstOrDefaultAsync(u => u.Email == email);
         }
 
@@ -95,6 +97,26 @@ namespace ADASOFT.Helpers
         {
             await _signInManager.SignOutAsync();
         }
+
+        public async Task<IdentityResult> ChangePasswordAsync(User user, string oldPassword, string newPassword)
+        {
+            return await _userManager.ChangePasswordAsync(user, oldPassword, newPassword);
+        }
+
+        public async Task<IdentityResult> UpdateUserAsync(User user)
+        {
+            return await _userManager.UpdateAsync(user);
+        }
+
+        public async Task<User> GetUserAsync(Guid userId)
+        {
+            return await _context.Users
+                .Include(u => u.Campus)
+                .ThenInclude(c => c.City)
+                .ThenInclude(s => s.State)
+                .FirstOrDefaultAsync(u => u.Id == userId.ToString());
+        }
+
 
     }
 }
