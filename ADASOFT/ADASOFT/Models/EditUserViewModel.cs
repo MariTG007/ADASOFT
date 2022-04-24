@@ -38,8 +38,8 @@ namespace ADASOFT.Models
         //TODO: Pending to put the correct paths
         [Display(Name = "Foto")]
         public string ImageFullPath => ImageId == Guid.Empty
-            ? $"https://localhost:7057/images/noimage.png"
-            : $"https://shoppingprep.blob.core.windows.net/users/{ImageId}";
+            ? $"https://localhost:7187/images/noimage.png"
+            : $"https://adasoft.blob.core.windows.net/users/{ImageId}";
 
         [Display(Name = "Image")]
         public IFormFile? ImageFile { get; set; }

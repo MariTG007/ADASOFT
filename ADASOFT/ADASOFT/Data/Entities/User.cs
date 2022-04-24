@@ -42,6 +42,9 @@ namespace ADASOFT.Data.Entities
             ? $"https://localhost:7187/images/noimage.png"
             : $"https://adasoft.blob.core.windows.net/users/{ImageId}";
 
+     
+
+
         [Display(Name = "Tipo de usuario")]
         public UserType UserType { get; set; }
 
