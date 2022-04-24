@@ -22,7 +22,7 @@ namespace ADASOFT.Data
             await CheckRolesAsync(); // check if roles is null
             await CheckUserAsync("1010", "Andres", "Perez", "andres@yopmail.com", "314 587 9758", "Carrera 50b # 47-58", UserType.Admin);
             await CheckUserAsync("2020", "Mariana", "Trejos", "mariana@yopmail.com", "322 311 2031", "Calle Luna Calle Sol", UserType.User);
-            //await CheckUserAsync("1010", "Julio", "Jimenez", "julio@yopmail.com", "311 739 1132", "carrera 45 # 23a", UserType.Teacher);
+           
         }
 
         private async Task<User> CheckUserAsync(
