@@ -17,8 +17,15 @@ namespace ADASOFT.Data
         public DbSet<Course> Courses{ get; set; }
 
         public DbSet<Attendant> Attendantes { get; set; }
-
         public DbSet<Enrollment> Enrollmentes { get; set; }
+        public DbSet<EnrollmentCourse> EnrollmentCourses { get; set; }
+
+        public DbSet<StudenCourse> StudenCourses { get; set; }
+        public DbSet<Grade> Grades { get; set; }
+
+        public DbSet<FinalGrade> FinalGrades { get; set; }
+
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -29,6 +36,10 @@ namespace ADASOFT.Data
             modelBuilder.Entity<Campus>().HasIndex("Name", "CityId").IsUnique();
             modelBuilder.Entity<Attendant>().HasIndex("FirstName", "UserId").IsUnique();
             modelBuilder.Entity<Enrollment>().HasIndex("Id", "UserId").IsUnique();
+            modelBuilder.Entity<EnrollmentCourse>().HasIndex("Id", "CourseId").IsUnique();
+            modelBuilder.Entity<StudenCourse>().HasIndex("Id", "CourseId").IsUnique();
+            modelBuilder.Entity<Grade>().HasIndex("Id", "StudenCourseId").IsUnique();
+            modelBuilder.Entity<FinalGrade>().HasIndex("Id", "GradeId").IsUnique();
 
         }
     }
