@@ -11,11 +11,14 @@ html {
 html {
     position: relative;
     min-height: 100%;
+
 }
 
 body {
     margin-bottom: 60px;
+  
 }
+
 
 @charset "utf-8";
 
@@ -74,3 +77,8 @@ th, td {
     text-align: left;
     padding: 8px;
 }
+
+
+/*background-image: url(/Images/baile.jpg);
+background-image: url(/Images/musica.jpg);
+background-image: url(/Images/pintura.jpg);*/
