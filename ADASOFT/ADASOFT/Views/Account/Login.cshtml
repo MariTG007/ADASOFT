@@ -4,11 +4,10 @@
     ViewData["Title"] = "Login";
 }
 
-
 <div class="row">
     </div>
     <div class="col-md-4 offset-4"> @*column position*@ 
-     <div class="card bg-warning bg-gradient mb-3" style="width: 450px; height: 450px">
+     <div class="card bg-warning bg-gradient bg-opacity-75  mb-3" style="width: 450px; height: 450px">
      <h5 class="card-header text-center"><i class="fa-solid fa-envelope text-navy"></i> Iniciar Sesión</h5>
      <div class="card-body bg-light">
 
@@ -42,8 +41,7 @@
             </div>
         </div>
     </div>
-
-
+   
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
