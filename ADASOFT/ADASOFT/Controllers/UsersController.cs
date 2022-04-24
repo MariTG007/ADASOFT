@@ -133,7 +133,7 @@ namespace ADASOFT.Controllers
          } 
 
         
-       public async Task<IActionResult> AddAttendant(int? id)
+       public async Task<IActionResult> AddAttendant(string? id)
        {
            if (id == null)
            {
@@ -174,7 +174,7 @@ namespace ADASOFT.Controllers
                    };
                    _context.Add(attendant);
                    await _context.SaveChangesAsync();
-                   return RedirectToAction(nameof(HomeController), new { Id = model.UserId });
+                   return RedirectToAction(nameof(Index));
                }
                //TODO: remmember that duplicate is with first name and lastname
                
