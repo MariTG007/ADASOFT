@@ -62,7 +62,7 @@ namespace ADASOFT.Helpers
                  .OrderBy(s => s.Text)
                  .ToListAsync();
 
-            list.Insert(0, new SelectListItem { Text = "[Seleccione un departamento...", Value = "0" });
+            list.Insert(0, new SelectListItem { Text = "[Seleccione un departamento...]", Value = "0" });
             return list;
         }
     }

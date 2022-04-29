@@ -57,5 +57,11 @@ namespace ADASOFT.Data.Entities
         public ICollection<Attendant> Attendant { get; set; }
         
         public ICollection<Enrollment> Enrollment { get; set; }
+
+
+   
+
+
+
     }
 }

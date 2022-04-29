@@ -63,6 +63,10 @@ namespace ADASOFT.Models
         public int CampusId { get; set; }
 
         public IEnumerable<SelectListItem> Campuses { get; set; }
+
+
+
+
     }
 
 }

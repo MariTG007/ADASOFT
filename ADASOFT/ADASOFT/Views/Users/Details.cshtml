@@ -1,0 +1,17 @@
+﻿@model ADASOFT.Data.Entities.User
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Detalles</h1>
+
+<div>
+     <partial name="_UserDetails"/>
+</div>
+   
+   
+<div>
+   
+    <a asp-action="Index" asp-route-id="@Model?.Id" class="btn btn-outline-success">Regresar</a>
+</div>

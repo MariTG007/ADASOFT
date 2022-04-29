@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ADASOFT.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20220424183613_AddEntities")]
-    partial class AddEntities
+    [Migration("20220429214626_UntilAttendant")]
+    partial class UntilAttendant
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

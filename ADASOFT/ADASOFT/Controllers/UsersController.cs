@@ -318,5 +318,29 @@ namespace ADASOFT.Controllers
            return RedirectToAction(nameof(HomeController));
        }
 
+        public async Task<IActionResult> Details(String? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+
+            User user = await _context.Users
+            .Include(u=>u.Campus)
+            .ThenInclude(c=>c.City)
+            .ThenInclude(c=>c.State)
+            .FirstOrDefaultAsync(u => u.Id == id);
+        
+
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            return View(user);
+        }
+
+
     }
 }
