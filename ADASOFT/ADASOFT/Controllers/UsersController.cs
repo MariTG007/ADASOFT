@@ -133,7 +133,7 @@ namespace ADASOFT.Controllers
          } 
 
         
-       public async Task<IActionResult> AddAttendant(string? id)
+       public async Task<IActionResult> AddAttendant(string id)
        {
            if (id == null)
            {
@@ -160,8 +160,8 @@ namespace ADASOFT.Controllers
        [ValidateAntiForgeryToken]
        public async Task<IActionResult> AddAttendant(AttendantViewModel model)
        {
-           if (ModelState.IsValid)
-           {
+          // if (ModelState.IsValid)
+           //{
                try
                {
                    Attendant attendant = new()
@@ -169,8 +169,13 @@ namespace ADASOFT.Controllers
 
 
                        User = await _context.Users.FindAsync(model.UserId),
+                       Document = model.Document,
                        FirstName = model.FirstName,
-
+                       LastName = model.LastName,
+                       Address = model.Address,
+                       Phone = model.Phone,
+                       Cellphone = model.Cellphone,
+                       Email = model.Email
                    };
                    _context.Add(attendant);
                    await _context.SaveChangesAsync();
@@ -193,7 +198,25 @@ namespace ADASOFT.Controllers
                {
                    ModelState.AddModelError(string.Empty, exception.Message);
                }
-           }
+          // } else {
+                /*Attendant attendant = new()
+                {
+
+
+                     User = await _context.Users.FindAsync(model.UserId),
+                     Document = model.Document,
+                     FirstName = model.FirstName,
+                     LastName = model.LastName,
+                     Address= model.Address,
+                     Phone = model.Phone,
+                     Cellphone = model.Cellphone,
+                     Email =model.Email
+                };
+                _context.Add(attendant);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+               // ModelState.AddModelError(string.Empty, " no entra al hpta if no es valido el modelo.");
+            }*/
            return View(model);
 
        }
