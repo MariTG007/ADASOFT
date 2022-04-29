@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace ADASOFT.Migrations
 {
-    public partial class Complete : Migration
+    public partial class AllComplete : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

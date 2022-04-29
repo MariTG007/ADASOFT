@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ADASOFT.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20220424153935_Complete")]
-    partial class Complete
+    [Migration("20220424182114_AllComplete")]
+    partial class AllComplete
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
