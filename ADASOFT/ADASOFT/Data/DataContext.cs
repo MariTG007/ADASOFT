@@ -34,7 +34,7 @@ namespace ADASOFT.Data
             modelBuilder.Entity<State>().HasIndex(s => s.Name).IsUnique();
             modelBuilder.Entity<City>().HasIndex("Name", "StateId").IsUnique(); 
             modelBuilder.Entity<Campus>().HasIndex("Name", "CityId").IsUnique();
-            modelBuilder.Entity<Attendant>().HasIndex("FirstName", "UserId").IsUnique();
+            modelBuilder.Entity<Attendant>().HasIndex("Document", "UserId").IsUnique();
             modelBuilder.Entity<Enrollment>().HasIndex("Id", "UserId").IsUnique();
             modelBuilder.Entity<EnrollmentCourse>().HasIndex("Id", "CourseId").IsUnique();
             modelBuilder.Entity<StudenCourse>().HasIndex("Id", "CourseId").IsUnique();
