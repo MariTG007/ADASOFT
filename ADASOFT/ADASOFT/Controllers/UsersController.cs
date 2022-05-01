@@ -341,6 +341,24 @@ namespace ADASOFT.Controllers
            return RedirectToAction(nameof(HomeController));
        }
 
+        public async Task<IActionResult> IndexAttendant(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            Attendant attendant = await _context.Attendantes
+                .Include(a => a.User)
+                .FirstOrDefaultAsync(u => u.Id == id);
+            if (attendant == null)
+            {
+                return NotFound();
+            }
+
+            return View(attendant);
+        }
+
         public async Task<IActionResult> Details(String? id)
         {
             if (id == null)
@@ -350,6 +368,7 @@ namespace ADASOFT.Controllers
 
 
             User user = await _context.Users
+             .Include(u => u.Attendantes)
             .Include(u=>u.Campus)
             .ThenInclude(c=>c.City)
             .ThenInclude(c=>c.State)
