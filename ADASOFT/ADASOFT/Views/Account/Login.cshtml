@@ -6,10 +6,12 @@
 
 <div class="row">
     </div>
+     <div class="form-group mt-4">
     <div class="col-md-4 offset-4"> @*column position*@ 
-     <div class="card bg-warning bg-gradient bg-opacity-75  mb-3" style="width: 450px; height: 450px">
-     <h5 class="card-header text-center"><i class="fa-solid fa-envelope text-navy"></i> Iniciar Sesión</h5>
-     <div class="card-body bg-light">
+    @* <div class="card bg-secondary bg-gradient bg-opacity-75  mb-3" style="width: 350px; height: 350px">*@
+      <center><h1><i class="fa-solid fa-masks-theater text-black"></i></h1></center> 
+     <center><h5 @*class="card-header text-center"*@>@*<i class="fa-solid fa-masks-theater text-black"></i>*@ Iniciar Sesión</h5></center>
+     <div class="card-body bg-light" style="border-radius: 10px; border: 1px solid grey; width: 350px; height: 350px">
 
         <form asp-action="Login">
             <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
@@ -30,9 +32,10 @@
                 </div>
                 <span asp-validation-for="RememberMe" class="text-warning"></span>
             </div>
-             <div class="form-group mt-2">
-                        <button input type="submit" value="Login" class="btn btn-primary btn-block"><i class="fa-solid fa-user"></i> Iniciar Sesión</button>
-                        <a asp-action="Register" class="btn btn-secondary"><i class="fa-solid fa-circle-plus"></i> Registrar Nuevo Usuario</a>
+             <div class="form-group mt-5">
+                        <button input type="submit" value="Login" class="btn btn-success"  style="width: 109.94px; height: 60px; margin-right: 65px"><i class="fa-solid fa-user"></i> Iniciar Sesión</button>
+                     
+                        <a asp-action="Register" class="btn btn-primary"  style="width: 130.94px; height: 60px"><i class="fa-solid fa-circle-plus"></i> Registrar Nuevo Usuario</a>
                     </div>
                 </form>
             </div>
@@ -41,7 +44,7 @@
             </div>
         </div>
     </div>
-   
+ @*  </div>*@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

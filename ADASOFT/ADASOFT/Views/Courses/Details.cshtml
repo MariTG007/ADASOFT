@@ -1,10 +1,10 @@
 ﻿@model ADASOFT.Data.Entities.Course
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Details";
 }
 
-<h1>Crear</h1>
+<h1>Detalles</h1>
 
 <h4>Curso</h4>
 <hr />
@@ -13,10 +13,10 @@
         <form asp-action="Create">
             
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <partial name="_Course"/>            
+            <partial name="_CourseDetails"/>            
 
             <div class="form-group mt-2">
-                <input type="submit" value="Crear" class="btn btn-outline-primary" />
+                
                 <a asp-action="Index" class="btn btn-outline-success" >Regresar</a>
             </div>
         </form>

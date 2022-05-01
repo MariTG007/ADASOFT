@@ -26,11 +26,11 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    width: 300px;
-    height: 370px;
+    width: 200px;
+    height: 270px;
     border: 1px solid lightgray;
     box-shadow: 2px 2px 8px 4px #d3d3d3d1;
-    border-radius: 15px;
+    border-radius: 10px;
     font-family: sans-serif;
     margin: 5px;
 }
@@ -65,6 +65,7 @@ body {
         z-index: 1;
         content: ""
     }
+
 
 
 

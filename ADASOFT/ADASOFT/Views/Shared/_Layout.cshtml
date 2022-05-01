@@ -14,7 +14,7 @@
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-primary bg-gradient border-bottom box-shadow mb-3">
             <div class="container-fluid">
-                <a class="navbar-brand text-white" asp-area="" asp-controller="Home" asp-action="Index"><i class="fa-solid fa-masks-theater text-white"></i>ADASOFT</a>
+                <a class="navbar-brand text-white" asp-area="" asp-controller="Home" asp-action="Index"><img src="~/Images/adasoft4.png" alt="" width="150" height="49"></a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -22,20 +22,26 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-white" asp-area="" asp-controller="Home" asp-action="Index">Inicio</a>
+                            <a class="nav-link text-white" asp-area="" asp-controller="Home" asp-action="Index"><b>Inicio</b></a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-white" asp-area="" asp-controller="Home" asp-action="Privacy">Políticas</a>
+                            <a class="nav-link text-white" asp-area="" asp-controller="Home" asp-action="Privacy"><b>Políticas</b></a>
                         </li>
                         @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
                         {
-                            <li class="nav-item">
-                                <a class="nav-link text-white" asp-area="" asp-controller="Locations" asp-action="Index">Ubicación</a>
+                             <li class="nav-item">
+                                <a class="nav-link text-white" asp-area="" asp-controller="Courses" asp-action="Index"><b>Cursos</b></a>
                             </li>
 
                             <li class="nav-item">
-                                <a class="nav-link text-white" asp-area="" asp-controller="Users" asp-action="Index">Usuarios</a>
+                                <a class="nav-link text-white" asp-area="" asp-controller="Locations" asp-action="Index"><b>Ubicación</b></a>
                             </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link text-white" asp-area="" asp-controller="Users" asp-action="Index"><b>Usuarios</b></a>
+                            </li>
+
+                           
                         }
                     </ul>
                     <ul class="nav navbar-nav navbar-left"> 
@@ -45,13 +51,13 @@
                                 <a class="nav-link text-white" asp-area="" asp-controller="Account" asp-action="ChangeUser">@User.Identity.Name</a> @*TODO: verify if we can change user*@ 
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-white" asp-area="" asp-controller="Account" asp-action="Logout">Cerrar Sesión</a>
+                                <a class="nav-link text-white" asp-area="" asp-controller="Account" asp-action="Logout"><b>Cerrar Sesión</b></a>
                             </li>
                         }
                         else
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-white" asp-area="" asp-controller="Account" asp-action="Login">Iniciar Sesión</a>
+                                <a class="nav-link text-white" asp-area="" asp-controller="Account" asp-action="Login"><b>Iniciar Sesión</b></a>
                             </li>
                         }
                     </ul>
@@ -65,12 +71,55 @@
         </main>
     </div>
 
+<div class="text-center" style="height: 200px" >
+</div>
+ <footer class="bg-light text-center text-lg-start" style="position: absolute; width: 1349.20px">
+  <!-- Grid container -->
+  <div class="container p-4">
+    <!--Grid row-->
+    <div class="row">
+      <!--Grid column-->
+      <div class="col-lg-6 col-md-12 mb-4 mb-md-0">
+        <h5 class="text-uppercase">Footer text</h5>
+
+        <p>
+          Lorem ipsum dolor sit amet consectetur, adipisicing elit. Iste atque ea quis
+          molestias. Fugiat pariatur maxime quis culpa corporis vitae repudiandae
+          aliquam voluptatem veniam, est atque cumque eum delectus sint!
+        </p>
+      </div>
+      <!--Grid column-->
+
+      <!--Grid column-->
+      <div class="col-lg-6 col-md-12 mb-4 mb-md-0">
+        <h5 class="text-uppercase">Footer text</h5>
+
+        <p>
+          Lorem ipsum dolor sit amet consectetur, adipisicing elit. Iste atque ea quis
+          molestias. Fugiat pariatur maxime quis culpa corporis vitae repudiandae
+          aliquam voluptatem veniam, est atque cumque eum delectus sint!
+        </p>
+      </div>
+      <!--Grid column-->
+    </div>
+    <!--Grid row-->
+  </div>
+  <!-- Grid container -->
+
+  <!-- Copyright -->
+  <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
+            © TODOS LOS DERECHOS RESERVADOS
+            - 2022 - ADASOFT - <a asp-area="" asp-controller="Home" asp-action="Privacy">Políticas</a>
+  </div>
+  <!-- Copyright -->
+</footer>
+@*
     <footer class="border-top footer text-muted">
         <div class="container">
             © TODOS LOS DERECHOS RESERVADOS
             - 2022 - ADASOFT - <a asp-area="" asp-controller="Home" asp-action="Privacy">Políticas</a>
         </div>
-    </footer>
+    </footer>*@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
