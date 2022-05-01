@@ -54,12 +54,16 @@ namespace ADASOFT.Data.Entities
         [Display(Name = "Usuario")]
         public string FullNameWithDocument => $"{FirstName} {LastName} - {Document}";
 
-        public ICollection<Attendant> Attendant { get; set; }
+        public ICollection<Attendant> Attendantes { get; set; }
         
-        public ICollection<Enrollment> Enrollment { get; set; }
+        public ICollection<Enrollment> Enrollmentes { get; set; }
 
 
-   
+        [Display(Name = "Acudientes")]
+        public int AttendantesNumber => Attendantes == null ? 0 : Attendantes.Count;
+
+        [Display(Name = "Cursos")]
+        public int EnrollmentNumber => Enrollmentes == null ? 0 : Enrollmentes.Count;
 
 
 

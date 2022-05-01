@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ADASOFT.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20220429214626_UntilAttendant")]
-    partial class UntilAttendant
+    [Migration("20220430164812_addEntities")]
+    partial class addEntities
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -74,7 +74,7 @@ namespace ADASOFT.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.HasIndex("FirstName", "UserId")
+                    b.HasIndex("Document", "UserId")
                         .IsUnique()
                         .HasFilter("[UserId] IS NOT NULL");
 
@@ -556,7 +556,7 @@ namespace ADASOFT.Migrations
             modelBuilder.Entity("ADASOFT.Data.Entities.Attendant", b =>
                 {
                     b.HasOne("ADASOFT.Data.Entities.User", "User")
-                        .WithMany("Attendant")
+                        .WithMany("Attendantes")
                         .HasForeignKey("UserId");
 
                     b.Navigation("User");
@@ -592,7 +592,7 @@ namespace ADASOFT.Migrations
             modelBuilder.Entity("ADASOFT.Data.Entities.Enrollment", b =>
                 {
                     b.HasOne("ADASOFT.Data.Entities.User", "User")
-                        .WithMany("Enrollment")
+                        .WithMany("Enrollmentes")
                         .HasForeignKey("UserId");
 
                     b.Navigation("User");
@@ -733,9 +733,9 @@ namespace ADASOFT.Migrations
 
             modelBuilder.Entity("ADASOFT.Data.Entities.User", b =>
                 {
-                    b.Navigation("Attendant");
+                    b.Navigation("Attendantes");
 
-                    b.Navigation("Enrollment");
+                    b.Navigation("Enrollmentes");
                 });
 #pragma warning restore 612, 618
         }
