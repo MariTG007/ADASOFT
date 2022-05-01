@@ -257,7 +257,14 @@ namespace ADASOFT.Controllers
            {
                UserId = attendant.User.Id,
                Id = attendant.Id,
+               Document = attendant.Document,
                FirstName = attendant.FirstName,
+               LastName = attendant.LastName,
+               Address = attendant.Address,
+               Phone = attendant.Phone,
+               Cellphone = attendant.Cellphone,
+               Email = attendant.Email
+
            };
 
            return View(model);
@@ -282,12 +289,19 @@ namespace ADASOFT.Controllers
                    Attendant attendant = new()
                    {
                        Id = model.Id,
+                       Document =model.Document,
                        FirstName = model.FirstName,
+                       LastName = model.LastName,
+                       Address = model.Address,
+                       Phone = model.Phone,
+                       Cellphone = model.Cellphone,
+                       Email = model.Email
+
 
                    };
                    _context.Update(attendant);
                    await _context.SaveChangesAsync();
-                   return RedirectToAction(nameof(HomeController), new { Id = model.UserId });
+                   return RedirectToAction(nameof(Details), new { Id = model.UserId });
                }
                catch (DbUpdateException dbUpdateException)
                {
@@ -317,15 +331,15 @@ namespace ADASOFT.Controllers
                return NotFound();
            }
 
-           Campus campus = await _context.Campuses
-               .Include(c => c.City)
+            Attendant attendant = await _context.Attendantes
+               .Include(a => a.User)
                .FirstOrDefaultAsync(c => c.Id == id); //FirstOrDefault instead of FindAsync, allows to use Include
-           if (campus == null)
+            if (attendant == null)
            {
                return NotFound();
            }
 
-           return View(campus);
+           return View(attendant);
        }
 
 
@@ -338,7 +352,7 @@ namespace ADASOFT.Controllers
               .FirstOrDefaultAsync(c => c.Id == id);
            _context.Attendantes.Remove(attendant);
            await _context.SaveChangesAsync();
-           return RedirectToAction(nameof(HomeController));
+           return RedirectToAction(nameof(Details), new { Id = attendant.User.Id });
        }
 
         public async Task<IActionResult> IndexAttendant(int? id)

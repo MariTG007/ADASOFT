@@ -18,7 +18,7 @@
 
             <div class="form-group mt-2">
                 <input type="submit" value="Guardar" class="btn btn-outline-primary" />
-                <a asp-action="DetailsCity" asp-route-id="@Model.CityId" class="btn btn-outline-success" >Regresar</a>
+            <a asp-action="Details" asp-route-id="@Model?.Id" class="btn btn-outline-success">Regresar</a>   
             </div>
         </form>
     </div>
