@@ -13,7 +13,7 @@ namespace ADASOFT.Data
         public DbSet<Campus> Campuses { get; set; }
         public DbSet<City> Cities { get; set; }
         public DbSet<State> States { get; set; }
-
+       
         public DbSet<Course> Courses{ get; set; }
 
         public DbSet<Attendant> Attendantes { get; set; }

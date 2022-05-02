@@ -11,10 +11,11 @@
     @* <div class="card bg-secondary bg-gradient bg-opacity-75  mb-3" style="width: 350px; height: 350px">*@
       <center><h1><i class="fa-solid fa-masks-theater text-black"></i></h1></center> 
      <center><h5 @*class="card-header text-center"*@>@*<i class="fa-solid fa-masks-theater text-black"></i>*@ Iniciar Sesión</h5></center>
+
      <div class="card-body bg-light" style="border-radius: 10px; border: 1px solid grey; width: 350px; height: 450px">
 
         <form asp-action="Login">
-            <div asp-validation-summary="ModelOnly" class="alert alert-danger" style="height: 100px"></div>
+            <div asp-validation-summary="ModelOnly" class="alert alert-danger" style="height: 115px"></div>
             <div class="form-group">
                 <label asp-for="Username" class="control-label"></label>
                 <input asp-for="Username" class="form-control" />

@@ -145,11 +145,9 @@ namespace ADASOFT.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("nvarchar(450)");
 
-                    b.Property<DateTime>("Schedule")
+                    b.Property<DateTime?>("Schedule")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("UserId")
@@ -158,11 +156,35 @@ namespace ADASOFT.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("Name")
-                        .IsUnique();
+                        .IsUnique()
+                        .HasFilter("[Name] IS NOT NULL");
 
                     b.HasIndex("UserId");
 
                     b.ToTable("Courses");
+                });
+
+            modelBuilder.Entity("ADASOFT.Data.Entities.CourseUser", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int?>("CourseId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CourseId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("CourseUser");
                 });
 
             modelBuilder.Entity("ADASOFT.Data.Entities.Enrollment", b =>
@@ -587,6 +609,21 @@ namespace ADASOFT.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("ADASOFT.Data.Entities.CourseUser", b =>
+                {
+                    b.HasOne("ADASOFT.Data.Entities.Course", "Course")
+                        .WithMany("CourseUsers")
+                        .HasForeignKey("CourseId");
+
+                    b.HasOne("ADASOFT.Data.Entities.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
+
+                    b.Navigation("Course");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("ADASOFT.Data.Entities.Enrollment", b =>
                 {
                     b.HasOne("ADASOFT.Data.Entities.User", "User")
@@ -712,6 +749,11 @@ namespace ADASOFT.Migrations
             modelBuilder.Entity("ADASOFT.Data.Entities.City", b =>
                 {
                     b.Navigation("Campuses");
+                });
+
+            modelBuilder.Entity("ADASOFT.Data.Entities.Course", b =>
+                {
+                    b.Navigation("CourseUsers");
                 });
 
             modelBuilder.Entity("ADASOFT.Data.Entities.Grade", b =>

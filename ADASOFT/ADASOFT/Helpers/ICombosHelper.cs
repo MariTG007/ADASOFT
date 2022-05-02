@@ -11,5 +11,7 @@ namespace ADASOFT.Helpers
         Task<IEnumerable<SelectListItem>> GetComboCitiesAsync(int stateId);
 
         Task<IEnumerable<SelectListItem>> GetComboCampusesAsync(int cityId);
+
+        Task<IEnumerable<SelectListItem>> GetComboTeachersAsync();
     }
 }

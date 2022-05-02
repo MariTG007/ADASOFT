@@ -1,4 +1,6 @@
 ﻿using ADASOFT.Data;
+using ADASOFT.Data.Entities;
+using ADASOFT.Enums;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 
@@ -63,6 +65,21 @@ namespace ADASOFT.Helpers
                  .ToListAsync();
 
             list.Insert(0, new SelectListItem { Text = "[Seleccione un departamento...]", Value = "0" });
+            return list;
+        }
+
+        public async Task<IEnumerable<SelectListItem>> GetComboTeachersAsync()
+        {
+            List<SelectListItem> list = await _context.Users.Select(u => new SelectListItem
+            {
+                //Selected = u.UserType.Equals("Admin"),
+                Text = u.FirstName,
+                Value = u.Id.ToString()
+            })
+                .OrderBy(u => u.Text)
+                .ToListAsync();
+
+            list.Insert(0, new SelectListItem { Text = "[Seleccione un profesor...]", Value = "0" });
             return list;
         }
     }
