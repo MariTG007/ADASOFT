@@ -14,7 +14,7 @@ namespace ADASOFT.Models
 
 
         //public User UserId { get; set; }
-        //[Display(Name = "Horaio")]
+        [Display(Name = "Horaio")]
         //[MaxLength(50, ErrorMessage = "El campo {0} debe tener máximo {1} caractéres.")]
         //[Required(ErrorMessage = "El campo {0} es obligatorio.")]
         public DateTime Schedule { get; set; }

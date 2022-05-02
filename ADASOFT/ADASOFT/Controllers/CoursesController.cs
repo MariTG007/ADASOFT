@@ -51,15 +51,16 @@ namespace ADASOFT.Controllers
                     Name = model.Name,
                     Schedule = DateTime.Now,
                     Date = model.Date,
+                    User = await _context.Users.FindAsync(model.UserId)
                 };
 
-                course.CourseUsers = new List<CourseUser>()
-                {
-                    new CourseUser()
-                    {
-                        User = await _context.Users.FindAsync(model.UserId)
-                    }
-                };
+                //course.CourseUsers = new List<CourseUser>()
+                //{
+                //    new CourseUser()
+                //    {
+                //        User = await _context.Users.FindAsync(model.UserId)
+                //    }
+                //};
 
                 
 
@@ -154,7 +155,9 @@ namespace ADASOFT.Controllers
                 return NotFound();
             }
 
-            Course course = await _context.Courses.FindAsync(id);
+            Course course = await _context.Courses
+                .Include(c=>c.User)
+                 .FirstOrDefaultAsync(c => c.Id == id);
             if (course == null)
             {
                 return NotFound();

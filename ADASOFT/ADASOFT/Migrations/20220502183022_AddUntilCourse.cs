@@ -283,30 +283,6 @@ namespace ADASOFT.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "CourseUser",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    CourseId = table.Column<int>(type: "int", nullable: true),
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_CourseUser", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_CourseUser_AspNetUsers_UserId",
-                        column: x => x.UserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_CourseUser_Courses_CourseId",
-                        column: x => x.CourseId,
-                        principalTable: "Courses",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
                 name: "StudenCourses",
                 columns: table => new
                 {
@@ -486,16 +462,6 @@ namespace ADASOFT.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_CourseUser_CourseId",
-                table: "CourseUser",
-                column: "CourseId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_CourseUser_UserId",
-                table: "CourseUser",
-                column: "UserId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_EnrollmentCourses_CourseId",
                 table: "EnrollmentCourses",
                 column: "CourseId");
@@ -591,9 +557,6 @@ namespace ADASOFT.Migrations
 
             migrationBuilder.DropTable(
                 name: "Attendantes");
-
-            migrationBuilder.DropTable(
-                name: "CourseUser");
 
             migrationBuilder.DropTable(
                 name: "EnrollmentCourses");
