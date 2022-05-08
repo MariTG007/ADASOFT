@@ -2,6 +2,7 @@
 using ADASOFT.Data.Entities;
 using ADASOFT.Helpers;
 using ADASOFT.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
@@ -162,6 +163,32 @@ namespace ADASOFT.Controllers
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
+
+
+        [Authorize]
+        public async Task<IActionResult> ShowCart()
+        {
+            User user = await _userHelper.GetUserAsync(User.Identity.Name);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            List<EnrollmentCourse>? enrollmentcourses = await _context.EnrollmentCourses
+                .Include(ts => ts.Course)
+                //.ThenInclude(p => p.ProductImages)
+                .Where(ts => ts.User.Id == user.Id)
+                .ToListAsync();
+
+            ShowCartViewModel model = new()
+            {
+                User = user,
+                EnrollmentCourses = enrollmentcourses,
+            };
+
+            return View(model);
+        }
+
 
 
         public IActionResult Privacy()
