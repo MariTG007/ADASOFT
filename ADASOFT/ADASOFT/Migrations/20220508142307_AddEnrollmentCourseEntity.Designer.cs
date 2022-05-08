@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ADASOFT.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20220506141902_BeginStudentCourse")]
-    partial class BeginStudentCourse
+    [Migration("20220508142307_AddEnrollmentCourseEntity")]
+    partial class AddEnrollmentCourseEntity
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -202,24 +202,20 @@ namespace ADASOFT.Migrations
                     b.Property<int?>("CourseId")
                         .HasColumnType("int");
 
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                    b.Property<float>("Quantity")
+                        .HasColumnType("real");
 
-                    b.Property<int?>("EnrollmentId")
-                        .HasColumnType("int");
+                    b.Property<string>("Remarks")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Schedule")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("CourseId");
 
-                    b.HasIndex("EnrollmentId");
+                    b.HasIndex("UserId");
 
                     b.HasIndex("Id", "CourseId")
                         .IsUnique()
@@ -320,7 +316,7 @@ namespace ADASOFT.Migrations
                         .IsUnique()
                         .HasFilter("[CourseId] IS NOT NULL");
 
-                    b.ToTable("StudenCourses");
+                    b.ToTable("StudentCourses");
                 });
 
             modelBuilder.Entity("ADASOFT.Data.Entities.User", b =>
@@ -603,13 +599,13 @@ namespace ADASOFT.Migrations
                         .WithMany()
                         .HasForeignKey("CourseId");
 
-                    b.HasOne("ADASOFT.Data.Entities.Enrollment", "Enrollment")
+                    b.HasOne("ADASOFT.Data.Entities.User", "User")
                         .WithMany()
-                        .HasForeignKey("EnrollmentId");
+                        .HasForeignKey("UserId");
 
                     b.Navigation("Course");
 
-                    b.Navigation("Enrollment");
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("ADASOFT.Data.Entities.FinalGrade", b =>

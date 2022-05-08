@@ -28,35 +28,11 @@ namespace ADASOFT.Controllers
 
         public async Task<IActionResult> Index()
         {
-            List<Course>? courses = await _context.Courses
+            List<Course> courses = await _context.Courses
                 .OrderBy(c => c.Name)
                 .ToListAsync();
-            List<CoursesHomeViewModel> coursesHome = new() { new CoursesHomeViewModel() };
-            int i = 1;
-            foreach (Course? course in courses)
-            {
-                if (i == 1)
-                {
-                    coursesHome.LastOrDefault().Course1 = course;
-                }
-                if (i == 2)
-                {
-                    coursesHome.LastOrDefault().Course2 = course;
-                }
-                if (i == 3)
-                {
-                    coursesHome.LastOrDefault().Course3 = course;
-                }
-                if (i == 4)
-                {
-                    coursesHome.LastOrDefault().Course4 = course;
-                    coursesHome.Add(new CoursesHomeViewModel());
-                    i = 0;
-                }
-                i++;
-            }
 
-            HomeViewModel model = new() { Courses = coursesHome };
+            HomeViewModel model = new() { Courses = courses };
             User user = await _userHelper.GetUserAsync(User.Identity.Name);
             if (user != null)
             {
@@ -66,12 +42,14 @@ namespace ADASOFT.Controllers
             }
 
             return View(model);
-
         }
+
 
 
         public async Task<IActionResult> Details(int? id)
         {
+
+
             if (id == null)
             {
                 return NotFound();
@@ -85,8 +63,68 @@ namespace ADASOFT.Controllers
                 return NotFound();
             }
 
-            return View(course);
+            //string users = string.Empty;
+
+
+
+            //foreach (ProductCategory? category in course.ProductCategories)
+            //{
+            //    categories += $"{category.Category.Name}, ";
+            //}
+            //categories = categories.Substring(0, categories.Length - 2);
+
+            AddCourseToCartViewModel model = new()
+            {
+                
+            //Description = course.Description,
+            Id = course.Id,
+                Name = course.Name,
+                Users = $"{course.User.FullName}",
+                Schedule = DateTime.Now,
+                Date = course.Date,
+                //Price = course.Price,
+                //ProductImages = course.ProductImages,
+                Quantity = 1,
+                //Stock = course.Stock,
+            };
+
+            return View(model);
         }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Details(AddCourseToCartViewModel model)
+        {
+            if (!User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
+            Course course = await _context.Courses.FindAsync(model.Id);
+            if (course == null)
+            {
+                return NotFound();
+            }
+
+            User user = await _userHelper.GetUserAsync(User.Identity.Name);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            EnrollmentCourse temporalSale = new()
+            {
+                Course = course,
+                Quantity = model.Quantity,
+                Remarks = model.Remarks,
+                User = user
+            };
+
+            _context.EnrollmentCourses.Add(temporalSale);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
+
 
 
         public async Task<IActionResult> Add(int? id)

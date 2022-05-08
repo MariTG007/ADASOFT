@@ -20,7 +20,7 @@ namespace ADASOFT.Data
         public DbSet<Enrollment> Enrollmentes { get; set; }
         public DbSet<EnrollmentCourse> EnrollmentCourses { get; set; }
 
-        public DbSet<StudentCourse> StudenCourses { get; set; }
+        public DbSet<StudentCourse> StudentCourses { get; set; }
         public DbSet<Grade> Grades { get; set; }
         public DbSet<FinalGrade> FinalGrades { get; set; }
 

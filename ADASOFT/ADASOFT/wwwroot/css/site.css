@@ -22,7 +22,7 @@ body {
 
 @charset "utf-8";
 
-.card {
+/*.card {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -64,7 +64,7 @@ body {
         left: 0;
         z-index: 1;
         content: ""
-    }
+    }*/
 
 
 
@@ -72,7 +72,7 @@ body {
     width: 100%;
     min-width: 540px;
     max-width: 1350px;
-    max-height : 500px;
+    max-height : 540px;
 
    
 }
@@ -81,7 +81,7 @@ body {
     position: relative;
     min-width: 540px;
     max-width: 1350px;
-    max-height: 500px;
+    max-height: 540px;
    
 
 
@@ -92,4 +92,19 @@ body {
 }
 
 
+/*Zoom images*/
+.zoom {
+    padding: 5px;
+    background-color: transparent;
+    transition: transform .2s;
+    width: auto;
+    height: auto;
+    margin: 0 auto;
+}
+
+    .zoom:hover {
+        -ms-transform: scale(2); /* IE 9 */
+        -webkit-transform: scale(2); /* Safari 3-8 */
+        transform: scale(2);
+    }
 

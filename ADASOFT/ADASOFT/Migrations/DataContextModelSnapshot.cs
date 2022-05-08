@@ -314,7 +314,7 @@ namespace ADASOFT.Migrations
                         .IsUnique()
                         .HasFilter("[CourseId] IS NOT NULL");
 
-                    b.ToTable("StudenCourses");
+                    b.ToTable("StudentCourses");
                 });
 
             modelBuilder.Entity("ADASOFT.Data.Entities.User", b =>

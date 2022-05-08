@@ -20,7 +20,7 @@
   
   <div class="carousel-inner">
     <div class="carousel-item active">
-      <img  src="~/Images/Adasoft.png" class="d-block w-100" alt="..." style="filter:brightness(0.4)">
+      <img  src="~/Images/ADASOFT-A.png" class="d-block w-100" alt="..." style="filter:brightness(0.4)">
       <div class="carousel-caption d-none d-md-block">
         
         <font  face="Arial" size=6  >
@@ -76,97 +76,55 @@
  <br />
 
   
- @if(Model.Quantity > 0)
-{
-    <a asp-action="ShowCart" class="btn btn-outline-primary">Ver Carro de Compras (@Model.Quantity)</a>
-}
-<br />
-<br />
+ <style type="text/css">
+    .card {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        border: 1px solid lightgray;
+        box-shadow: 2px 2px 8px 4px #d3d3d3d1;
+        border-radius: 15px;
+        font-family: sans-serif;
+        margin: 5px;
+    }
+</style>
 
-@foreach (var item in Model.Courses)
+@if(Model.Quantity > 0)
 {
-    <div class="row">
-        
-        @if (item.Course1 != null)
+    <a asp-action="ShowCart" class="btn btn-outline-primary">Ver Cursos Comprados (@Model.Quantity)</a>
+}
+
+<div class="row row-cols-1 row-cols-md-4 g-4 mt-1">
+    @if (Model.Courses.Count() > 0)
+    {
+        @foreach (var item in Model.Courses)
         {
-         
-            <div class="col-md-3">
-                <div class="card">
-                    <div class="card_title">@item.Course1.Name</div>
-                    <div class="card_body">
-                       @* <img src="@item.Course1.ImageFullPath" style="height:150px; max-width:280px;" />*@
-                        <p class="mt-2">
-                           <center>@item.Course1.Schedule</center> 
-                           
-                              <center>@item.Course1.Date</center>
-                            @*<h4>@Html.DisplayFor(modelItem => item.Course1.Price)</h4>*@
-                        </p>
+            <div class="col">
+                <div class="card h-100">
+                    @*<div class="text-center zoom">
+                        <img src="@item.ImageFullPath" style="height:150px; max-width:200px;" class="text-center" alt=@item.Name />
+                    </div>*@
+                    <div class="card-body">
+                        <h5 class="card-title text-navy"> @item.Name</h5>
+                        @*<p class="card-text smfnt">@item.Description</p>
+                        <h5 class="text-muted">@Html.DisplayFor(modelItem => item.Price)</h5>*@
+                        <p class="card-text smfnt">@item.Schedule</p>
+                        <p class="card-text smfnt">@item.Date</p>
                     </div>
-                    <div class="card_foot">
-                        <a asp-action="Details" asp-route-id="@item.Course1.Id" class="btn btn-secondary">Detalles</a>
-                        <a asp-action="Add" asp-route-id="@item.Course1.Id" class="btn btn-primary">Agregar</a>
+                    <div class="card-footer text-center">
+                        <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-secondary">Details</a>
+                        <a asp-action="Add" asp-route-id="@item.Id" class="btn btn-sm btn-primary">Add to Cart</a>
                     </div>
                 </div>
             </div>
         }
-        @if (item.Course2 != null)
-        {
-            <div class="col-md-3">
-                <div class="card">
-                    <div class="card_title">@item.Course2.Name</div>
-                    <div class="card_body">
-                       @* <img src="@item.Course2.ImageFullPath" style="height:150px; max-width:280px;" />*@
-                        <p class="mt-2">
-                            @item.Course2.Schedule
-                             @item.Course2.Date
-                           @* <h4>@Html.DisplayFor(modelItem => item.Course2.Price)</h4>*@
-                        </p>
-                    </div>
-                    <div class="card_foot">
-                        <a asp-action="Details" asp-route-id="@item.Course2.Id" class="btn btn-secondary">Detalles</a>
-                        <a asp-action="Add" asp-route-id="@item.Course2.Id" class="btn btn-primary">Agregar</a>
-                    </div>
-                </div>
-            </div>
-        }
-        @if (item.Course3 != null)
-        {
-            <div class="col-md-3">
-                <div class="card">
-                    <div class="card_title">@item.Course3.Name</div>
-                    <div class="card_body">
-                       @* <img src="@item.Course3.ImageFullPath" style="height:150px; max-width:280px;" />*@
-                        <p class="mt-2">
-                            @item.Course3.Schedule
-                            @item.Course3.Date
-                           @* <h4>@Html.DisplayFor(modelItem => item.Course3.Price)</h4>*@
-                        </p>
-                    </div>
-                    <div class="card_foot">
-                        <a asp-action="Details" asp-route-id="@item.Course3.Id" class="btn btn-secondary">Detalles</a>
-                        <a asp-action="Add" asp-route-id="@item.Course3.Id" class="btn btn-primary">Agregar</a>
-                    </div>
-                </div>
-            </div>
-        }
-        @if (item.Course4 != null)
-        {
-            <div class="col-md-3">
-                <div class="card">
-                    <div class="card_title">@item.Course4.Name</div>
-                    <div class="card_body">
-                        @*<img src="@item.Course4.ImageFullPath" style="height:150px; max-width:280px;" />*@
-                        <p class="mt-2">
-                            @item.Course4.Schedule
-                            @*<h4>@Html.DisplayFor(modelItem => item.Course4.Price)</h4>*@
-                        </p>
-                    </div>
-                    <div class="card_foot">
-                        <a asp-action="Details" asp-route-id="@item.Course4.Id" class="btn btn-secondary">Detalles</a>
-                        <a asp-action="Add" asp-route-id="@item.Course4.Id" class="btn btn-primary">Agregar</a>
-                    </div>
-                </div>
-            </div>
-        }
-    </div>
+    }
+    else
+    {
+        <h3>No hay productos con su criterio de búsqueda</h3>
+    }
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
