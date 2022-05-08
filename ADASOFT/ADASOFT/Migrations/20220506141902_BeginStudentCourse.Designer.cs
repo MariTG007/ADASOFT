@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ADASOFT.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20220502183022_AddUntilCourse")]
-    partial class AddUntilCourse
+    [Migration("20220506141902_BeginStudentCourse")]
+    partial class BeginStudentCourse
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -261,16 +261,16 @@ namespace ADASOFT.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int?>("StudenCourseId")
+                    b.Property<int?>("StudentCourseId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("StudenCourseId");
+                    b.HasIndex("StudentCourseId");
 
-                    b.HasIndex("Id", "StudenCourseId")
+                    b.HasIndex("Id", "StudentCourseId")
                         .IsUnique()
-                        .HasFilter("[StudenCourseId] IS NOT NULL");
+                        .HasFilter("[StudentCourseId] IS NOT NULL");
 
                     b.ToTable("Grades");
                 });
@@ -296,7 +296,7 @@ namespace ADASOFT.Migrations
                     b.ToTable("States");
                 });
 
-            modelBuilder.Entity("ADASOFT.Data.Entities.StudenCourse", b =>
+            modelBuilder.Entity("ADASOFT.Data.Entities.StudentCourse", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -623,14 +623,14 @@ namespace ADASOFT.Migrations
 
             modelBuilder.Entity("ADASOFT.Data.Entities.Grade", b =>
                 {
-                    b.HasOne("ADASOFT.Data.Entities.StudenCourse", "StudenCourse")
+                    b.HasOne("ADASOFT.Data.Entities.StudentCourse", "StudentCourse")
                         .WithMany("Grades")
-                        .HasForeignKey("StudenCourseId");
+                        .HasForeignKey("StudentCourseId");
 
-                    b.Navigation("StudenCourse");
+                    b.Navigation("StudentCourse");
                 });
 
-            modelBuilder.Entity("ADASOFT.Data.Entities.StudenCourse", b =>
+            modelBuilder.Entity("ADASOFT.Data.Entities.StudentCourse", b =>
                 {
                     b.HasOne("ADASOFT.Data.Entities.Course", "Course")
                         .WithMany()
@@ -725,7 +725,7 @@ namespace ADASOFT.Migrations
                     b.Navigation("Cities");
                 });
 
-            modelBuilder.Entity("ADASOFT.Data.Entities.StudenCourse", b =>
+            modelBuilder.Entity("ADASOFT.Data.Entities.StudentCourse", b =>
                 {
                     b.Navigation("Grades");
                 });

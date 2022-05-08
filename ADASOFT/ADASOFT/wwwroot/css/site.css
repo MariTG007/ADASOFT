@@ -26,11 +26,11 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    width: 200px;
-    height: 270px;
+    width: 300px;
+    height: 370px;
     border: 1px solid lightgray;
     box-shadow: 2px 2px 8px 4px #d3d3d3d1;
-    border-radius: 10px;
+    border-radius: 15px;
     font-family: sans-serif;
     margin: 5px;
 }
@@ -68,8 +68,28 @@ body {
 
 
 
+.carousel-inner img {
+    width: 100%;
+    min-width: 540px;
+    max-width: 1350px;
+    max-height : 500px;
+
+   
+}
+
+.carousel-inner {
+    position: relative;
+    min-width: 540px;
+    max-width: 1350px;
+    max-height: 500px;
+   
 
 
-/*background-image: url(/Images/baile.jpg);
-background-image: url(/Images/musica.jpg);
-background-image: url(/Images/pintura.jpg);*/
+    width: 125%;
+    right: 150px;
+    left: -10.5%;
+    top: -17px;
+}
+
+
+

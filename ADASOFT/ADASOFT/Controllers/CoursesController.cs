@@ -13,20 +13,23 @@ namespace ADASOFT.Controllers
     {
         private readonly DataContext _context;
         private readonly ICombosHelper _combosHelper;
+     
 
         public CoursesController(DataContext context, ICombosHelper combosHelper)
         {
             _context = context;
             _combosHelper = combosHelper;
+            
         }
 
+       
         public async Task<IActionResult> Index()
         {
 
             return View(await _context.Courses.ToListAsync());
         }
 
-
+   
 
         public async Task<IActionResult> Create()
         {
@@ -44,7 +47,7 @@ namespace ADASOFT.Controllers
         {
             if (ModelState.IsValid)
             {
-               
+
                 Course course = new()
                 {
                     Id = model.Id,
@@ -62,7 +65,7 @@ namespace ADASOFT.Controllers
                 //    }
                 //};
 
-                
+
 
                 try
                 {
@@ -94,7 +97,6 @@ namespace ADASOFT.Controllers
 
 
 
-       
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -156,7 +158,7 @@ namespace ADASOFT.Controllers
             }
 
             Course course = await _context.Courses
-                .Include(c=>c.User)
+                .Include(c => c.User)
                  .FirstOrDefaultAsync(c => c.Id == id);
             if (course == null)
             {
@@ -166,6 +168,14 @@ namespace ADASOFT.Controllers
             return View(course);
         }
 
+       
+
+
+       
+
+
+
+   
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -187,7 +197,7 @@ namespace ADASOFT.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             Course course = await _context.Courses
-                .Include(c =>c.User)
+                .Include(c => c.User)
                 .FirstOrDefaultAsync(c => c.Id == id);
             _context.Courses.Remove(course);
             await _context.SaveChangesAsync();

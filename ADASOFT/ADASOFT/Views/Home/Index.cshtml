@@ -1,54 +1,61 @@
-﻿@{
+﻿@model ADASOFT.Models.HomeViewModel
+
+
+
+@{
     ViewData["Title"] = "Home Page";
 }
 
 
+@*<div class="text-center" style="height: 600px" >*@
 
-
-<div class="text-center" style="height: 550px" >
-    <img src="~/Images/Adasoft.png" width="300" height="300"/>
-    
-   
-  <font  face="Times New Roman" size=6 >
-    <h1>“El aprendizaje nunca agota la mente.”</h1>
-    <sub>Leonardo Da Vinci</sub>
-   </font>
-
-
-</div>
-
-
-
+  
 <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
   <div class="carousel-indicators">
     <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
     <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1" aria-label="Slide 2"></button>
     <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2" aria-label="Slide 3"></button>
+    <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="3" aria-label="Slide 4"></button>
   </div>
+  
   <div class="carousel-inner">
-    <div class="carousel-item active" style="height: 450px">
-      <img src="~/Images/baile.jpg" class="d-block w-100" alt="..." style="filter:brightness(0.4)">
+    <div class="carousel-item active">
+      <img  src="~/Images/Adasoft.png" class="d-block w-100" alt="..." style="filter:brightness(0.4)">
       <div class="carousel-caption d-none d-md-block">
         
-        <h1><b>Curso de Baile</b></h1>
-        <p><b>Some representative placeholder content for the first slide.</b></p>
+        <font  face="Arial" size=6  >
+            <h1><i>“El aprendizaje nunca agota la mente.”</i></h1>
+            <sub>Leonardo Da Vinci</sub>
+        </font>
         
       </div>
     </div>
-    <div class="carousel-item" style="height: 450px">
-      <img src="~/Images/musica.jpg" class="d-block w-100" alt="..." style="filter:brightness(0.4)">
+    <div class="carousel-item" >
+  
+
+      <img src="~/Images/baile.jpg" class="d-block w-100" alt="..." style="filter:brightness(0.4)" >
+    
       <div class="carousel-caption d-none d-md-block">
-        <h1><b>Curso de Música</b></h1>
+        <h1><b>Baile</b></h1>
         <p><b>Some representative placeholder content for the second slide.</b></p>
       </div>
     </div>
-    <div class="carousel-item" style="height: 450px">
-      <img src="~/Images/pintura.jpg" class="d-block w-100" alt="..." style="filter:brightness(0.4)">
+    <div class="carousel-item" >
+      <img src="~/Images/musica.jpg" class="d-block w-100" alt="..." style="filter:brightness(0.4)">
+      <div class="carousel-caption d-none d-md-block">
+        <h1><b>Música</b></h1>
+        <p><b>Some representative placeholder content for the third slide.</b></p>
+      </div>
+    </div>
+
+    <div class="carousel-item" >
+      <img  src="~/Images/pintura.jpg" class="d-block w-100" alt="..." style="filter:brightness(0.4)">
       <div class="carousel-caption d-none d-md-block">
         <h1><b>Pintura</b></h1>
         <p><b>Some representative placeholder content for the third slide.</b></p>
       </div>
     </div>
+
   </div>
   <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -58,4 +65,108 @@
     <span class="carousel-control-next-icon" aria-hidden="true"></span>
     <span class="visually-hidden">Next</span>
   </button>
-</div>
+  </div>
+  
+  
+ @* 
+  </div>*@
+  
+
+ <br />
+ <br />
+
+  
+ @if(Model.Quantity > 0)
+{
+    <a asp-action="ShowCart" class="btn btn-outline-primary">Ver Carro de Compras (@Model.Quantity)</a>
+}
+<br />
+<br />
+
+@foreach (var item in Model.Courses)
+{
+    <div class="row">
+        
+        @if (item.Course1 != null)
+        {
+         
+            <div class="col-md-3">
+                <div class="card">
+                    <div class="card_title">@item.Course1.Name</div>
+                    <div class="card_body">
+                       @* <img src="@item.Course1.ImageFullPath" style="height:150px; max-width:280px;" />*@
+                        <p class="mt-2">
+                           <center>@item.Course1.Schedule</center> 
+                           
+                              <center>@item.Course1.Date</center>
+                            @*<h4>@Html.DisplayFor(modelItem => item.Course1.Price)</h4>*@
+                        </p>
+                    </div>
+                    <div class="card_foot">
+                        <a asp-action="Details" asp-route-id="@item.Course1.Id" class="btn btn-secondary">Detalles</a>
+                        <a asp-action="Add" asp-route-id="@item.Course1.Id" class="btn btn-primary">Agregar</a>
+                    </div>
+                </div>
+            </div>
+        }
+        @if (item.Course2 != null)
+        {
+            <div class="col-md-3">
+                <div class="card">
+                    <div class="card_title">@item.Course2.Name</div>
+                    <div class="card_body">
+                       @* <img src="@item.Course2.ImageFullPath" style="height:150px; max-width:280px;" />*@
+                        <p class="mt-2">
+                            @item.Course2.Schedule
+                             @item.Course2.Date
+                           @* <h4>@Html.DisplayFor(modelItem => item.Course2.Price)</h4>*@
+                        </p>
+                    </div>
+                    <div class="card_foot">
+                        <a asp-action="Details" asp-route-id="@item.Course2.Id" class="btn btn-secondary">Detalles</a>
+                        <a asp-action="Add" asp-route-id="@item.Course2.Id" class="btn btn-primary">Agregar</a>
+                    </div>
+                </div>
+            </div>
+        }
+        @if (item.Course3 != null)
+        {
+            <div class="col-md-3">
+                <div class="card">
+                    <div class="card_title">@item.Course3.Name</div>
+                    <div class="card_body">
+                       @* <img src="@item.Course3.ImageFullPath" style="height:150px; max-width:280px;" />*@
+                        <p class="mt-2">
+                            @item.Course3.Schedule
+                            @item.Course3.Date
+                           @* <h4>@Html.DisplayFor(modelItem => item.Course3.Price)</h4>*@
+                        </p>
+                    </div>
+                    <div class="card_foot">
+                        <a asp-action="Details" asp-route-id="@item.Course3.Id" class="btn btn-secondary">Detalles</a>
+                        <a asp-action="Add" asp-route-id="@item.Course3.Id" class="btn btn-primary">Agregar</a>
+                    </div>
+                </div>
+            </div>
+        }
+        @if (item.Course4 != null)
+        {
+            <div class="col-md-3">
+                <div class="card">
+                    <div class="card_title">@item.Course4.Name</div>
+                    <div class="card_body">
+                        @*<img src="@item.Course4.ImageFullPath" style="height:150px; max-width:280px;" />*@
+                        <p class="mt-2">
+                            @item.Course4.Schedule
+                            @*<h4>@Html.DisplayFor(modelItem => item.Course4.Price)</h4>*@
+                        </p>
+                    </div>
+                    <div class="card_foot">
+                        <a asp-action="Details" asp-route-id="@item.Course4.Id" class="btn btn-secondary">Detalles</a>
+                        <a asp-action="Add" asp-route-id="@item.Course4.Id" class="btn btn-primary">Agregar</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}

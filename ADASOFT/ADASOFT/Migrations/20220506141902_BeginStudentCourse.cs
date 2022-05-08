@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace ADASOFT.Migrations
 {
-    public partial class AddUntilCourse : Migration
+    public partial class BeginStudentCourse : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -338,14 +338,14 @@ namespace ADASOFT.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    StudenCourseId = table.Column<int>(type: "int", nullable: true)
+                    StudentCourseId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Grades", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Grades_StudenCourses_StudenCourseId",
-                        column: x => x.StudenCourseId,
+                        name: "FK_Grades_StudenCourses_StudentCourseId",
+                        column: x => x.StudentCourseId,
                         principalTable: "StudenCourses",
                         principalColumn: "Id");
                 });
@@ -503,16 +503,16 @@ namespace ADASOFT.Migrations
                 filter: "[GradeId] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Grades_Id_StudenCourseId",
+                name: "IX_Grades_Id_StudentCourseId",
                 table: "Grades",
-                columns: new[] { "Id", "StudenCourseId" },
+                columns: new[] { "Id", "StudentCourseId" },
                 unique: true,
-                filter: "[StudenCourseId] IS NOT NULL");
+                filter: "[StudentCourseId] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Grades_StudenCourseId",
+                name: "IX_Grades_StudentCourseId",
                 table: "Grades",
-                column: "StudenCourseId");
+                column: "StudentCourseId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_States_Name",

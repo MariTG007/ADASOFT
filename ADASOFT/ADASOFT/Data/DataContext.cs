@@ -20,10 +20,11 @@ namespace ADASOFT.Data
         public DbSet<Enrollment> Enrollmentes { get; set; }
         public DbSet<EnrollmentCourse> EnrollmentCourses { get; set; }
 
-        public DbSet<StudenCourse> StudenCourses { get; set; }
+        public DbSet<StudentCourse> StudenCourses { get; set; }
         public DbSet<Grade> Grades { get; set; }
-
         public DbSet<FinalGrade> FinalGrades { get; set; }
+
+        
 
 
 
@@ -37,8 +38,8 @@ namespace ADASOFT.Data
             modelBuilder.Entity<Attendant>().HasIndex("Document", "UserId").IsUnique();
             modelBuilder.Entity<Enrollment>().HasIndex("Id", "UserId").IsUnique();
             modelBuilder.Entity<EnrollmentCourse>().HasIndex("Id", "CourseId").IsUnique();
-            modelBuilder.Entity<StudenCourse>().HasIndex("Id", "CourseId").IsUnique();
-            modelBuilder.Entity<Grade>().HasIndex("Id", "StudenCourseId").IsUnique();
+            modelBuilder.Entity<StudentCourse>().HasIndex("Id", "CourseId").IsUnique();
+            modelBuilder.Entity<Grade>().HasIndex("Id", "StudentCourseId").IsUnique();
             modelBuilder.Entity<FinalGrade>().HasIndex("Id", "GradeId").IsUnique();
 
         }

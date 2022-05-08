@@ -1,6 +1,6 @@
 ﻿namespace ADASOFT.Data.Entities
 {
-    public class StudenCourse
+    public class StudentCourse
     {
         public int Id { get; set; }
 
