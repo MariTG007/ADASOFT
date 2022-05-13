@@ -24,7 +24,8 @@ namespace ADASOFT.Data.Entities
         [Required(ErrorMessage = "El campo {0} es obligatorio.")]
         public decimal Price { get; set; }
 
-       [Display(Name = "Horario")]
+        [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd hh:mm tt}")]
+        [Display(Name = "Horario")]
         public DateTime Schedule { get; set; }
 
         [Display(Name = "Días")]
@@ -32,10 +33,10 @@ namespace ADASOFT.Data.Entities
 
 
         [DisplayFormat(DataFormatString = "{0:N2}")]
-        [Display(Name = "Estudiantes")]
+        [Display(Name = "Cupos")]
         [Required(ErrorMessage = "El campo {0} es obligatorio.")]
         //public int QuotaNumber => Campuses == null ? 0 : Campuses.Count;
-        public int Quota { get; set; }
+        public float Quota { get; set; }
 
         [Display(Name = "Profesor")]
         public User? User { get; set; }
@@ -56,7 +57,10 @@ namespace ADASOFT.Data.Entities
         public string ImageFullPath => CourseImages == null || CourseImages.Count == 0
             ? $"https://localhost:7187/images/noimage.png"
             : CourseImages.FirstOrDefault().ImageFullPath;
-    
+
+
+        public ICollection<Payment> Payments { get; set; }
+
 
     }
 }

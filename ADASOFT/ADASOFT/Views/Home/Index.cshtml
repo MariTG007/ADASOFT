@@ -7,12 +7,49 @@
 }
 
 
+
+<style type="text/css">
+    .card {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        border: 1px solid lightgray;
+        box-shadow: 2px 2px 8px 4px #d3d3d3d1;
+        border-radius: 15px;
+        font-family: sans-serif;
+        margin: 5px;
+
+
+    }
+
+    .carousel-inner img {
+        position: relative;
+    
+   
+        min-height: 500px;
+    
+        width: 100%;
+        min-width: 500px;
+        max-width: 1350px;
+        max-height: 540px;
+}
+
+    .carousel-inner {
+        position: relative;
+   
+        min-width: 540px;
+        max-width: 1350px;
+        max-height: 540px;
+    
+        width: 127.8%;
+        right: 118px;
+        top: -16.6px;
+    }
+</style>
+
+
 @*<div class="text-center" style="height: 600px" >*@
 
-
-
-
-  
 <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
   <div class="carousel-indicators">
     <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
@@ -79,18 +116,7 @@
  <br />
 
   
- <style type="text/css">
-    .card {
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        border: 1px solid lightgray;
-        box-shadow: 2px 2px 8px 4px #d3d3d3d1;
-        border-radius: 15px;
-        font-family: sans-serif;
-        margin: 5px;
-    }
-</style>
+ 
 
 @if(Model.Quantity > 0)
 {

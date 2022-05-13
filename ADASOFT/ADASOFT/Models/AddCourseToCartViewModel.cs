@@ -20,6 +20,7 @@ namespace ADASOFT.Models
         [MaxLength(500, ErrorMessage = "El campo {0} debe tener máximo {1} caractéres.")]
         public string Description { get; set; }
 
+        [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd hh:mm tt}")]
         [Display(Name = "Horario")]
       
         public DateTime Schedule { get; set; }
@@ -44,7 +45,7 @@ namespace ADASOFT.Models
         [DisplayFormat(DataFormatString = "{0:N2}")]
         [Display(Name = "Estudiantes")]
         [Required(ErrorMessage = "El campo {0} es obligatorio.")]
-        public int Quota { get; set; }
+        public float Quota { get; set; }
 
         //[Display(Name = "Categorías")]
         //public string Categories { get; set; }

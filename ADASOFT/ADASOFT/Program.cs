@@ -3,6 +3,7 @@ using ADASOFT.Data;
 using ADASOFT.Helpers;
 using ADASOFT.Data.Entities;
 using Microsoft.AspNetCore.Identity;
+using Vereyon.Web;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -44,10 +45,12 @@ builder.Services.ConfigureApplicationCookie(options =>
 
 
 builder.Services.AddTransient<SeedDb>();
+builder.Services.AddFlashMessage();
 builder.Services.AddScoped<IUserHelper, UserHelper>(); //mando interfaz para pruebas unitarias
 builder.Services.AddScoped<IBlobHelper, BlobHelper>();
 builder.Services.AddScoped<ICombosHelper, CombosHelper>();
 builder.Services.AddScoped<IMailHelper, MailHelper>();
+builder.Services.AddScoped<IEnrollmentHelper, EnrollmentHelper>();
 builder.Services.AddRazorPages().AddRazorRuntimeCompilation();
 
 var app = builder.Build();

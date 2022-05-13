@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace ADASOFT.Migrations
 {
-    public partial class AddEnrollment : Migration
+    public partial class AddEnrollmentAndPaymentEntities : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -253,7 +253,7 @@ namespace ADASOFT.Migrations
                     Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     Schedule = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Date = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Quota = table.Column<int>(type: "int", nullable: false),
+                    Quota = table.Column<float>(type: "real", nullable: false),
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     Resume = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: true)
                 },
@@ -268,19 +268,21 @@ namespace ADASOFT.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Enrollmentes",
+                name: "Enrollments",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    Date = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    Date = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    Remarks = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    EnrollmentStatus = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Enrollmentes", x => x.Id);
+                    table.PrimaryKey("PK_Enrollments", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Enrollmentes_AspNetUsers_UserId",
+                        name: "FK_Enrollments_AspNetUsers_UserId",
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id");
@@ -352,6 +354,32 @@ namespace ADASOFT.Migrations
                         name: "FK_StudentCourses_Courses_CourseId",
                         column: x => x.CourseId,
                         principalTable: "Courses",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Payments",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    EnrollmentId = table.Column<int>(type: "int", nullable: true),
+                    Remarks = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CourseId = table.Column<int>(type: "int", nullable: true),
+                    Quantity = table.Column<float>(type: "real", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Payments", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Payments_Courses_CourseId",
+                        column: x => x.CourseId,
+                        principalTable: "Courses",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Payments_Enrollments_EnrollmentId",
+                        column: x => x.EnrollmentId,
+                        principalTable: "Enrollments",
                         principalColumn: "Id");
                 });
 
@@ -506,15 +534,15 @@ namespace ADASOFT.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Enrollmentes_Id_UserId",
-                table: "Enrollmentes",
+                name: "IX_Enrollments_Id_UserId",
+                table: "Enrollments",
                 columns: new[] { "Id", "UserId" },
                 unique: true,
                 filter: "[UserId] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Enrollmentes_UserId",
-                table: "Enrollmentes",
+                name: "IX_Enrollments_UserId",
+                table: "Enrollments",
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
@@ -540,6 +568,16 @@ namespace ADASOFT.Migrations
                 name: "IX_Grades_StudentCourseId",
                 table: "Grades",
                 column: "StudentCourseId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Payments_CourseId",
+                table: "Payments",
+                column: "CourseId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Payments_EnrollmentId",
+                table: "Payments",
+                column: "EnrollmentId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_States_Name",
@@ -592,16 +630,19 @@ namespace ADASOFT.Migrations
                 name: "EnrollmentCourses");
 
             migrationBuilder.DropTable(
-                name: "Enrollmentes");
+                name: "FinalGrades");
 
             migrationBuilder.DropTable(
-                name: "FinalGrades");
+                name: "Payments");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
                 name: "Grades");
+
+            migrationBuilder.DropTable(
+                name: "Enrollments");
 
             migrationBuilder.DropTable(
                 name: "StudentCourses");

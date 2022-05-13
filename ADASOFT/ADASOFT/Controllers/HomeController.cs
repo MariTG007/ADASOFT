@@ -1,4 +1,5 @@
-﻿using ADASOFT.Data;
+﻿using ADASOFT.Common;
+using ADASOFT.Data;
 using ADASOFT.Data.Entities;
 using ADASOFT.Helpers;
 using ADASOFT.Models;
@@ -6,8 +7,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
-using System;
-using Microsoft.AspNetCore.Mvc.ViewFeatures;
 
 
 namespace ADASOFT.Controllers
@@ -17,12 +16,14 @@ namespace ADASOFT.Controllers
         private readonly ILogger<HomeController> _logger;
         private readonly DataContext _context;
         private readonly IUserHelper _userHelper;
+        private readonly IEnrollmentHelper _enrollmentHelper;
 
-        public HomeController(ILogger<HomeController> logger, DataContext context, IUserHelper userHelper)
+        public HomeController(ILogger<HomeController> logger, DataContext context, IUserHelper userHelper, IEnrollmentHelper enrollmentHelper)
         {
             _logger = logger;
             _context = context;
             _userHelper = userHelper;
+            _enrollmentHelper = enrollmentHelper;
         }
 
         //public IActionResult Index()
@@ -35,10 +36,11 @@ namespace ADASOFT.Controllers
         public async Task<IActionResult> Index()
         {
             List<Course> courses = await _context.Courses
-                .Include(c=>c.CourseImages)
+                .Include(c => c.CourseImages)
+                .Where(p => p.Quota > 0)
                 .OrderBy(c => c.Name)
                 .ToListAsync();
-            
+
             HomeViewModel model = new() { Courses = courses };
             User user = await _userHelper.GetUserAsync(User.Identity.Name);
             if (user != null)
@@ -69,7 +71,7 @@ namespace ADASOFT.Controllers
                 return NotFound();
             }
 
-            
+
 
             AddCourseToCartViewModel model = new()
             {
@@ -78,7 +80,7 @@ namespace ADASOFT.Controllers
                 Name = course.Name,
                 Users = $"{course.User.FullName}",
                 Resume = course.Resume,
-                Schedule = (DateTime)course.Schedule,
+                Schedule = course.Schedule,
                 Date = course.Date,
                 Price = course.Price,
                 Quota = course.Quota,
@@ -126,21 +128,21 @@ namespace ADASOFT.Controllers
 
         public async Task<IActionResult> Add(int? id)
         {
-         
+
 
             if (id == null)
             {
                 return NotFound();
             }
-            
+
 
             if (!User.Identity.IsAuthenticated)
             {
-               
+
                 return RedirectToAction("Login", "Account");
 
             }
-            
+
 
 
             Course course = await _context.Courses.FindAsync(id);
@@ -180,9 +182,9 @@ namespace ADASOFT.Controllers
             }
 
             List<EnrollmentCourse>? enrollmentcourses = await _context.EnrollmentCourses
-                .Include(ts => ts.Course)
-                .ThenInclude(p => p.CourseImages)
-                .Where(ts => ts.User.Id == user.Id)
+                .Include(ec => ec.Course)
+                .ThenInclude(c => c.CourseImages)
+                .Where(ec => ec.User.Id == user.Id)
                 .ToListAsync();
 
             ShowCartViewModel model = new()
@@ -192,6 +194,111 @@ namespace ADASOFT.Controllers
             };
 
             return View(model);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ShowCart(ShowCartViewModel model)
+        {
+            User user = await _userHelper.GetUserAsync(User.Identity.Name);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            model.User = user;
+            model.EnrollmentCourses = await _context.EnrollmentCourses
+                .Include(ec => ec.Course)
+                .ThenInclude(c => c.CourseImages)
+                .Where(ts => ts.User.Id == user.Id)
+                .ToListAsync();
+
+            Response response = await _enrollmentHelper.ProcessOrderAsync(model);
+            if (response.IsSuccess)
+            {
+                return RedirectToAction(nameof(EnrollmentSuccess));
+            }
+
+            ModelState.AddModelError(string.Empty, response.Message);
+            return View(model);
+        }
+
+
+        public async Task<IActionResult> Delete(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            EnrollmentCourse enrollmentCourse = await _context.EnrollmentCourses.FindAsync(id);
+            if (enrollmentCourse == null)
+            {
+                return NotFound();
+            }
+
+            _context.EnrollmentCourses.Remove(enrollmentCourse);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(ShowCart));
+        }
+
+        public async Task<IActionResult> Edit(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            EnrollmentCourse enrollmentCourse = await _context.EnrollmentCourses.FindAsync(id);
+            if (enrollmentCourse == null)
+            {
+                return NotFound();
+            }
+
+            EditEnrollmentCourseViewModel model = new()
+            {
+                Id = enrollmentCourse.Id,
+                Quantity = enrollmentCourse.Quantity,
+                Remarks = enrollmentCourse.Remarks,
+            };
+
+            return View(model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, EditEnrollmentCourseViewModel model)
+        {
+            if (id != model.Id)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    EnrollmentCourse enrollmentCourse = await _context.EnrollmentCourses.FindAsync(id);
+                    enrollmentCourse.Quantity = model.Quantity;
+                    enrollmentCourse.Remarks = model.Remarks;
+                    _context.Update(enrollmentCourse);
+                    await _context.SaveChangesAsync();
+                }
+                catch (Exception exception)
+                {
+                    ModelState.AddModelError(string.Empty, exception.Message);
+                    return View(model);
+                }
+
+                return RedirectToAction(nameof(ShowCart));
+            }
+
+            return View(model);
+        }
+
+        [Authorize]
+        public IActionResult EnrollmentSuccess()
+        {
+            return View();
         }
 
 

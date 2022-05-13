@@ -156,8 +156,8 @@ namespace ADASOFT.Migrations
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<int>("Quota")
-                        .HasColumnType("int");
+                    b.Property<float>("Quota")
+                        .HasColumnType("real");
 
                     b.Property<string>("Resume")
                         .HasMaxLength(1000)
@@ -211,6 +211,12 @@ namespace ADASOFT.Migrations
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("EnrollmentStatus")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Remarks")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
 
@@ -222,7 +228,7 @@ namespace ADASOFT.Migrations
                         .IsUnique()
                         .HasFilter("[UserId] IS NOT NULL");
 
-                    b.ToTable("Enrollmentes");
+                    b.ToTable("Enrollments");
                 });
 
             modelBuilder.Entity("ADASOFT.Data.Entities.EnrollmentCourse", b =>
@@ -303,6 +309,35 @@ namespace ADASOFT.Migrations
                         .HasFilter("[StudentCourseId] IS NOT NULL");
 
                     b.ToTable("Grades");
+                });
+
+            modelBuilder.Entity("ADASOFT.Data.Entities.Payment", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int?>("CourseId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("EnrollmentId")
+                        .HasColumnType("int");
+
+                    b.Property<float>("Quantity")
+                        .HasColumnType("real");
+
+                    b.Property<string>("Remarks")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CourseId");
+
+                    b.HasIndex("EnrollmentId");
+
+                    b.ToTable("Payments");
                 });
 
             modelBuilder.Entity("ADASOFT.Data.Entities.State", b =>
@@ -630,7 +665,7 @@ namespace ADASOFT.Migrations
             modelBuilder.Entity("ADASOFT.Data.Entities.Enrollment", b =>
                 {
                     b.HasOne("ADASOFT.Data.Entities.User", "User")
-                        .WithMany("Enrollmentes")
+                        .WithMany("Enrollments")
                         .HasForeignKey("UserId");
 
                     b.Navigation("User");
@@ -667,6 +702,21 @@ namespace ADASOFT.Migrations
                         .HasForeignKey("StudentCourseId");
 
                     b.Navigation("StudentCourse");
+                });
+
+            modelBuilder.Entity("ADASOFT.Data.Entities.Payment", b =>
+                {
+                    b.HasOne("ADASOFT.Data.Entities.Course", "Course")
+                        .WithMany("Payments")
+                        .HasForeignKey("CourseId");
+
+                    b.HasOne("ADASOFT.Data.Entities.Enrollment", "Enrollment")
+                        .WithMany("Payments")
+                        .HasForeignKey("EnrollmentId");
+
+                    b.Navigation("Course");
+
+                    b.Navigation("Enrollment");
                 });
 
             modelBuilder.Entity("ADASOFT.Data.Entities.StudentCourse", b =>
@@ -757,6 +807,13 @@ namespace ADASOFT.Migrations
             modelBuilder.Entity("ADASOFT.Data.Entities.Course", b =>
                 {
                     b.Navigation("CourseImages");
+
+                    b.Navigation("Payments");
+                });
+
+            modelBuilder.Entity("ADASOFT.Data.Entities.Enrollment", b =>
+                {
+                    b.Navigation("Payments");
                 });
 
             modelBuilder.Entity("ADASOFT.Data.Entities.Grade", b =>
@@ -778,7 +835,7 @@ namespace ADASOFT.Migrations
                 {
                     b.Navigation("Attendantes");
 
-                    b.Navigation("Enrollmentes");
+                    b.Navigation("Enrollments");
                 });
 #pragma warning restore 612, 618
         }

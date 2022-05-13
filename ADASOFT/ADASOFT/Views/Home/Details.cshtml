@@ -4,29 +4,52 @@
     ViewData["Title"] = "Details";
 }
 
+<style type="text/css">
+    .carousel-inner {
+    width: auto;
+    height: 500px;
+    max-height: 500px;
+}
+
+    .carousel-content {
+        color: black;
+        display: flex;
+        text-align: center;
+    }
+
+</style>
+
 <h1>@Model?.Name</h1>
 
 <div class="row">
-    <div class="col-md-5">
-       @* <div id="ImagesCarousel" class="carousel slide" data-ride="carousel">
+    <div class="col-md-6">
+        <div id="ImagesCarousel" class="carousel slide" data-ride="carousel">
             <div class="carousel-inner">
                 @{
                     var first = true;
-                }*@
+                }
                 @foreach (var item in @Model?.CourseImages)
                 {
-                   @* <div class="carousel-item @(first?Html.Raw("active"):Html.Raw(""))">*@
-                        <div class="card-body bg-light" style="border-radius: 10px; border: 1px solid grey; width: 250px; height: 200px">
-                        <div class="text-center zoom">
-                              <img class="d-block w-100" src="@item.ImageFullPath" alt="@item.Id" style="height:150px; max-width:200px;">
-                         
-                          </div>
+                    <div class="carousel-item @(first?Html.Raw("active"):Html.Raw(""))">
+                        <img class="d-block w-100" src="@item.ImageFullPath" alt="@item.Id" style = "height:450px; width:450px">
                     </div>
-                    @*first = false;*@
+                    first = false;
                 }
             </div>
-            
+            <a id="ImagesCarouselPrev" class="carousel-control-prev" href="#ImagesCarousel" role="button"
+               data-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="sr-only btn btn-secondary">Anterior</span>
+            </a>
+            <a id="ImagesCarouselNext" class="carousel-control-next" href="#ImagesCarousel" role="button"
+               data-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="sr-only btn-primary btn">Siguiente</span>
+            </a>
         </div>
+    </div>
+  
+
   
     <div class="col-md-6">
         <dl class="row">
@@ -95,7 +118,7 @@
             </div>
         </dl>
     </div>
-@*</div>*@
+</div>
 
 @section Scripts {
     @{
