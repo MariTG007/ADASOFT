@@ -7,6 +7,12 @@ namespace ADASOFT.Models
         public ICollection<Course> Courses { get; set; }
 
         public float Quantity { get; set; }
+
+       
+         
+
+       
+       
     }
 
 }

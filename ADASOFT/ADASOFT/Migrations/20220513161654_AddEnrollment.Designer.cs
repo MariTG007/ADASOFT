@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ADASOFT.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20220508142307_AddEnrollmentCourseEntity")]
-    partial class AddEnrollmentCourseEntity
+    [Migration("20220513161654_AddEnrollment")]
+    partial class AddEnrollment
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -146,10 +146,26 @@ namespace ADASOFT.Migrations
                     b.Property<string>("Date")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<string>("Description")
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
 
-                    b.Property<DateTime?>("Schedule")
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("Quota")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Resume")
+                        .HasMaxLength(1000)
+                        .HasColumnType("nvarchar(1000)");
+
+                    b.Property<DateTime>("Schedule")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("UserId")
@@ -158,12 +174,32 @@ namespace ADASOFT.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("Name")
-                        .IsUnique()
-                        .HasFilter("[Name] IS NOT NULL");
+                        .IsUnique();
 
                     b.HasIndex("UserId");
 
                     b.ToTable("Courses");
+                });
+
+            modelBuilder.Entity("ADASOFT.Data.Entities.CourseImage", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int?>("CourseId")
+                        .HasColumnType("int");
+
+                    b.Property<Guid>("ImageId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CourseId");
+
+                    b.ToTable("CourseImages");
                 });
 
             modelBuilder.Entity("ADASOFT.Data.Entities.Enrollment", b =>
@@ -584,6 +620,15 @@ namespace ADASOFT.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("ADASOFT.Data.Entities.CourseImage", b =>
+                {
+                    b.HasOne("ADASOFT.Data.Entities.Course", "Course")
+                        .WithMany("CourseImages")
+                        .HasForeignKey("CourseId");
+
+                    b.Navigation("Course");
+                });
+
             modelBuilder.Entity("ADASOFT.Data.Entities.Enrollment", b =>
                 {
                     b.HasOne("ADASOFT.Data.Entities.User", "User")
@@ -709,6 +754,11 @@ namespace ADASOFT.Migrations
             modelBuilder.Entity("ADASOFT.Data.Entities.City", b =>
                 {
                     b.Navigation("Campuses");
+                });
+
+            modelBuilder.Entity("ADASOFT.Data.Entities.Course", b =>
+                {
+                    b.Navigation("CourseImages");
                 });
 
             modelBuilder.Entity("ADASOFT.Data.Entities.Grade", b =>

@@ -17,9 +17,9 @@ namespace ADASOFT.Models
         [Display(Name = "Cantidad")]
         public float Quantity => EnrollmentCourses == null ? 0 : EnrollmentCourses.Sum(ts => ts.Quantity);
 
-        //[DisplayFormat(DataFormatString = "{0:C2}")]
-        //[Display(Name = "Valor")]
-        //public decimal Value => EnrollmentCourses == null ? 0 : EnrollmentCourses.Sum(ts => ts.Value);
+        [DisplayFormat(DataFormatString = "{0:C2}")]
+        [Display(Name = "Valor")]
+        public decimal Value => EnrollmentCourses == null ? 0 : EnrollmentCourses.Sum(ts => ts.Value);
     }
 
 }

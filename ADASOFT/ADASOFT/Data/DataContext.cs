@@ -24,7 +24,10 @@ namespace ADASOFT.Data
         public DbSet<Grade> Grades { get; set; }
         public DbSet<FinalGrade> FinalGrades { get; set; }
 
-        
+        public DbSet<CourseImage> CourseImages { get; set; }
+
+
+
 
 
 

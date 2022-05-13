@@ -9,6 +9,9 @@
 
 @*<div class="text-center" style="height: 600px" >*@
 
+
+
+
   
 <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
   <div class="carousel-indicators">
@@ -91,7 +94,7 @@
 
 @if(Model.Quantity > 0)
 {
-    <a asp-action="ShowCart" class="btn btn-outline-primary">Ver Cursos Comprados (@Model.Quantity)</a>
+    <a asp-action="ShowCart" class="btn btn-outline-primary">Ver Cursos Inscritos(@Model.Quantity)</a>
 }
 
 <div class="row row-cols-1 row-cols-md-4 g-4 mt-1">
@@ -101,19 +104,19 @@
         {
             <div class="col">
                 <div class="card h-100">
-                    @*<div class="text-center zoom">
+                    <div class="text-center zoom">
                         <img src="@item.ImageFullPath" style="height:150px; max-width:200px;" class="text-center" alt=@item.Name />
-                    </div>*@
+                    </div>
                     <div class="card-body">
                         <h5 class="card-title text-navy"> @item.Name</h5>
-                        @*<p class="card-text smfnt">@item.Description</p>
-                        <h5 class="text-muted">@Html.DisplayFor(modelItem => item.Price)</h5>*@
+                        <p class="card-text smfnt">@item.Description</p>
+                        <h5 class="text-muted">@Html.DisplayFor(modelItem => item.Price)</h5>
                         <p class="card-text smfnt">@item.Schedule</p>
                         <p class="card-text smfnt">@item.Date</p>
                     </div>
                     <div class="card-footer text-center">
-                        <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-secondary">Details</a>
-                        <a asp-action="Add" asp-route-id="@item.Id" class="btn btn-sm btn-primary">Add to Cart</a>
+                        <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-secondary">Detalles</a>                      
+                        <a asp-action="Add" asp-route-id="@item.Id" class="btn btn-sm btn-primary">Inscribirse</a>
                     </div>
                 </div>
             </div>
@@ -121,10 +124,14 @@
     }
     else
     {
-        <h3>No hay productos con su criterio de búsqueda</h3>
+        <h3>No hay curso con su criterio de búsqueda</h3>
     }
 </div>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+     
+
 }
+

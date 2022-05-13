@@ -35,7 +35,7 @@ namespace ADASOFT.Data.Entities
         [Display(Name = "Foto")]
         public Guid ImageId { get; set; }
 
-        //TODO: direccion correcta de nuestro personal imagen del blob
+        //TODO: Pending to change to the correct path
         [Display(Name = "Foto")]
        
         public string ImageFullPath => ImageId == Guid.Empty
@@ -55,7 +55,7 @@ namespace ADASOFT.Data.Entities
         public string FullNameWithDocument => $"{FirstName} {LastName} - {Document}";
 
         public ICollection<Attendant> Attendantes { get; set; }
-        
+
         public ICollection<Enrollment> Enrollmentes { get; set; }
 
 

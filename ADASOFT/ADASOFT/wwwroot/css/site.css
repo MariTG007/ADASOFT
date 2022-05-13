@@ -69,26 +69,27 @@ body {
 
 
 .carousel-inner img {
-    width: 100%;
-    min-width: 540px;
-    max-width: 1350px;
-    max-height : 540px;
-
+    position: relative;
+    
    
+    min-height: 500px;
+    
+     width: 100%;
+    min-width: 500px;
+    max-width: 1350px;
+    max-height: 540px;
 }
 
 .carousel-inner {
     position: relative;
+   
     min-width: 540px;
     max-width: 1350px;
     max-height: 540px;
-   
-
-
-    width: 125%;
-    right: 150px;
-    left: -10.5%;
-    top: -17px;
+    
+    width: 127.8%;
+    right: 118px;
+    top: -16.6px;
 }
 
 

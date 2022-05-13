@@ -1,4 +1,5 @@
-﻿@model ADASOFT.Data.Entities.Course
+﻿@model ADASOFT.Models.CreateCourseViewModel
+
 
 <div class="col-md-6">
 
@@ -13,11 +14,29 @@
             <span asp-validation-for="Name" class="text-danger"></span>
         </div>
 
+   
+
         <div class="form-group">
-            <label asp-for="User" class="control-label"></label>
-            <input asp-for="User" class="form-control" />
-            <span asp-validation-for="User" class="text-danger"></span>
+            <span class="required">*</span>
+            <label asp-for="Description" class="control-label"></label>
+            <input asp-for="Description" class="form-control" />
+            <span asp-validation-for="Description" class="text-danger"></span>
         </div>
+
+          <div class="form-group">
+            <label asp-for="UserId" class="control-label"></label>
+            <select asp-for="UserId" asp-items="Model.Users" class="form-control"></select>
+            <span asp-validation-for="UserId" class="text-danger"></span>
+        </div>
+        </div>
+        <div class="col-md-6">
+        <div class="form-group">
+            <span class="required">*</span>
+            <label asp-for="Price" class="control-label"></label>
+            <input asp-for="Price" class="form-control" />
+            <span asp-validation-for="Price" class="text-danger"></span>
+        </div>
+
 
         <div class="form-group">
             <label asp-for="Schedule" class="control-label"></label>
@@ -29,7 +48,24 @@
             <input asp-for="Date" class="form-control" />
             <span asp-validation-for="Date" class="text-danger"></span>
         </div> 
-        
 
-    </div>    
+       <div class="form-group">
+            <span class="required">*</span>
+            <label asp-for="Quota" class="control-label"></label>
+            <input asp-for="Quota" class="form-control" />
+            <span asp-validation-for="Quota" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <span class="required">*</span>
+            <label asp-for="Resume" class="control-label"></label>
+            <input asp-for="Resume" class="form-control" />
+            <span asp-validation-for="Resume" class="text-danger"></span>
+        </div>
+
+       
+
+
+        
+    </div>
+ 
     

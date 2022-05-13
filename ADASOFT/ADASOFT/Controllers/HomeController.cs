@@ -6,6 +6,9 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
+using System;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
+
 
 namespace ADASOFT.Controllers
 {
@@ -27,12 +30,15 @@ namespace ADASOFT.Controllers
         //    return View();
         //}
 
+
+
         public async Task<IActionResult> Index()
         {
             List<Course> courses = await _context.Courses
+                .Include(c=>c.CourseImages)
                 .OrderBy(c => c.Name)
                 .ToListAsync();
-
+            
             HomeViewModel model = new() { Courses = courses };
             User user = await _userHelper.GetUserAsync(User.Identity.Name);
             if (user != null)
@@ -49,8 +55,6 @@ namespace ADASOFT.Controllers
 
         public async Task<IActionResult> Details(int? id)
         {
-
-
             if (id == null)
             {
                 return NotFound();
@@ -58,35 +62,28 @@ namespace ADASOFT.Controllers
 
             Course course = await _context.Courses
                 .Include(c => c.User)
+                .Include(c => c.CourseImages)
                  .FirstOrDefaultAsync(c => c.Id == id);
             if (course == null)
             {
                 return NotFound();
             }
 
-            //string users = string.Empty;
-
-
-
-            //foreach (ProductCategory? category in course.ProductCategories)
-            //{
-            //    categories += $"{category.Category.Name}, ";
-            //}
-            //categories = categories.Substring(0, categories.Length - 2);
+            
 
             AddCourseToCartViewModel model = new()
             {
-                
-            //Description = course.Description,
-            Id = course.Id,
+                Description = course.Description,
+                Id = course.Id,
                 Name = course.Name,
                 Users = $"{course.User.FullName}",
-                Schedule = DateTime.Now,
+                Resume = course.Resume,
+                Schedule = (DateTime)course.Schedule,
                 Date = course.Date,
-                //Price = course.Price,
-                //ProductImages = course.ProductImages,
+                Price = course.Price,
+                Quota = course.Quota,
+                CourseImages = course.CourseImages,
                 Quantity = 1,
-                //Stock = course.Stock,
             };
 
             return View(model);
@@ -113,7 +110,7 @@ namespace ADASOFT.Controllers
                 return NotFound();
             }
 
-            EnrollmentCourse temporalSale = new()
+            EnrollmentCourse enrollmentCourse = new()
             {
                 Course = course,
                 Quantity = model.Quantity,
@@ -121,24 +118,30 @@ namespace ADASOFT.Controllers
                 User = user
             };
 
-            _context.EnrollmentCourses.Add(temporalSale);
+            _context.EnrollmentCourses.Add(enrollmentCourse);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
 
-
         public async Task<IActionResult> Add(int? id)
         {
+         
+
             if (id == null)
             {
                 return NotFound();
             }
+            
 
             if (!User.Identity.IsAuthenticated)
             {
+               
                 return RedirectToAction("Login", "Account");
+
             }
+            
+
 
             Course course = await _context.Courses.FindAsync(id);
             if (course == null)
@@ -157,10 +160,12 @@ namespace ADASOFT.Controllers
                 Course = course,
                 Quantity = 1,
                 User = user
+
             };
 
             _context.EnrollmentCourses.Add(enrollmentCourse);
             await _context.SaveChangesAsync();
+            ViewData["mymessage"] = "this is a message";
             return RedirectToAction(nameof(Index));
         }
 
@@ -176,7 +181,7 @@ namespace ADASOFT.Controllers
 
             List<EnrollmentCourse>? enrollmentcourses = await _context.EnrollmentCourses
                 .Include(ts => ts.Course)
-                //.ThenInclude(p => p.ProductImages)
+                .ThenInclude(p => p.CourseImages)
                 .Where(ts => ts.User.Id == user.Id)
                 .ToListAsync();
 

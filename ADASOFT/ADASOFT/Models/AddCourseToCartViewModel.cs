@@ -14,6 +14,12 @@ namespace ADASOFT.Models
 
         [Display(Name = "Profesor")]
         public string Users { get; set; }
+
+        [DataType(DataType.MultilineText)]
+        [Display(Name = "Descripción")]
+        [MaxLength(500, ErrorMessage = "El campo {0} debe tener máximo {1} caractéres.")]
+        public string Description { get; set; }
+
         [Display(Name = "Horario")]
       
         public DateTime Schedule { get; set; }
@@ -28,25 +34,39 @@ namespace ADASOFT.Models
         //[Required(ErrorMessage = "El campo {0} es obligatorio.")]
         //public string Name { get; set; }
 
-        //[DataType(DataType.MultilineText)]
-        //[Display(Name = "Descripción")]
-        //[MaxLength(500, ErrorMessage = "El campo {0} debe tener máximo {1} caractéres.")]
-        //public string Description { get; set; }
+        
 
-        //[DisplayFormat(DataFormatString = "{0:C2}")]
-        //[Display(Name = "Precio")]
-        //[Required(ErrorMessage = "El campo {0} es obligatorio.")]
-        //public decimal Price { get; set; }
+        [DisplayFormat(DataFormatString = "{0:C2}")]
+        [Display(Name = "Precio")]
+        [Required(ErrorMessage = "El campo {0} es obligatorio.")]
+        public decimal Price { get; set; }
 
-        //[DisplayFormat(DataFormatString = "{0:N2}")]
-        //[Display(Name = "Inventario")]
-        //[Required(ErrorMessage = "El campo {0} es obligatorio.")]
-        //public float Stock { get; set; }
+        [DisplayFormat(DataFormatString = "{0:N2}")]
+        [Display(Name = "Estudiantes")]
+        [Required(ErrorMessage = "El campo {0} es obligatorio.")]
+        public int Quota { get; set; }
 
         //[Display(Name = "Categorías")]
         //public string Categories { get; set; }
 
-        //public ICollection<ProductImage> ProductImages { get; set; }
+        [DataType(DataType.MultilineText)]
+        [Display(Name = "Descripción")]
+        [MaxLength(1000, ErrorMessage = "El campo {0} debe tener máximo {1} caractéres.")]
+        public string Resume { get; set; }
+
+
+        public ICollection<CourseImage> CourseImages { get; set; }
+
+        [Display(Name = "Foto")]
+        public Guid ImageCourseId { get; set; }
+
+        [Display(Name = "Foto")]
+        public string ImageFullPath => ImageCourseId == Guid.Empty
+            ? $"https://localhost:7187/images/noimage.png"
+            : $"https://adasoft.blob.core.windows.net/courses/{ImageCourseId}";
+
+        [Display(Name = "Image")]
+        public IFormFile? ImageFile { get; set; }
 
         [DisplayFormat(DataFormatString = "{0:N2}")]
         [Display(Name = "Cantidad")]

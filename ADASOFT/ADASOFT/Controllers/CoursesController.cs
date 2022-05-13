@@ -13,23 +13,27 @@ namespace ADASOFT.Controllers
     {
         private readonly DataContext _context;
         private readonly ICombosHelper _combosHelper;
-     
+        private readonly IBlobHelper _blobHelper;
 
-        public CoursesController(DataContext context, ICombosHelper combosHelper)
+        public CoursesController(DataContext context, ICombosHelper combosHelper, IBlobHelper blobHelper)
         {
             _context = context;
             _combosHelper = combosHelper;
-            
+            _blobHelper = blobHelper;
         }
 
-       
+
         public async Task<IActionResult> Index()
         {
 
-            return View(await _context.Courses.ToListAsync());
+            return View(await _context.Courses
+           .Include(p => p.User)
+           .Include(p => p.CourseImages)
+           .ToListAsync());
+
         }
 
-   
+
 
         public async Task<IActionResult> Create()
         {
@@ -45,54 +49,66 @@ namespace ADASOFT.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(CourseViewModel model)
         {
+
             if (ModelState.IsValid)
             {
+                Guid imageId = Guid.Empty;
+                if (model.ImageFile != null)
+                {
+                    imageId = await _blobHelper.UploadBlobAsync(model.ImageFile, "courses");
+                }
+
+
 
                 Course course = new()
-                {
-                    Id = model.Id,
-                    Name = model.Name,
-                    Schedule = DateTime.Now,
-                    Date = model.Date,
+                    {
+                        Id = model.Id,
+                        Name = model.Name,
+                        Description = model.Description,
+                        Price = model.Price,
+                        Quota = model.Quota,
+                        Schedule = (DateTime)model.Schedule,
+                        Date = model.Date,
+                        Resume = model.Resume,
+                    //ImageCourseId = model.ImageCourseId,
+                   
                     User = await _context.Users.FindAsync(model.UserId)
-                };
+                    };
 
-                //course.CourseUsers = new List<CourseUser>()
-                //{
-                //    new CourseUser()
-                //    {
-                //        User = await _context.Users.FindAsync(model.UserId)
-                //    }
-                //};
-
-
+                if (imageId != Guid.Empty)
+                {
+                    course.CourseImages = new List<CourseImage>()
+                    {
+                        new CourseImage { ImageId = imageId }
+                    };
+                }
 
                 try
                 {
-                    _context.Add(course);
-                    await _context.SaveChangesAsync();
-                    return RedirectToAction(nameof(Index));
-                }
-                catch (DbUpdateException dbUpdateException)
-                {
-                    if (dbUpdateException.InnerException.Message.Contains("duplicate"))
-                    {
-                        ModelState.AddModelError(string.Empty, "Ya existe un Curso con el mismo nombre.");
+                        _context.Add(course);
+                        await _context.SaveChangesAsync();
+                        return RedirectToAction(nameof(Index));
                     }
-                    else
+                    catch (DbUpdateException dbUpdateException)
                     {
-                        ModelState.AddModelError(string.Empty, dbUpdateException.InnerException.Message);
+                        if (dbUpdateException.InnerException.Message.Contains("duplicate"))
+                        {
+                            ModelState.AddModelError(string.Empty, "Ya existe un Curso con el mismo nombre.");
+                        }
+                        else
+                        {
+                            ModelState.AddModelError(string.Empty, dbUpdateException.InnerException.Message);
+                        }
+                    }
+                    catch (Exception exception)
+                    {
+                        ModelState.AddModelError(string.Empty, exception.Message);
                     }
                 }
-                catch (Exception exception)
-                {
-                    ModelState.AddModelError(string.Empty, exception.Message);
-                }
-            }
 
-            model.Users = await _combosHelper.GetComboTeachersAsync();
-            return View(model);
-        }
+                model.Users = await _combosHelper.GetComboTeachersAsync();
+                return View(model);
+            }
 
 
 
@@ -110,47 +126,90 @@ namespace ADASOFT.Controllers
                 return NotFound();
             }
 
-            return View(course);
+            CreateCourseViewModel model = new()
+            {
+                Users = await _combosHelper.GetComboTeachersAsync(),
+                Description = course.Description,
+                Id = course.Id,
+                Name = course.Name,
+                Resume = course.Resume,
+                Schedule = (DateTime)course.Schedule,
+                Date = course.Date,
+                Price = course.Price,
+                Quota = course.Quota,
+                //Users = await _combosHelper.GetComboTeachersAsync(),
+            };
+
+            return View(model);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, Course course)
+        public async Task<IActionResult> Edit(int id, CourseViewModel model)
         {
-            if (id != course.Id)
+            if (id != model.Id)
             {
                 return NotFound();
             }
 
-            if (ModelState.IsValid)
+            try
             {
-                try
+                Course course = await _context.Courses.FindAsync(model.Id);
+                course.Description = model.Description;
+                course.Name = model.Name;
+                course.Price = model.Price;
+                course.Resume = model.Resume;   
+                course.Schedule = (DateTime)model.Schedule;
+                course.Date = model.Date;
+                course.Quota = model.Quota;
+                course.User = await _context.Users.FindAsync(model.UserId);
+
+                _context.Update(course);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            catch (DbUpdateException dbUpdateException)
+            {
+                if (dbUpdateException.InnerException.Message.Contains("duplicate"))
                 {
-                    _context.Update(course);
-                    await _context.SaveChangesAsync();
-                    return RedirectToAction(nameof(Index));
+                    ModelState.AddModelError(string.Empty, "Ya existe un curso con el mismo nombre.");
                 }
-                catch (DbUpdateException dbUpdateException)
+                else
                 {
-                    if (dbUpdateException.InnerException.Message.Contains("duplicate"))
-                    {
-                        ModelState.AddModelError(string.Empty, "Ya existe un curso con el mismo nombre.");
-                    }
-                    else
-                    {
-                        ModelState.AddModelError(string.Empty, dbUpdateException.InnerException.Message);
-                    }
-                }
-                catch (Exception exception)
-                {
-                    ModelState.AddModelError(string.Empty, exception.Message);
+                    ModelState.AddModelError(string.Empty, dbUpdateException.InnerException.Message);
                 }
             }
-
-            return View(course);
+            catch (Exception exception)
+            {
+                ModelState.AddModelError(string.Empty, exception.Message);
+            }
+            model.Users = await _combosHelper.GetComboTeachersAsync();
+            return View(model);
         }
 
+
         public async Task<IActionResult> Details(int? id)
+            {
+                if (id == null)
+                {
+                    return NotFound();
+                }
+
+                Course course = await _context.Courses
+                    .Include(c => c.User)
+                    .Include(c=>c.CourseImages)
+                     .FirstOrDefaultAsync(c => c.Id == id);
+                if (course == null)
+                {
+                    return NotFound();
+                }
+
+                return View(course);
+            }
+
+
+
+        public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
             {
@@ -159,31 +218,8 @@ namespace ADASOFT.Controllers
 
             Course course = await _context.Courses
                 .Include(c => c.User)
-                 .FirstOrDefaultAsync(c => c.Id == id);
-            if (course == null)
-            {
-                return NotFound();
-            }
-
-            return View(course);
-        }
-
-       
-
-
-       
-
-
-
-   
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            Course course = await _context.Courses.FindAsync(id);
+                .Include(c => c.CourseImages)
+                .FirstOrDefaultAsync(c => c.Id == id);
             if (course == null)
             {
                 return NotFound();
@@ -196,13 +232,97 @@ namespace ADASOFT.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            Course course = await _context.Courses
-                .Include(c => c.User)
+           Course course = await _context.Courses
+                .Include(c => c.CourseImages)
                 .FirstOrDefaultAsync(c => c.Id == id);
+
+            foreach (CourseImage courseImage in course.CourseImages)
+            {
+                await _blobHelper.DeleteBlobAsync(courseImage.ImageId, "products");
+            }
+
             _context.Courses.Remove(course);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
+
+        public async Task<IActionResult> AddImage(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            Course course = await _context.Courses.FindAsync(id);
+            if (course == null)
+            {
+                return NotFound();
+            }
+
+            AddCourseImageViewModel model = new()
+            {
+                CourseId = course.Id,
+            };
+
+            return View(model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AddImage(AddCourseImageViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                Guid imageId = Guid.Empty;
+                if (model.ImageFile != null)
+                {
+                    imageId = await _blobHelper.UploadBlobAsync(model.ImageFile, "courses");
+                }
+
+                Course course = await _context.Courses.FindAsync(model.CourseId);
+                CourseImage courseImage = new()
+                {
+                    Course = course,
+                    ImageId = imageId,
+                };
+
+                try
+                {
+                    _context.Add(courseImage);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Details), new { Id = course.Id });
+                }
+                catch (Exception exception)
+                {
+                    ModelState.AddModelError(string.Empty, exception.Message);
+                }
+            }
+
+            return View(model);
+        }
+
+        public async Task<IActionResult> DeleteImage(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            CourseImage courseImage = await _context.CourseImages
+                .Include(ci => ci.Course)
+                .FirstOrDefaultAsync(ci => ci.Id == id);
+            if (courseImage == null)
+            {
+                return NotFound();
+            }
+
+            await _blobHelper.DeleteBlobAsync(courseImage.ImageId, "courses");
+            _context.CourseImages.Remove(courseImage);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Details), new { Id = courseImage.Course.Id });
+        }
+
+        
 
     }
 }

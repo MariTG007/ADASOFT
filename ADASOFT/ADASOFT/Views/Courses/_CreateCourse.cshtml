@@ -1,5 +1,6 @@
 ﻿@model ADASOFT.Models.CourseViewModel
 
+
 <div class="row">
     <div class="col-md-6">
         <div class="form-group">
@@ -9,13 +10,26 @@
         </div>
 
         <div class="form-group">
+            <label asp-for="Description" class="control-label"></label>
+            <input asp-for="Description" class="form-control" />
+            <span asp-validation-for="Description" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
             <label asp-for="UserId" class="control-label"></label>
             <select asp-for="UserId" asp-items="Model.Users" class="form-control"></select>
             <span asp-validation-for="UserId" class="text-danger"></span>
         </div>
     </div>
-    <div class="col-md-6">
+      <div class="col-md-6">
         <div class="form-group">
+            <label asp-for="Price" class="control-label"></label>
+            <input asp-for="Price" class="form-control" />
+            <span asp-validation-for="Price" class="text-danger"></span>
+        </div>
+
+
+       <div class="form-group">
             <label asp-for="Schedule" class="control-label"></label>
             <input asp-for="Schedule" class="form-control" />
             <span asp-validation-for="Schedule" class="text-danger"></span>
@@ -26,8 +40,28 @@
             <input asp-for="Date" class="form-control" />
             <span asp-validation-for="Date" class="text-danger"></span>
         </div>
+        <div class="form-group">
+           
+            <label asp-for="Quota" class="control-label"></label>
+            <input asp-for="Quota" class="form-control" />
+            <span asp-validation-for="Quota" class="text-danger"></span>
+        </div>
 
-       
+        <div class="form-group">
+            <label asp-for="Resume" class="control-label"></label>
+            <input asp-for="Resume" class="form-control" />
+            <span asp-validation-for="Resume" class="text-danger"></span>
+        </div>
+
+
+        <div class="form-group">
+            <label asp-for="ImageFile" class="control-label"></label>
+            <input asp-for="ImageFile" class="form-control" type="file" />
+            <span asp-validation-for="ImageFile" class="text-danger"></span>
+        </div>
     </div>
 </div>
-    
+
+
+
+

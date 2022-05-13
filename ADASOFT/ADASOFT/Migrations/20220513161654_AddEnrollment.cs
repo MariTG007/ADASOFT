@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace ADASOFT.Migrations
 {
-    public partial class AddEnrollmentCourseEntity : Migration
+    public partial class AddEnrollment : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -248,10 +248,14 @@ namespace ADASOFT.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
+                    Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Schedule = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Date = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Quota = table.Column<int>(type: "int", nullable: false),
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    Schedule = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    Date = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Resume = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -279,6 +283,25 @@ namespace ADASOFT.Migrations
                         name: "FK_Enrollmentes_AspNetUsers_UserId",
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "CourseImages",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    CourseId = table.Column<int>(type: "int", nullable: true),
+                    ImageId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CourseImages", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_CourseImages_Courses_CourseId",
+                        column: x => x.CourseId,
+                        principalTable: "Courses",
                         principalColumn: "Id");
                 });
 
@@ -450,11 +473,15 @@ namespace ADASOFT.Migrations
                 column: "StateId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_CourseImages_CourseId",
+                table: "CourseImages",
+                column: "CourseId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Courses_Name",
                 table: "Courses",
                 column: "Name",
-                unique: true,
-                filter: "[Name] IS NOT NULL");
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Courses_UserId",
@@ -557,6 +584,9 @@ namespace ADASOFT.Migrations
 
             migrationBuilder.DropTable(
                 name: "Attendantes");
+
+            migrationBuilder.DropTable(
+                name: "CourseImages");
 
             migrationBuilder.DropTable(
                 name: "EnrollmentCourses");

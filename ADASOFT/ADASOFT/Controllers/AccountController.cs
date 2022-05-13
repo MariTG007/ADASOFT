@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SignInResult = Microsoft.AspNetCore.Identity.SignInResult;
 
+
 namespace ADASOFT.Controllers
 {
     public class AccountController : Controller
@@ -154,7 +155,10 @@ namespace ADASOFT.Controllers
                 return RedirectToAction("Index", "Home");
             }
 
+           
+            ViewBag.Message = "Hola! Debes ingresar a tu cuenta o crear una nueva";
             return View(new LoginViewModel());
+            
         }
 
         [HttpPost]

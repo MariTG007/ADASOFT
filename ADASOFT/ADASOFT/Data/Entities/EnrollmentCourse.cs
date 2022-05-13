@@ -19,9 +19,9 @@ namespace ADASOFT.Data.Entities
         [Display(Name = "Comentarios")]
         public string? Remarks { get; set; }
 
-        //[DisplayFormat(DataFormatString = "{0:C2}")]
-        //[Display(Name = "Valor")]
-        //public decimal Value => Course == null ? 0 : (decimal)Quantity * Course.Price;
+        [DisplayFormat(DataFormatString = "{0:C2}")]
+        [Display(Name = "Valor")]
+        public decimal Value => Course == null ? 0 : (decimal)Quantity * Course.Price;
 
 
     }
