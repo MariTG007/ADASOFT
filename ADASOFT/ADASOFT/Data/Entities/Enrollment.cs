@@ -18,6 +18,7 @@ namespace ADASOFT.Data.Entities
         [Display(Name = "Comentarios")]
         public string? Remarks { get; set; }
 
+        [Display(Name = "Estado Matrícula")]
         public EnrollmentStatus EnrollmentStatus { get; set; }
 
         public ICollection<Payment> Payments { get; set; }
