@@ -26,13 +26,10 @@ namespace ADASOFT.Controllers
             }
 
             User user1 = await _context.Users
-             .Include(u => u.Attendantes)
-             .Include(u => u.StudentCourses)
-            .Include(u => u.Campus)
-            .ThenInclude(c => c.City)
-            .ThenInclude(c => c.State)
+            .Include(u => u.StudentCourses)
+            .ThenInclude(s => s.Course)
             .FirstOrDefaultAsync(u => u.Id == user.Id);
-            if (user == null)
+            if (user1 == null)
             {
                 return NotFound();
             }
