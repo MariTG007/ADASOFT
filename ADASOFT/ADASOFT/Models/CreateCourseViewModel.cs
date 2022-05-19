@@ -38,7 +38,7 @@ namespace ADASOFT.Models
 
 
         [DisplayFormat(DataFormatString = "{0:N2}")]
-        [Display(Name = "Estudiantes")]
+        [Display(Name = "Cupos")]
         [Required(ErrorMessage = "El campo {0} es obligatorio.")]
         public float Quota { get; set; }
 
