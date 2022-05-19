@@ -1,4 +1,5 @@
-﻿using ADASOFT.Data;
+﻿using ADASOFT.Common;
+using ADASOFT.Data;
 using ADASOFT.Data.Entities;
 using ADASOFT.Enums;
 using ADASOFT.Helpers;
@@ -59,7 +60,12 @@ namespace ADASOFT.Controllers
                 return NotFound();
             }
 
-            Enrollment enrollment = await _context.Enrollments.FindAsync(id);
+            Enrollment enrollment = await _context.Enrollments
+                .Include(e => e.User)
+                .Include(e => e.Payments)
+                .ThenInclude(p => p.Course)
+                .ThenInclude(c => c.CourseImages)
+                .FirstOrDefaultAsync(e => e.Id == id);
             if (enrollment == null)
             {
                 return NotFound();
@@ -72,6 +78,7 @@ namespace ADASOFT.Controllers
             {
                 enrollment.EnrollmentStatus = EnrollmentStatus.Confirmado;
                 _context.Enrollments.Update(enrollment);
+                Response response = await _enrollmentHelper.ConfirmEnrollment (enrollment);
                 await _context.SaveChangesAsync();
                 _flashMessage.Confirmation("El estado de la matrícula ha sido cambiado a 'confirmado'.");
             }

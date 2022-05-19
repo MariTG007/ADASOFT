@@ -57,6 +57,7 @@ namespace ADASOFT.Helpers
             return response;
         }
 
+      
         private async Task<Response> CheckInventoryAsync(ShowCartViewModel model)
         {
             Response response = new() { IsSuccess = true };
@@ -99,7 +100,26 @@ namespace ADASOFT.Helpers
             return new Response { IsSuccess = true };
         }
 
+        public async Task<Response> ConfirmEnrollment(Enrollment enrollment)
+        {
+            
+
+            foreach (Payment? item in enrollment.Payments)
+            {
+                _context.StudentCourses.Add(new StudentCourse
+                {
+                    Course = item.Course,
+                    User = item.Enrollment.User
+
+                });
+
+                await _context.SaveChangesAsync();
 
 
+            }
+
+            return new Response { IsSuccess = true };
+
+        }
     }
 }
