@@ -58,6 +58,9 @@ namespace ADASOFT.Data.Entities
 
         public ICollection<Enrollment> Enrollments { get; set; }
 
+        public ICollection<StudentCourse> StudentCourses { get; set; }
+
+
 
         [Display(Name = "Acudientes")]
         public int AttendantesNumber => Attendantes == null ? 0 : Attendantes.Count;
@@ -65,8 +68,11 @@ namespace ADASOFT.Data.Entities
         [Display(Name = "Cursos")]
         public int EnrollmentNumber => Enrollments == null ? 0 : Enrollments.Count;
 
+        [Display(Name = "Estudiantes")]
+        public int StudentCoursesNumber => StudentCourses == null ? 0 : StudentCourses.Count;
 
-        
+
+
 
 
     }
