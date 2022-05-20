@@ -37,6 +37,55 @@ namespace ADASOFT.Controllers
 
             return View(user1);
         }
+        public async Task<IActionResult> IndexCourse()
+        {
+            return View(await _context.Courses
+                .Include(c => c.StudentCourses)
+                .ToListAsync());
+        }
+
+        public async Task<IActionResult> DetailsCourse(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            Course course = await _context.Courses
+                .Include(c => c.StudentCourses)
+                .ThenInclude(s => s.User)
+                .Include(c => c.StudentCourses)
+                .ThenInclude(s => s.Grades)
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (course == null)
+            {
+                return NotFound();
+            }
+
+            return View(course);
+        }
+
+        public async Task<IActionResult> DetailsGrade(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            StudentCourse studentCourse = await _context.StudentCourses
+                .Include(s => s.Course)
+                .Include(s => s.Grades)
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (studentCourse == null)
+            {
+                return NotFound();
+            }
+
+            return View(studentCourse);
+        }
+
+
+
         public async Task<IActionResult> Details(int id)
         {
             //if (id == null)

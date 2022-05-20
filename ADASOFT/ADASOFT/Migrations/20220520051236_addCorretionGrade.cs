@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace ADASOFT.Migrations
 {
-    public partial class AddStudentCourseEntity : Migration
+    public partial class addCorretionGrade : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

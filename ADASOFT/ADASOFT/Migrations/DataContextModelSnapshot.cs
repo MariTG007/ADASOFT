@@ -728,7 +728,7 @@ namespace ADASOFT.Migrations
             modelBuilder.Entity("ADASOFT.Data.Entities.StudentCourse", b =>
                 {
                     b.HasOne("ADASOFT.Data.Entities.Course", "Course")
-                        .WithMany()
+                        .WithMany("StudentCourses")
                         .HasForeignKey("CourseId");
 
                     b.HasOne("ADASOFT.Data.Entities.User", "User")
@@ -815,6 +815,8 @@ namespace ADASOFT.Migrations
                     b.Navigation("CourseImages");
 
                     b.Navigation("Payments");
+
+                    b.Navigation("StudentCourses");
                 });
 
             modelBuilder.Entity("ADASOFT.Data.Entities.Enrollment", b =>

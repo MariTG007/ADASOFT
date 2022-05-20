@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ADASOFT.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20220520015955_AddStudentCourseEntity")]
-    partial class AddStudentCourseEntity
+    [Migration("20220520051236_addCorretionGrade")]
+    partial class addCorretionGrade
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -730,7 +730,7 @@ namespace ADASOFT.Migrations
             modelBuilder.Entity("ADASOFT.Data.Entities.StudentCourse", b =>
                 {
                     b.HasOne("ADASOFT.Data.Entities.Course", "Course")
-                        .WithMany()
+                        .WithMany("StudentCourses")
                         .HasForeignKey("CourseId");
 
                     b.HasOne("ADASOFT.Data.Entities.User", "User")
@@ -817,6 +817,8 @@ namespace ADASOFT.Migrations
                     b.Navigation("CourseImages");
 
                     b.Navigation("Payments");
+
+                    b.Navigation("StudentCourses");
                 });
 
             modelBuilder.Entity("ADASOFT.Data.Entities.Enrollment", b =>
