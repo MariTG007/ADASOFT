@@ -71,9 +71,10 @@ namespace ADASOFT.Helpers
         //TODO: Get only Admin
         public async Task<IEnumerable<SelectListItem>> GetComboTeachersAsync()
         {
-            List<SelectListItem> list = await _context.Users.Select(u => new SelectListItem
+            List<SelectListItem> list = await _context.Users
+                .Where(u => u.UserType == UserType.Admin)
+                .Select(u => new SelectListItem
             {
-                //Selected = u.UserType.Equals("Admin"),
                 Text = u.FirstName,
                 Value = u.Id.ToString()
             })
