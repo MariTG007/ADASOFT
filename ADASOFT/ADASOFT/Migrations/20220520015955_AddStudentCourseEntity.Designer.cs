@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ADASOFT.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20220513201821_AddEnrollmentAndPaymentEntities")]
-    partial class AddEnrollmentAndPaymentEntities
+    [Migration("20220520015955_AddStudentCourseEntity")]
+    partial class AddStudentCourseEntity
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -298,6 +298,12 @@ namespace ADASOFT.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<float>("Grades")
+                        .HasColumnType("real");
+
+                    b.Property<float>("Percentage")
+                        .HasColumnType("real");
 
                     b.Property<int?>("StudentCourseId")
                         .HasColumnType("int");
@@ -691,7 +697,7 @@ namespace ADASOFT.Migrations
             modelBuilder.Entity("ADASOFT.Data.Entities.FinalGrade", b =>
                 {
                     b.HasOne("ADASOFT.Data.Entities.Grade", "Grade")
-                        .WithMany("Grades")
+                        .WithMany()
                         .HasForeignKey("GradeId");
 
                     b.Navigation("Grade");
@@ -728,7 +734,7 @@ namespace ADASOFT.Migrations
                         .HasForeignKey("CourseId");
 
                     b.HasOne("ADASOFT.Data.Entities.User", "User")
-                        .WithMany()
+                        .WithMany("StudentCourses")
                         .HasForeignKey("UserId");
 
                     b.Navigation("Course");
@@ -818,11 +824,6 @@ namespace ADASOFT.Migrations
                     b.Navigation("Payments");
                 });
 
-            modelBuilder.Entity("ADASOFT.Data.Entities.Grade", b =>
-                {
-                    b.Navigation("Grades");
-                });
-
             modelBuilder.Entity("ADASOFT.Data.Entities.State", b =>
                 {
                     b.Navigation("Cities");
@@ -838,6 +839,8 @@ namespace ADASOFT.Migrations
                     b.Navigation("Attendantes");
 
                     b.Navigation("Enrollments");
+
+                    b.Navigation("StudentCourses");
                 });
 #pragma warning restore 612, 618
         }
