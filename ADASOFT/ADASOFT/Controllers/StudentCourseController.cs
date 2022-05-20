@@ -85,6 +85,79 @@ namespace ADASOFT.Controllers
         }
 
 
+        public async Task<IActionResult> EditGrade(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            Grade grade = await _context.Grades
+                .Include(c => c.StudentCourse)
+                .FirstOrDefaultAsync(c => c.Id == id);
+            if (grade == null)
+            {
+                return NotFound();
+            }
+            GradeViewModel model = new()
+            {
+                StudentCourseId = grade.StudentCourse.Id,
+                Id = grade.Id,
+                Percentage = grade.Percentage,
+                Grades = grade.Grades,
+            };
+
+            return View(model);
+        }
+
+
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EditGrade(int id, GradeViewModel model)
+        {
+            if (id != model.Id)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    Grade grade = new()
+                    {
+                        Id = model.Id,
+                        Percentage = model.Percentage,
+                        Grades = model.Grades,
+
+                    };
+                    _context.Update(grade);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(DetailsCourse), new { Id = model.StudentCourseId });
+                }
+                catch (DbUpdateException dbUpdateException)
+                {
+                    if (dbUpdateException.InnerException.Message.Contains("duplicate"))
+                    {
+                        ModelState.AddModelError(string.Empty, "Ya existe una sede " +
+                                                                "con el mismo nombre en esta ciudad.");
+                    }
+                    else
+                    {
+                        ModelState.AddModelError(string.Empty, dbUpdateException.InnerException.Message);
+                    }
+                }
+                catch (Exception exception)
+                {
+                    ModelState.AddModelError(string.Empty, exception.Message);
+                }
+
+            }
+            return View(model);
+        }
+
 
         public async Task<IActionResult> Details(int id)
         {

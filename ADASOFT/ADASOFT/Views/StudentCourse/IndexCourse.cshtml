@@ -33,10 +33,9 @@
                                     @Html.DisplayFor(modelItem => item.Name)
                                 </td>
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.StudentCourses)
+                                    @Html.DisplayFor(modelItem => item.StudentCoursesNumber)
                                 </td>
                                 <td>
-                                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-outline-warning">Editar</a>
                                     <a asp-action="DetailsCourse" asp-route-id="@item.Id" class="btn btn-outline-info">Detalles</a>
                                     <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-outline-danger">Borrar</a>
                                 </td>
