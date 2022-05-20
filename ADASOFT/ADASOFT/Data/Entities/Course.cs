@@ -61,6 +61,13 @@ namespace ADASOFT.Data.Entities
 
         public ICollection<Payment> Payments { get; set; }
 
+        public ICollection<StudentCourse> StudentCourses { get; set; }
+
+        [Display(Name = "Ciudades")]
+        public int StudentCoursesNumber => StudentCourses == null ? 0 : StudentCourses.Count;
+
+
+
 
     }
 }
