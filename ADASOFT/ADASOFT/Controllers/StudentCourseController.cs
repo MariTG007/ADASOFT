@@ -135,7 +135,7 @@ namespace ADASOFT.Controllers
                     };
                     _context.Update(grade);
                     await _context.SaveChangesAsync();
-                    return RedirectToAction(nameof(DetailsCourse), new { Id = model.StudentCourseId });
+                    return RedirectToAction(nameof(DetailsGrade), new { Id = model.StudentCourseId });
                 }
                 catch (DbUpdateException dbUpdateException)
                 {
@@ -224,7 +224,7 @@ namespace ADASOFT.Controllers
                 };
                 _context.Add(grade);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(DetailsGrade), new { Id = model.StudentCourseId });
             }
             //TODO: remmember that duplicate is with first name and lastname
 
@@ -243,10 +243,42 @@ namespace ADASOFT.Controllers
             {
                 ModelState.AddModelError(string.Empty, exception.Message);
             }
-
+            
             return View(model);
 
         }
+
+         public async Task<IActionResult> DeleteGrade(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            Grade grade = await _context.Grades
+                .Include(c => c.StudentCourse)
+                .FirstOrDefaultAsync(c => c.Id == id); //FirstOrDefault instead of FindAsync, allows to use Include
+            if (grade == null)
+            {
+                return NotFound();
+            }
+
+            return View(grade);
+        }
+
+
+        [HttpPost, ActionName("DeleteGrade")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteGradeConfirmed(int id)
+        {
+            Grade grade = await _context.Grades
+                .Include(c => c.StudentCourse)
+                .FirstOrDefaultAsync(c => c.Id == id);
+            _context.Grades.Remove(grade);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(DetailsGrade), new { Id = grade.StudentCourse.Id });
+        }
+
 
         public async Task<IActionResult> Delete(int? id)
         {

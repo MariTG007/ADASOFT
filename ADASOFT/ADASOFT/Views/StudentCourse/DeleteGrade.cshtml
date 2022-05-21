@@ -1,0 +1,17 @@
+﻿@model ADASOFT.Data.Entities.Grade
+
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<h1>Borrar</h1>
+
+<h3>¿Está seguro de querer borrar la nota?</h3>
+<div>
+    
+    <form asp-action="DeleteGrade">
+        <input type="hidden" asp-for="Id" />
+        <input type="submit" value="Borrar" class="btn btn-outline-danger" /> 
+        <a asp-action="DetailsGrade" asp-route-id="@Model?.StudentCourse.Id" class="btn btn-outline-success">Regresar</a>
+    </form>
+</div>

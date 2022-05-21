@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace ADASOFT.Migrations
 {
-    public partial class addCorretionGrade : Migration
+    public partial class addCorretionNote : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -390,8 +390,8 @@ namespace ADASOFT.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     StudentCourseId = table.Column<int>(type: "int", nullable: true),
-                    Percentage = table.Column<float>(type: "real", nullable: false),
-                    Grades = table.Column<float>(type: "real", nullable: false)
+                    Percentage = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Grades = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
                 },
                 constraints: table =>
                 {

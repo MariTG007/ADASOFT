@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ADASOFT.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20220520051236_addCorretionGrade")]
-    partial class addCorretionGrade
+    [Migration("20220521032503_addCorretionNote")]
+    partial class addCorretionNote
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -299,11 +299,11 @@ namespace ADASOFT.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<float>("Grades")
-                        .HasColumnType("real");
+                    b.Property<decimal>("Grades")
+                        .HasColumnType("decimal(18,2)");
 
-                    b.Property<float>("Percentage")
-                        .HasColumnType("real");
+                    b.Property<decimal>("Percentage")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<int?>("StudentCourseId")
                         .HasColumnType("int");

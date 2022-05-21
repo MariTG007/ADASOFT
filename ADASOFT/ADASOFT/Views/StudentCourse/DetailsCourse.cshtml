@@ -13,7 +13,7 @@
 </div>
 
 <div> 
-    <a asp-action="Index" class="btn btn-outline-success">Regresar</a>
+    <a asp-action="IndexCourse" class="btn btn-outline-success">Regresar</a>
 </div>
 <hr />
 
@@ -48,9 +48,7 @@
                                     @Html.DisplayFor(modelItem => item.GradesNumber)
                                 </td>
                                 <td>
-                                    <a asp-action="EditCity" asp-route-id="@item.Id" class="btn btn-outline-warning">Editar</a>
                                     <a asp-action="DetailsGrade" asp-route-id="@item.Id" class="btn btn-outline-info">Detalles</a>
-                                    <a asp-action="DeleteCity" asp-route-id="@item.Id" class="btn btn-outline-danger">Borrar</a>
                                 </td>
                             </tr>
                         }

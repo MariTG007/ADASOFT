@@ -297,11 +297,11 @@ namespace ADASOFT.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<float>("Grades")
-                        .HasColumnType("real");
+                    b.Property<decimal>("Grades")
+                        .HasColumnType("decimal(18,2)");
 
-                    b.Property<float>("Percentage")
-                        .HasColumnType("real");
+                    b.Property<decimal>("Percentage")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<int?>("StudentCourseId")
                         .HasColumnType("int");
