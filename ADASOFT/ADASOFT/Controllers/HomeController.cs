@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
-
+using Vereyon.Web;
 
 namespace ADASOFT.Controllers
 {
@@ -17,21 +17,17 @@ namespace ADASOFT.Controllers
         private readonly DataContext _context;
         private readonly IUserHelper _userHelper;
         private readonly IEnrollmentHelper _enrollmentHelper;
+        private readonly IFlashMessage _flashMessage;
 
-        public HomeController(ILogger<HomeController> logger, DataContext context, IUserHelper userHelper, IEnrollmentHelper enrollmentHelper)
+        public HomeController(ILogger<HomeController> logger, DataContext context,
+            IUserHelper userHelper, IEnrollmentHelper enrollmentHelper, IFlashMessage flashMessage)
         {
             _logger = logger;
             _context = context;
             _userHelper = userHelper;
             _enrollmentHelper = enrollmentHelper;
+            _flashMessage = flashMessage;
         }
-
-        //public IActionResult Index()
-        //{
-        //    return View();
-        //}
-
-
 
         public async Task<IActionResult> Index()
         {
@@ -53,8 +49,6 @@ namespace ADASOFT.Controllers
             return View(model);
         }
 
-
-
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -70,8 +64,6 @@ namespace ADASOFT.Controllers
             {
                 return NotFound();
             }
-
-
 
             AddCourseToCartViewModel model = new()
             {
@@ -125,25 +117,17 @@ namespace ADASOFT.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-
         public async Task<IActionResult> Add(int? id)
         {
-
-
             if (id == null)
             {
                 return NotFound();
             }
 
-
             if (!User.Identity.IsAuthenticated)
             {
-
                 return RedirectToAction("Login", "Account");
-
             }
-
-
 
             Course course = await _context.Courses.FindAsync(id);
             if (course == null)
@@ -162,7 +146,6 @@ namespace ADASOFT.Controllers
                 Course = course,
                 Quantity = 1,
                 User = user
-
             };
 
             _context.EnrollmentCourses.Add(enrollmentCourse);
@@ -170,7 +153,6 @@ namespace ADASOFT.Controllers
             ViewData["mymessage"] = "this is a message";
             return RedirectToAction(nameof(Index));
         }
-
 
         [Authorize]
         public async Task<IActionResult> ShowCart()
@@ -222,7 +204,6 @@ namespace ADASOFT.Controllers
             return View(model);
         }
 
-
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -240,7 +221,6 @@ namespace ADASOFT.Controllers
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(ShowCart));
         }
-
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -288,10 +268,8 @@ namespace ADASOFT.Controllers
                     ModelState.AddModelError(string.Empty, exception.Message);
                     return View(model);
                 }
-
                 return RedirectToAction(nameof(ShowCart));
             }
-
             return View(model);
         }
 
@@ -300,8 +278,6 @@ namespace ADASOFT.Controllers
         {
             return View();
         }
-
-
 
         public IActionResult Privacy()
         {
@@ -319,6 +295,5 @@ namespace ADASOFT.Controllers
         {
             return View();
         }
-
     }
 }

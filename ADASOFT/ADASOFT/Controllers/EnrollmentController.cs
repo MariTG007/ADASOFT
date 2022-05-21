@@ -52,7 +52,6 @@ namespace ADASOFT.Controllers
 
             return View(enrollment);
         }
-
         public async Task<IActionResult> Confirm(int? id)
         {
             if (id == null)
@@ -85,7 +84,6 @@ namespace ADASOFT.Controllers
 
             return RedirectToAction(nameof(Details), new { Id = enrollment.Id });
         }
-
         public async Task<IActionResult> Cancel(int? id)
         {
             if (id == null)
@@ -111,7 +109,5 @@ namespace ADASOFT.Controllers
 
             return RedirectToAction(nameof(Details), new { Id = enrollment.Id });
         }
-
-
     }
 }

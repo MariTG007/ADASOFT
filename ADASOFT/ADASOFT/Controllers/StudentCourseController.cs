@@ -4,6 +4,7 @@ using ADASOFT.Helpers;
 using ADASOFT.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Vereyon.Web;
 
 namespace ADASOFT.Controllers
 {
@@ -11,11 +12,12 @@ namespace ADASOFT.Controllers
     {
         private readonly DataContext _context;
         private readonly IUserHelper _userHelper;
-
-        public StudentCourseController(DataContext context, IUserHelper userHelper)
+        private readonly IFlashMessage _flashMessage;
+        public StudentCourseController(DataContext context, IUserHelper userHelper, IFlashMessage flashMessage)
         {
             _context= context;
             _userHelper= userHelper;
+            _flashMessage =  flashMessage;
         }
         public async Task<IActionResult> Index()
         {
@@ -64,7 +66,6 @@ namespace ADASOFT.Controllers
 
             return View(course);
         }
-
         public async Task<IActionResult> DetailsGrade(int? id)
         {
             if (id == null)
@@ -83,7 +84,6 @@ namespace ADASOFT.Controllers
 
             return View(studentCourse);
         }
-
 
         public async Task<IActionResult> EditGrade(int? id)
         {
@@ -109,9 +109,6 @@ namespace ADASOFT.Controllers
 
             return View(model);
         }
-
-
-
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -141,8 +138,8 @@ namespace ADASOFT.Controllers
                 {
                     if (dbUpdateException.InnerException.Message.Contains("duplicate"))
                     {
-                        ModelState.AddModelError(string.Empty, "Ya existe una sede " +
-                                                                "con el mismo nombre en esta ciudad.");
+                        _flashMessage.Danger("Ya existe una sede " +
+                                                     "con el mismo nombre en esta ciudad.");
                     }
                     else
                     {
@@ -153,34 +150,24 @@ namespace ADASOFT.Controllers
                 {
                     ModelState.AddModelError(string.Empty, exception.Message);
                 }
-
             }
             return View(model);
         }
 
-
         public async Task<IActionResult> Details(int id)
         {
-            //if (id == null)
-            //{
-            //    return NotFound();
-            //}
-
-
+        
             StudentCourse studentCourse = await _context.StudentCourses
              .Include(s => s.Course)
              .Include(s=>s.Grades)
             .FirstOrDefaultAsync(u => u.Id == id);
 
-
             if (studentCourse == null)
             {
                 return NotFound();
             }
-
             return View(studentCourse);
         }
-
 
         public async Task<IActionResult> AddGrade(int? id)
         {
@@ -203,7 +190,6 @@ namespace ADASOFT.Controllers
 
             return View(model);
         }
-
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -274,8 +260,6 @@ namespace ADASOFT.Controllers
 
             return View(model);
 
-
-
         }
 
         public async Task<IActionResult> DeleteGrade(int? id)
@@ -294,8 +278,7 @@ namespace ADASOFT.Controllers
             }
 
             return View(grade);
-        }
-
+         }
 
         [HttpPost, ActionName("DeleteGrade")]
         [ValidateAntiForgeryToken]
@@ -308,7 +291,6 @@ namespace ADASOFT.Controllers
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(DetailsGrade), new { Id = grade.StudentCourse.Id });
         }
-
 
         public async Task<IActionResult> Delete(int? id)
         {
@@ -340,13 +322,9 @@ namespace ADASOFT.Controllers
                 .Include(c => c.Course)
                 .FirstOrDefaultAsync(c => c.Id == id);
            
-
             _context.StudentCourses.Remove(studentCourse);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
-
-
-
     }
 }
