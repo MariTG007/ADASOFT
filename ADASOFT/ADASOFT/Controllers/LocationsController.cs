@@ -5,20 +5,21 @@ using Microsoft.EntityFrameworkCore;
 using ADASOFT.Data;
 using ADASOFT.Data.Entities;
 using ADASOFT.Models;
+using Vereyon.Web;
 
 namespace ADASOFT.Controllers
 {
     [Authorize(Roles = "Admin")]
     public class LocationsController : Controller
     {
-        
         private readonly DataContext _context;
+        private readonly IFlashMessage _flashMessage;
 
-        public LocationsController(DataContext context)
+        public LocationsController(DataContext context, IFlashMessage flashMessage)
         {
             _context = context;
+            _flashMessage = flashMessage;
         }
-
 
         public async Task<IActionResult> Index()
         {
@@ -26,7 +27,6 @@ namespace ADASOFT.Controllers
                 .Include(s => s.Cities)
                 .ToListAsync());
         }
-
        
         public async Task<IActionResult> Details(int? id)
         {
@@ -84,16 +84,12 @@ namespace ADASOFT.Controllers
             return View(campus);
         }
 
-
-
-
         [HttpGet]
         public IActionResult Create()
         {
             State state = new() { Cities = new List<City>() };
             return View(state);
         }
-
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -111,7 +107,7 @@ namespace ADASOFT.Controllers
                 {
                     if (dbUpdateException.InnerException.Message.Contains("duplicate"))
                     {
-                        ModelState.AddModelError(string.Empty, "Ya existe un departamento con el mismo nombre.");
+                        _flashMessage.Danger("Ya existe un departamento con el mismo nombre.");
                     }
                     else
                     {
@@ -124,7 +120,6 @@ namespace ADASOFT.Controllers
                 }
             }
             return View(state);
-
         }
 
         public async Task<IActionResult> AddCity(int? id)
@@ -160,7 +155,6 @@ namespace ADASOFT.Controllers
                 {
                     City city = new()
                     {
-
                         Campuses = new List<Campus>(),
                         State = await _context.States.FindAsync(model.StateId),
                         Name = model.Name,
@@ -174,7 +168,7 @@ namespace ADASOFT.Controllers
                 {
                     if (dbUpdateException.InnerException.Message.Contains("duplicate"))
                     {
-                        ModelState.AddModelError(string.Empty, "Ya existe una ciudad con el mismo nombre en este departamento.");
+                        _flashMessage.Danger("Ya existe una ciudad con el mismo nombre en este departamento.");
                     }
                     else
                     {
@@ -222,12 +216,10 @@ namespace ADASOFT.Controllers
                 {
                     Campus campus = new()
                     {
-
-
                         City = await _context.Cities.FindAsync(model.CityId),
                         Name = model.Name,
-
                     };
+
                     _context.Add(campus);
                     await _context.SaveChangesAsync();
                     return RedirectToAction(nameof(DetailsCity), new { Id = model.CityId });
@@ -236,7 +228,7 @@ namespace ADASOFT.Controllers
                 {
                     if (dbUpdateException.InnerException.Message.Contains("duplicate"))
                     {
-                        ModelState.AddModelError(string.Empty, "Ya existe una sede con el mismo nombre en esta ciudad.");
+                        _flashMessage.Danger("Ya existe una sede con el mismo nombre en esta ciudad.");
                     }
                     else
                     {
@@ -249,11 +241,7 @@ namespace ADASOFT.Controllers
                 }
             }
             return View(model);
-
         }
-
-
-
 
         public async Task<IActionResult> Edit(int? id)
         {
@@ -271,7 +259,6 @@ namespace ADASOFT.Controllers
             }
             return View(state);
         }
-
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -294,7 +281,7 @@ namespace ADASOFT.Controllers
                 {
                     if (dbUpdateException.InnerException.Message.Contains("duplicate"))
                     {
-                        ModelState.AddModelError(string.Empty, "Ya existe un departamento con el mismo nombre.");
+                        _flashMessage.Danger("Ya existe un departamento con el mismo nombre.");
                     }
                     else
                     {
@@ -305,7 +292,6 @@ namespace ADASOFT.Controllers
                 {
                     ModelState.AddModelError(string.Empty, exception.Message);
                 }
-
             }
             return View(state);
         }
@@ -334,9 +320,6 @@ namespace ADASOFT.Controllers
             return View(model);
         }
 
-
-
-
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> EditCity(int id, CityViewModel model)
@@ -363,8 +346,8 @@ namespace ADASOFT.Controllers
                 {
                     if (dbUpdateException.InnerException.Message.Contains("duplicate"))
                     {
-                        ModelState.AddModelError(string.Empty, "Ya existe una ciudad " +
-                                                                "con el mismo nombre en este departamento.");
+                        _flashMessage.Danger("Ya existe una ciudad " +
+                                            "con el mismo nombre en este departamento.");
                     }
                     else
                     {
@@ -375,7 +358,6 @@ namespace ADASOFT.Controllers
                 {
                     ModelState.AddModelError(string.Empty, exception.Message);
                 }
-
             }
             return View(model);
         }
@@ -404,9 +386,6 @@ namespace ADASOFT.Controllers
             return View(model);
         }
 
-
-
-
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> EditCampus(int id, CampusViewModel model)
@@ -434,8 +413,8 @@ namespace ADASOFT.Controllers
                 {
                     if (dbUpdateException.InnerException.Message.Contains("duplicate"))
                     {
-                        ModelState.AddModelError(string.Empty, "Ya existe una sede " +
-                                                                "con el mismo nombre en esta ciudad.");
+                        _flashMessage.Danger("Ya existe una sede " +
+                                             "con el mismo nombre en esta ciudad.");
                     }
                     else
                     {
@@ -446,7 +425,6 @@ namespace ADASOFT.Controllers
                 {
                     ModelState.AddModelError(string.Empty, exception.Message);
                 }
-
             }
             return View(model);
         }
@@ -468,7 +446,6 @@ namespace ADASOFT.Controllers
 
             return View(state);
         }
-
 
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
@@ -497,7 +474,6 @@ namespace ADASOFT.Controllers
 
             return View(city);
         }
-
 
         [HttpPost, ActionName("DeleteCity")]
         [ValidateAntiForgeryToken]
@@ -529,7 +505,6 @@ namespace ADASOFT.Controllers
             return View(campus);
         }
 
-
         [HttpPost, ActionName("DeleteCampus")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteCampusConfirmed(int id)
@@ -541,6 +516,5 @@ namespace ADASOFT.Controllers
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(DetailsCity), new { Id = campus.City.Id });
         }
-        
     }
 }

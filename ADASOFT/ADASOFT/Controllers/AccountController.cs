@@ -7,6 +7,7 @@ using ADASOFT.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Vereyon.Web;
 using SignInResult = Microsoft.AspNetCore.Identity.SignInResult;
 
 
@@ -19,16 +20,18 @@ namespace ADASOFT.Controllers
         private readonly ICombosHelper _combosHelper;
         private readonly IBlobHelper _blobHelper;
         private readonly IMailHelper _mailHelper;
-
+        private readonly IFlashMessage _flashMessage;
 
         public AccountController(IUserHelper userHelper, DataContext context,
-            ICombosHelper combosHelper, IBlobHelper blobHelper,IMailHelper mailHelper)
+            ICombosHelper combosHelper, IBlobHelper blobHelper,
+            IMailHelper mailHelper, IFlashMessage flashMessage)
         {
             _userHelper = userHelper;
             _context = context;
             _combosHelper = combosHelper;
             _blobHelper = blobHelper;
             _mailHelper = mailHelper;
+            _flashMessage = flashMessage;
         }
 
         public async Task<IActionResult> Register()
@@ -62,7 +65,7 @@ namespace ADASOFT.Controllers
                 User user = await _userHelper.AddUserAsync(model);
                 if (user == null)
                 {
-                    ModelState.AddModelError(string.Empty, "Este correo ya está siendo usado.");
+                    _flashMessage.Danger("Este correo ya está siendo usado.");
                     model.States = await _combosHelper.GetComboStatesAsync();
                     model.Cities = await _combosHelper.GetComboCitiesAsync(model.StateId);
                     model.Campuses = await _combosHelper.GetComboCampusesAsync(model.CityId);
@@ -85,8 +88,8 @@ namespace ADASOFT.Controllers
                         $"<p><a href = \"{tokenLink}\">Confirmar Email</a></p>");
                 if (response.IsSuccess)
                 {
-                    ViewBag.Message = "Las instrucciones para habilitar el usuario han sido enviadas al correo.";
-                    return View(model);
+                    _flashMessage.Info("Usuario registrado. Para poder ingresar al sistema, siga las instrucciones que han sido enviadas a su correo.");
+                    return RedirectToAction(nameof(Login));
                 }
 
                 ModelState.AddModelError(string.Empty, response.Message);
@@ -155,10 +158,8 @@ namespace ADASOFT.Controllers
                 return RedirectToAction("Index", "Home");
             }
 
-           
-            ViewBag.Message = "Hola! Debes ingresar a tu cuenta o crear una nueva";
+            //ViewBag.Message = "Hola! Debes ingresar a tu cuenta o crear una nueva";
             return View(new LoginViewModel());
-            
         }
 
         [HttpPost]
@@ -174,15 +175,15 @@ namespace ADASOFT.Controllers
 
                 if (result.IsLockedOut)
                 {
-                    ModelState.AddModelError(string.Empty, "Ha superado el máximo número de intentos, su cuenta está bloqueada, intente de nuevo en 90 segundos.");
+                    _flashMessage.Danger("Ha superado el máximo número de intentos, su cuenta está bloqueada, intente de nuevo en 5 minutos.");
                 }
                 else if (result.IsNotAllowed)
                 {
-                    ModelState.AddModelError(string.Empty, "No has sido habilitado en el sistema, debes de seguir las instrucciones del correo enviado para poder habilitarte.");
+                    _flashMessage.Danger("El usuario no ha sido habilitado, debes de seguir las instrucciones enviadas al correo para poder habilitarlo.");
                 }
                 else
                 {
-                    ModelState.AddModelError(string.Empty, "Email o contraseña incorrectos.");
+                    _flashMessage.Danger("Email o contraseña incorrectos.");
                 }
             }
 
@@ -273,7 +274,7 @@ namespace ADASOFT.Controllers
             {
                 if (model.OldPassword == model.NewPassword)
                 {
-                    ModelState.AddModelError(string.Empty, "Debes ingresar una contraseña diferente.");
+                    _flashMessage.Warning("Debes ingresar una contraseña diferente.");
                     return View(model);
                 }
 
@@ -292,7 +293,7 @@ namespace ADASOFT.Controllers
                 }
                 else
                 {
-                    ModelState.AddModelError(string.Empty, "Usuario no encontrado.");
+                    _flashMessage.Danger("Usuario no encontrado.");
                 }
             }
 
@@ -311,7 +312,7 @@ namespace ADASOFT.Controllers
                 User user = await _userHelper.GetUserAsync(model.Email);
                 if (user == null)
                 {
-                    ModelState.AddModelError(string.Empty, "El email no corresponde a ningún usuario registrado.");
+                    _flashMessage.Danger("El email no corresponde a ningún usuario registrado.");
                     return View(model);
                 }
 
@@ -327,8 +328,9 @@ namespace ADASOFT.Controllers
                     $"<h1>ADASOFT - Recuperación de Contraseña</h1>" +
                     $"Para recuperar la contraseña haga click en el siguiente enlace:" +
                     $"<p><a href = \"{link}\">Reset Password</a></p>");
-                ViewBag.Message = "Las instrucciones para recuperar la contraseña han sido enviadas a su correo.";
-                return View();
+                _flashMessage.Info("Las instrucciones para recuperar la contraseña han sido enviadas a su correo.");
+                return RedirectToAction(nameof(Login));
+
             }
 
             return View(model);
@@ -348,15 +350,16 @@ namespace ADASOFT.Controllers
                 IdentityResult result = await _userHelper.ResetPasswordAsync(user, model.Token, model.Password);
                 if (result.Succeeded)
                 {
-                    ViewBag.Message = "Contraseña cambiada con éxito.";
-                    return View();
+                    _flashMessage.Info("Contraseña cambiada con éxito.");
+                    return RedirectToAction(nameof(Login));
+
                 }
 
-                ViewBag.Message = "Error cambiando la contraseña.";
+                _flashMessage.Danger("Error cambiando la contraseña.");
                 return View(model);
             }
 
-            ViewBag.Message = "Usuario no encontrado.";
+            _flashMessage.Danger("Usuario no encontrado.");
             return View(model);
         }
 

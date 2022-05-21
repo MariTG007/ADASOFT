@@ -7,6 +7,7 @@ using ADASOFT.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Vereyon.Web;
 
 namespace ADASOFT.Controllers
 {
@@ -18,17 +19,18 @@ namespace ADASOFT.Controllers
         private readonly IBlobHelper _blobHelper;
         private readonly ICombosHelper _combosHelper;
         private readonly IMailHelper _mailHelper;
-
+        private readonly IFlashMessage _flashMessage;
 
         public UsersController(DataContext context, IUserHelper userHelper, IBlobHelper blobHelper,
-             ICombosHelper combosHelper, IMailHelper mailHelper)
+             ICombosHelper combosHelper, IMailHelper mailHelper, IFlashMessage flashMessage)
          {
-             _context = context;
-             _userHelper = userHelper;
-             _blobHelper = blobHelper;
-             _combosHelper = combosHelper;
+            _context = context;
+            _userHelper = userHelper;
+            _blobHelper = blobHelper;
+            _combosHelper = combosHelper;
             _mailHelper = mailHelper;
-         }
+            _flashMessage = flashMessage;
+        }
 
          public async Task<IActionResult> Index()
          {
@@ -70,7 +72,7 @@ namespace ADASOFT.Controllers
                  User user = await _userHelper.AddUserAsync(model);
                  if (user == null)
                  {
-                     ModelState.AddModelError(string.Empty, "Este correo ya está siendo usado.");
+                    _flashMessage.Danger("Este correo ya está siendo usado.");
                      model.States = await _combosHelper.GetComboStatesAsync();
                      model.Cities = await _combosHelper.GetComboCitiesAsync(model.StateId);
                      model.Campuses = await _combosHelper.GetComboCampusesAsync(model.CityId);
@@ -93,7 +95,7 @@ namespace ADASOFT.Controllers
                         $"<p><a href = \"{tokenLink}\">Confirmar Email</a></p>");
                 if (response.IsSuccess)
                 {
-                    ViewBag.Message = "Las instrucciones para habilitar el usuario han sido enviadas al correo.";
+                    _flashMessage.Info("Las instrucciones para habilitar el usuario han sido enviadas al correo.");
                     return View(model);
                 }
 
@@ -131,7 +133,6 @@ namespace ADASOFT.Controllers
 
              return Json(city.Campuses.OrderBy(c => c.Name));
          } 
-
         
        public async Task<IActionResult> AddAttendant(string id)
        {
@@ -155,7 +156,6 @@ namespace ADASOFT.Controllers
            return View(model);
        }
 
-
        [HttpPost]
        [ValidateAntiForgeryToken]
        public async Task<IActionResult> AddAttendant(AttendantViewModel model)
@@ -166,8 +166,6 @@ namespace ADASOFT.Controllers
                {
                    Attendant attendant = new()
                    {
-
-
                        User = await _context.Users.FindAsync(model.UserId),
                        Document = model.Document,
                        FirstName = model.FirstName,
@@ -187,7 +185,7 @@ namespace ADASOFT.Controllers
                {
                    if (dbUpdateException.InnerException.Message.Contains("duplicate"))
                    {
-                       ModelState.AddModelError(string.Empty, "Ya existe una acudiente  con el mismo nombre para este usuario.");
+                        _flashMessage.Danger("Ya existe una acudiente  con el mismo nombre para este usuario.");
                    }
                    else
                    {
@@ -201,8 +199,6 @@ namespace ADASOFT.Controllers
           // } else {
                 /*Attendant attendant = new()
                 {
-
-
                      User = await _context.Users.FindAsync(model.UserId),
                      Document = model.Document,
                      FirstName = model.FirstName,
@@ -218,7 +214,6 @@ namespace ADASOFT.Controllers
                // ModelState.AddModelError(string.Empty, " no entra al hpta if no es valido el modelo.");
             }*/
            return View(model);
-
        }
 
        public async Task<IActionResult> DetailsAttendant(int? id)
@@ -264,14 +259,9 @@ namespace ADASOFT.Controllers
                Phone = attendant.Phone,
                Cellphone = attendant.Cellphone,
                Email = attendant.Email
-
            };
-
            return View(model);
        }
-
-
-
 
        [HttpPost]
        [ValidateAntiForgeryToken]
@@ -296,9 +286,8 @@ namespace ADASOFT.Controllers
                        Phone = model.Phone,
                        Cellphone = model.Cellphone,
                        Email = model.Email
-
-
                    };
+
                    _context.Update(attendant);
                    await _context.SaveChangesAsync();
                    return RedirectToAction(nameof(Details), new { Id = model.UserId });
@@ -307,8 +296,8 @@ namespace ADASOFT.Controllers
                {
                    if (dbUpdateException.InnerException.Message.Contains("duplicate"))
                    {
-                       ModelState.AddModelError(string.Empty, "Ya existe un ac acudiente " +
-                                                               "con el mismo nombre para este usuario.");
+                        _flashMessage.Danger("Ya existe un ac acudiente " +
+                                                     "con el mismo nombre para este usuario.");
                    }
                    else
                    {
@@ -319,7 +308,6 @@ namespace ADASOFT.Controllers
                {
                    ModelState.AddModelError(string.Empty, exception.Message);
                }
-
            }
            return View(model);
        }
@@ -335,13 +323,11 @@ namespace ADASOFT.Controllers
                .Include(a => a.User)
                .FirstOrDefaultAsync(c => c.Id == id); //FirstOrDefault instead of FindAsync, allows to use Include
             if (attendant == null)
-           {
+            {
                return NotFound();
-           }
-
+            }
            return View(attendant);
        }
-
 
        [HttpPost, ActionName("DeleteAttendant")]
        [ValidateAntiForgeryToken]
@@ -380,14 +366,12 @@ namespace ADASOFT.Controllers
                 return NotFound();
             }
 
-
             User user = await _context.Users
              .Include(u => u.Attendantes)
             .Include(u=>u.Campus)
             .ThenInclude(c=>c.City)
             .ThenInclude(c=>c.State)
             .FirstOrDefaultAsync(u => u.Id == id);
-        
 
             if (user == null)
             {
@@ -396,7 +380,5 @@ namespace ADASOFT.Controllers
 
             return View(user);
         }
-
-
     }
 }
