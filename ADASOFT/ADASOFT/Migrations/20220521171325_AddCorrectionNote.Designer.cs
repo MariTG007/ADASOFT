@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ADASOFT.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20220521032503_addCorretionNote")]
-    partial class addCorretionNote
+    [Migration("20220521171325_AddCorrectionNote")]
+    partial class AddCorrectionNote
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -382,6 +382,9 @@ namespace ADASOFT.Migrations
 
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
+
+                    b.Property<decimal>("porcentageCourse")
+                        .HasColumnType("decimal(18,2)");
 
                     b.HasKey("Id");
 

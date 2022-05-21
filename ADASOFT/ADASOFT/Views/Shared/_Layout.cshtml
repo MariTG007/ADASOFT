@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/ADASOFT.styles.css" asp-append-version="true" />
      <link rel="stylesheet" href="~/lib/font-awesome/css/all.min.css" />
+    
 
 </head>
 <body>
@@ -59,16 +60,16 @@
                         @if (User.Identity.IsAuthenticated)
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-white" asp-area="" asp-controller="Account" asp-action="ChangeUser"><i class="fa-solid fa-bars"></i>   </a> @*TODO: verify if we can change user*@ 
+                                <a class="nav-link text-white" asp-area="" asp-controller="Account" asp-action="ChangeUser"><b><i class="fa-solid fa-bars"></i> Perfil</b></a> @*TODO: verify if we can change user*@ 
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-white" asp-area="" asp-controller="Account" asp-action="Logout"><b><i class="fa-solid fa-right-from-bracket"></i></a>
+                                <a class="nav-link text-white" asp-area="" asp-controller="Account" asp-action="Logout"><b><i class="fa-solid fa-right-from-bracket"></i> Salir</b></a>
                             </li>
                         }
                         else
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-white" asp-area="" asp-controller="Account" asp-action="Login"><b><i class="fa-solid fa-user"></i></b></a>
+                                <a class="nav-link text-white" asp-area="" asp-controller="Account" asp-action="Login"><b><i class="fa-solid fa-user"></i> Acceder</b></a>
                             </li>
                         }
                     </ul>
@@ -217,6 +218,8 @@
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
      <script src="~/lib/font-awesome/js/fontawesome.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     @await RenderSectionAsync("Scripts", required: false)
+
 </body>
 </html>

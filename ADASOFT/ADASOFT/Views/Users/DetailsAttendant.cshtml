@@ -11,7 +11,7 @@
 </div>
 <div>
    
-    <a asp-action="Details" asp-route-id="@Model?.User.Id" class="btn btn-outline-success">Regresar</a>
+    <a asp-action="Details" asp-route-id="@Model?.User.Id" class="btn btn-outline-success"><i class="fa-solid fa-arrow-rotate-left"> Regresar</a>
 </div>
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

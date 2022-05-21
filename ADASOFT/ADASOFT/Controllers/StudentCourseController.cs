@@ -213,42 +213,72 @@ namespace ADASOFT.Controllers
             //{
             try
             {
-                Grade grade = new()
+                if (0 <= model.Grades && model.Grades <= 5)
                 {
+                    StudentCourse studentCourse = await _context.StudentCourses
+                    .Include(s => s.Grades)
+                    .FirstOrDefaultAsync(u => u.Id == model.StudentCourseId);
+                    studentCourse.porcentageCourse = 0;
+                    foreach (Grade grade1 in studentCourse.Grades)
 
 
-                    StudentCourse = await _context.StudentCourses.FindAsync(model.StudentCourseId),
-                    Grades = model.Grades,
-                    Percentage = model.Percentage,
-                    
-                };
-                _context.Add(grade);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(DetailsGrade), new { Id = model.StudentCourseId });
+
+                    {
+                        studentCourse.porcentageCourse += grade1.Percentage;
+
+
+
+                    }
+                    if ((studentCourse.porcentageCourse + model.Percentage) <= 100)
+                    {
+                        Grade grade = new()
+                        {
+
+
+
+
+                            StudentCourse = await _context.StudentCourses.FindAsync(model.StudentCourseId),
+                            Grades = model.Grades,
+                            Percentage = model.Percentage,
+
+
+
+                        };
+                        _context.Add(grade);
+                        await _context.SaveChangesAsync();
+                        return RedirectToAction(nameof(DetailsGrade), new { Id = model.StudentCourseId });
+                    }
+                    {
+                        ModelState.AddModelError(string.Empty, "El porcentage total no puede ser mayor q 100%");
+
+
+
+                    }
+                }
+                else
+                {
+                    ModelState.AddModelError(string.Empty, "No se puede ingresar una nota que no este en el rango de 0 a 5");
+
+
+
+                    // return RedirectToAction(nameof(AddGrade), new { Id = model.StudentCourseId });
+
+
+
+                }
             }
-            //TODO: remmember that duplicate is with first name and lastname
-
-            //catch (DbUpdateException dbUpdateException)
-            //{
-            //    if (dbUpdateException.InnerException.Message.Contains("duplicate"))
-            //    {
-            //        ModelState.AddModelError(string.Empty, "Ya existe una acudiente  con el mismo nombre para este usuario.");
-            //    }
-            //    else
-            //    {
-            //        ModelState.AddModelError(string.Empty, dbUpdateException.InnerException.Message);
-            //    }
-            //}
             catch (Exception exception)
             {
                 ModelState.AddModelError(string.Empty, exception.Message);
             }
-            
+
             return View(model);
+
+
 
         }
 
-         public async Task<IActionResult> DeleteGrade(int? id)
+        public async Task<IActionResult> DeleteGrade(int? id)
         {
             if (id == null)
             {
