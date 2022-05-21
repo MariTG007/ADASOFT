@@ -12,6 +12,8 @@ namespace ADASOFT.Data.Entities
 
         public ICollection<Grade> Grades { get; set; }
 
+       public Decimal porcentageCourse { get; set; }
+
         [Display(Name = "Notas")]
         public int GradesNumber => Grades == null ? 0 : Grades.Count;
     }
