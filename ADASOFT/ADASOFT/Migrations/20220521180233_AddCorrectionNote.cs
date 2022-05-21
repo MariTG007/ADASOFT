@@ -252,7 +252,7 @@ namespace ADASOFT.Migrations
                     Description = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
                     Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     Schedule = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Date = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Days = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Quota = table.Column<float>(type: "real", nullable: false),
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     Resume = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: true)

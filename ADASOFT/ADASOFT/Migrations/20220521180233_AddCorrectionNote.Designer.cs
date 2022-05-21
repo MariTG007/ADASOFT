@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ADASOFT.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20220521171325_AddCorrectionNote")]
+    [Migration("20220521180233_AddCorrectionNote")]
     partial class AddCorrectionNote
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -143,7 +143,7 @@ namespace ADASOFT.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<string>("Date")
+                    b.Property<string>("Days")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Description")

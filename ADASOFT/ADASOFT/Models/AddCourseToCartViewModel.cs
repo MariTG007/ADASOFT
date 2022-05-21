@@ -28,7 +28,7 @@ namespace ADASOFT.Models
         [Display(Name = "Días")]
         [MaxLength(50, ErrorMessage = "El campo {0} debe tener máximo {1} caractéres.")]
         [Required(ErrorMessage = "El campo {0} es obligatorio.")]
-        public String Date { get; set; }
+        public String Days { get; set; }
 
         //[Display(Name = "Nombre")]
         //[MaxLength(50, ErrorMessage = "El campo {0} debe tener máximo {1} caractéres.")]
@@ -43,7 +43,7 @@ namespace ADASOFT.Models
         public decimal Price { get; set; }
 
         [DisplayFormat(DataFormatString = "{0:N2}")]
-        [Display(Name = "Estudiantes")]
+        [Display(Name = "Cupos")]
         [Required(ErrorMessage = "El campo {0} es obligatorio.")]
         public float Quota { get; set; }
 

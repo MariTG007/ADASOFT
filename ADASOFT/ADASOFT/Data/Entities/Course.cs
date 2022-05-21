@@ -29,7 +29,7 @@ namespace ADASOFT.Data.Entities
         public DateTime Schedule { get; set; }
 
         [Display(Name = "Días")]
-        public String? Date { get; set; }
+        public String? Days { get; set; }
 
 
         [DisplayFormat(DataFormatString = "{0:N2}")]

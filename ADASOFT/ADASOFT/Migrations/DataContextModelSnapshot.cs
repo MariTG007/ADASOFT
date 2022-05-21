@@ -141,7 +141,7 @@ namespace ADASOFT.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<string>("Date")
+                    b.Property<string>("Days")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Description")

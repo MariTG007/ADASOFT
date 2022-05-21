@@ -81,7 +81,7 @@ namespace ADASOFT.Controllers
                 Users = $"{course.User.FullName}",
                 Resume = course.Resume,
                 Schedule = course.Schedule,
-                Date = course.Date,
+                Days = course.Days,
                 Price = course.Price,
                 Quota = course.Quota,
                 CourseImages = course.CourseImages,

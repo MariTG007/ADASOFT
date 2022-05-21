@@ -34,7 +34,7 @@ namespace ADASOFT.Models
         [Display(Name = "Días")]
         [MaxLength(50, ErrorMessage = "El campo {0} debe tener máximo {1} caractéres.")]
         [Required(ErrorMessage = "El campo {0} es obligatorio.")]
-        public String Date { get; set; }
+        public String Days { get; set; }
 
 
         [DisplayFormat(DataFormatString = "{0:N2}")]
