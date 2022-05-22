@@ -8,11 +8,6 @@ namespace ADASOFT.Models
 
         public float Quantity { get; set; }
 
-       
-         
-
-       
-       
     }
 
 }
