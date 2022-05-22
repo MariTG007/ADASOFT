@@ -102,6 +102,12 @@ namespace ADASOFT.Controllers
             return View(model);
         }
 
+        public async Task<JsonResult> GetImageFullPath()
+        {
+            User user = await _userHelper.GetUserAsync(User.Identity.Name);
+            return Json(new { imagePath = user.ImageFullPath });
+        }
+
         public async Task<IActionResult> ConfirmEmail(string userId, string token)
         {
             if (string.IsNullOrEmpty(userId) || string.IsNullOrEmpty(token))
@@ -362,6 +368,8 @@ namespace ADASOFT.Controllers
             _flashMessage.Danger("Usuario no encontrado.");
             return View(model);
         }
+
+      
 
     }
 
