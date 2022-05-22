@@ -6,11 +6,9 @@ namespace ADASOFT.Models
     {
         public int Id { get; set; }
         public int StudentCourseId { get; set; }
-
         public decimal Percentage { get; set; }
-
         public decimal Grades { get; set; }
-        //public ICollection<FinalGradeViewModel> Grades { get; set; }
 
+        //public ICollection<FinalGradeViewModel> Grades { get; set; }
     }
 }

@@ -10,5 +10,4 @@
 
         Task DeleteBlobAsync(Guid id, string containerName);
     }
-
 }

@@ -16,9 +16,7 @@ namespace ADASOFT.Models
         [MaxLength(50, ErrorMessage = "El campo {0} debe tener máximo {1} caractéres.")]
         [Required(ErrorMessage = "El campo {0} es obligatorio.")]
         public string Description { get; set; }
-
         public int CourseId { get; set; }
-
         public int EnrollmentId { get; set; }
     }
 }

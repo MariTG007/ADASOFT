@@ -6,7 +6,6 @@ namespace ADASOFT.Helpers
     public class BlobHelper : IBlobHelper
     {
         private readonly CloudBlobClient _blobClient;
-
         public BlobHelper(IConfiguration configuration)
         {
             string keys = configuration["Blob:ConnectionString"];
@@ -48,5 +47,4 @@ namespace ADASOFT.Helpers
             return name;
         }
     }
-
 }

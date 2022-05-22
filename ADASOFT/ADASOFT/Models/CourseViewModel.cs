@@ -5,11 +5,9 @@ namespace ADASOFT.Models
 {
     public class CourseViewModel : CreateCourseViewModel
     {
-
         //[Display(Name = "Profesor")]
         ////[Range(1, int.MaxValue, ErrorMessage = "Debes seleccionar un profesor.")]
         ////[Required(ErrorMessage = "El campo {0} es obligatorio.")]
-
 
         //public string UserId { get; set; }
 
@@ -18,14 +16,5 @@ namespace ADASOFT.Models
 
         [Display(Name = "Foto")]
         public IFormFile? ImageFile { get; set; }
-
-
-
-
-
-    
-       
-
-
     }
 }

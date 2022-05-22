@@ -5,7 +5,6 @@ namespace ADASOFT.Data.Entities
 {
     public class Course
     {
-
         public int Id { get; set; }
 
         [Display(Name = "Nombre")]
@@ -31,7 +30,6 @@ namespace ADASOFT.Data.Entities
         [Display(Name = "Días")]
         public String? Days { get; set; }
 
-
         [DisplayFormat(DataFormatString = "{0:N2}")]
         [Display(Name = "Cupos")]
         [Required(ErrorMessage = "El campo {0} es obligatorio.")]
@@ -45,8 +43,6 @@ namespace ADASOFT.Data.Entities
         [Display(Name = "Lo que aprenderás")]
         [MaxLength(1000, ErrorMessage = "El campo {0} debe tener máximo {1} caractéres.")]
         public string? Resume { get; set; }
-
-
         public ICollection<CourseImage> CourseImages { get; set; }
 
         [Display(Name = "Fotos")]
@@ -58,16 +54,11 @@ namespace ADASOFT.Data.Entities
             ? $"https://localhost:7187/images/noimage.png"
             : CourseImages.FirstOrDefault().ImageFullPath;
 
-
         public ICollection<Payment> Payments { get; set; }
 
         public ICollection<StudentCourse> StudentCourses { get; set; }
 
         [Display(Name = "Ciudades")]
         public int StudentCoursesNumber => StudentCourses == null ? 0 : StudentCourses.Count;
-
-
-
-
     }
 }

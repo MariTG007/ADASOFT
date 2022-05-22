@@ -61,12 +61,6 @@ namespace ADASOFT.Models
         [Display(Name = "Sede")]
         [Range(1, int.MaxValue, ErrorMessage = "Debes de seleccionar una sede.")]
         public int CampusId { get; set; }
-
         public IEnumerable<SelectListItem> Campuses { get; set; }
-
-
-
-
     }
-
 }

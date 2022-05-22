@@ -37,14 +37,10 @@ namespace ADASOFT.Data.Entities
 
         //TODO: Pending to change to the correct path
         [Display(Name = "Foto")]
-       
         public string ImageFullPath => ImageId == Guid.Empty
             ? $"https://localhost:7187/images/noimage.png"
             : $"https://adasoft.blob.core.windows.net/users/{ImageId}";
-
      
-
-
         [Display(Name = "Tipo de usuario")]
         public UserType UserType { get; set; }
 
@@ -60,8 +56,6 @@ namespace ADASOFT.Data.Entities
 
         public ICollection<StudentCourse> StudentCourses { get; set; }
 
-
-
         [Display(Name = "Acudientes")]
         public int AttendantesNumber => Attendantes == null ? 0 : Attendantes.Count;
 
@@ -70,10 +64,5 @@ namespace ADASOFT.Data.Entities
 
         [Display(Name = "Estudiantes")]
         public int StudentCoursesNumber => StudentCourses == null ? 0 : StudentCourses.Count;
-
-
-
-
-
     }
 }

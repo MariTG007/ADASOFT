@@ -11,7 +11,6 @@ namespace ADASOFT.Data.Entities
         [Display(Name = "Inventario")]
         [Required(ErrorMessage = "El campo {0} es obligatorio.")]
         public DateTime Date { get; set; }
-
         public User User { get; set; }
 
         [DataType(DataType.MultilineText)]
@@ -34,6 +33,5 @@ namespace ADASOFT.Data.Entities
         [DisplayFormat(DataFormatString = "{0:C2}")]
         [Display(Name = "Valor")]
         public decimal Value => Payments == null ? 0 : Payments.Sum(sd => sd.Value);
-
     }
 }
