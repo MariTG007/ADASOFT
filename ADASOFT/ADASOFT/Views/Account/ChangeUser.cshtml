@@ -3,6 +3,18 @@
     ViewData["Title"] = "Edit";
 }
 
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+
+ <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+ </head>
+
 <flash dismissable="true" />
 
 <h2>Editar</h2>
@@ -31,6 +43,10 @@
         <img src="@Model.ImageFullPath" style="width:200px;height:200px;border-radius:50%" />
     </div>
 </div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+</html>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
