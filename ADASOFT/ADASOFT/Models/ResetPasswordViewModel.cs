@@ -23,5 +23,4 @@ namespace ADASOFT.Models
         [Required(ErrorMessage = "El campo {0} es obligatorio.")]
         public string Token { get; set; }
     }
-
 }

@@ -9,5 +9,4 @@ namespace ADASOFT.Models
         [EmailAddress(ErrorMessage = "Debes ingresar un correo válido.")]
         public string Email { get; set; }
     }
-
 }

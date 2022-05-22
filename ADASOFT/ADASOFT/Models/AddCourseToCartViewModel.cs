@@ -35,8 +35,6 @@ namespace ADASOFT.Models
         //[Required(ErrorMessage = "El campo {0} es obligatorio.")]
         //public string Name { get; set; }
 
-        
-
         [DisplayFormat(DataFormatString = "{0:C2}")]
         [Display(Name = "Precio")]
         [Required(ErrorMessage = "El campo {0} es obligatorio.")]
@@ -54,8 +52,6 @@ namespace ADASOFT.Models
         [Display(Name = "Descripción")]
         [MaxLength(1000, ErrorMessage = "El campo {0} debe tener máximo {1} caractéres.")]
         public string Resume { get; set; }
-
-
         public ICollection<CourseImage> CourseImages { get; set; }
 
         [Display(Name = "Foto")]
@@ -78,6 +74,5 @@ namespace ADASOFT.Models
         [DataType(DataType.MultilineText)]
         [Display(Name = "Comentarios")]
         public string? Remarks { get; set; }
-
     }
 }

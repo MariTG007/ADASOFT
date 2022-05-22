@@ -55,19 +55,19 @@ namespace ADASOFT.Controllers
                 }
 
                 Course course = new()
-                    {
-                        Id = model.Id,
-                        Name = model.Name,
-                        Description = model.Description,
-                        Price = model.Price,
-                        Quota = model.Quota,
-                        Schedule = (DateTime)model.Schedule,
-                        Days = model.Days,
-                        Resume = model.Resume,
+                {
+                    Id = model.Id,
+                    Name = model.Name,
+                    Description = model.Description,
+                    Price = model.Price,
+                    Quota = model.Quota,
+                    Schedule = (DateTime)model.Schedule,
+                    Days = model.Days,
+                    Resume = model.Resume,
                     //ImageCourseId = model.ImageCourseId,
-                   
+
                     User = await _context.Users.FindAsync(model.UserId)
-                    };
+                };
 
                 if (imageId != Guid.Empty)
                 {
@@ -79,28 +79,28 @@ namespace ADASOFT.Controllers
 
                 try
                 {
-                        _context.Add(course);
-                        await _context.SaveChangesAsync();
-                        return RedirectToAction(nameof(Index));
-                    }
-                    catch (DbUpdateException dbUpdateException)
+                    _context.Add(course);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
+                }
+                catch (DbUpdateException dbUpdateException)
+                {
+                    if (dbUpdateException.InnerException.Message.Contains("duplicate"))
                     {
-                        if (dbUpdateException.InnerException.Message.Contains("duplicate"))
-                        {
-                            _flashMessage.Danger("Ya existe un Curso con el mismo nombre.");
-                        }
-                        else
-                        {
-                            ModelState.AddModelError(string.Empty, dbUpdateException.InnerException.Message);
-                        }
+                        _flashMessage.Danger("Ya existe un curso con el mismo nombre.");
                     }
-                    catch (Exception exception)
+                    else
                     {
-                        ModelState.AddModelError(string.Empty, exception.Message);
+                        ModelState.AddModelError(string.Empty, dbUpdateException.InnerException.Message);
                     }
                 }
-             model.Users = await _combosHelper.GetComboTeachersAsync();
-             return View(model);
+                catch (Exception exception)
+                {
+                    ModelState.AddModelError(string.Empty, exception.Message);
+                }
+            }
+            model.Users = await _combosHelper.GetComboTeachersAsync();
+            return View(model);
         }
 
         public async Task<IActionResult> Edit(int? id)
@@ -147,7 +147,7 @@ namespace ADASOFT.Controllers
                 course.Description = model.Description;
                 course.Name = model.Name;
                 course.Price = model.Price;
-                course.Resume = model.Resume;   
+                course.Resume = model.Resume;
                 course.Schedule = (DateTime)model.Schedule;
                 course.Days = model.Days;
                 course.Quota = model.Quota;
@@ -185,7 +185,7 @@ namespace ADASOFT.Controllers
 
             Course course = await _context.Courses
                 .Include(c => c.User)
-                .Include(c=>c.CourseImages)
+                .Include(c => c.CourseImages)
                     .FirstOrDefaultAsync(c => c.Id == id);
             if (course == null)
             {
@@ -216,9 +216,9 @@ namespace ADASOFT.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-           Course course = await _context.Courses
-                .Include(c => c.CourseImages)
-                .FirstOrDefaultAsync(c => c.Id == id);
+            Course course = await _context.Courses
+                 .Include(c => c.CourseImages)
+                 .FirstOrDefaultAsync(c => c.Id == id);
 
             foreach (CourseImage courseImage in course.CourseImages)
             {

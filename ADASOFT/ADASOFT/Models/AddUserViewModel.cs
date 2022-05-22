@@ -26,5 +26,4 @@ namespace ADASOFT.Models
         [Display(Name = "Tipo de usuario")]
         public Enums.UserType UserType { get; set; }  //i used enums.userType because i dont want import it jeje 
     }
-
 }

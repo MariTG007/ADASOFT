@@ -8,19 +8,12 @@ namespace ADASOFT.Helpers
 {
     public class CombosHelper : ICombosHelper
     {
-        
-        
         private readonly DataContext _context;
 
         public CombosHelper(DataContext context)
         {
             _context = context;
         }
-
-        //public Task<IEnumerable<SelectListItem>> GetComboAttendantAsync()
-        //{
-        //    throw new NotImplementedException();
-        //}
 
         public async Task<IEnumerable<SelectListItem>> GetComboCampusesAsync(int cityId)
         {
@@ -68,7 +61,6 @@ namespace ADASOFT.Helpers
             return list;
         }
 
-        //TODO: Get only Admin
         public async Task<IEnumerable<SelectListItem>> GetComboTeachersAsync()
         {
             List<SelectListItem> list = await _context.Users
@@ -85,6 +77,4 @@ namespace ADASOFT.Helpers
             return list;
         }
     }
-        
-    
 }

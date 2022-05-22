@@ -10,7 +10,6 @@ namespace ADASOFT.Models
         [DataType(DataType.MultilineText)]
         [Display(Name = "Comentarios")]
         public string? Remarks { get; set; }
-
         public ICollection<EnrollmentCourse> EnrollmentCourses { get; set; }
 
         [DisplayFormat(DataFormatString = "{0:N2}")]
@@ -21,5 +20,4 @@ namespace ADASOFT.Models
         [Display(Name = "Valor")]
         public decimal Value => EnrollmentCourses == null ? 0 : EnrollmentCourses.Sum(ts => ts.Value);
     }
-
 }

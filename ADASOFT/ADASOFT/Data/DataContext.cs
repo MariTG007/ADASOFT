@@ -13,25 +13,15 @@ namespace ADASOFT.Data
         public DbSet<Campus> Campuses { get; set; }
         public DbSet<City> Cities { get; set; }
         public DbSet<State> States { get; set; }
-       
         public DbSet<Course> Courses{ get; set; }
-
         public DbSet<Attendant> Attendantes { get; set; }
         public DbSet<Enrollment> Enrollments { get; set; }
         public DbSet<EnrollmentCourse> EnrollmentCourses { get; set; }
-
         public DbSet<Payment> Payments { get; set; }
         public DbSet<StudentCourse> StudentCourses { get; set; }
         public DbSet<Grade> Grades { get; set; }
         public DbSet<FinalGrade> FinalGrades { get; set; }
-
         public DbSet<CourseImage> CourseImages { get; set; }
-
-
-
-
-
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -45,9 +35,6 @@ namespace ADASOFT.Data
             modelBuilder.Entity<StudentCourse>().HasIndex("Id", "CourseId").IsUnique();
             modelBuilder.Entity<Grade>().HasIndex("Id", "StudentCourseId").IsUnique();
             modelBuilder.Entity<FinalGrade>().HasIndex("Id", "GradeId").IsUnique();
-
         }
     }
 }
-
-

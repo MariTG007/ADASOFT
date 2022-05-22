@@ -5,8 +5,6 @@ namespace ADASOFT.Models
 {
     public class CreateCourseViewModel
     {
-
-
         public int Id { get; set; }
 
         [Display(Name = "Nombre")]
@@ -23,7 +21,6 @@ namespace ADASOFT.Models
         [Display(Name = "Precio")]
         [Required(ErrorMessage = "El campo {0} es obligatorio.")]
         public decimal Price { get; set; }
-
 
         [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd hh:mm tt}")]
         [Display(Name = "Horaio")]
@@ -50,10 +47,7 @@ namespace ADASOFT.Models
         [Display(Name = "Profesor")]
         //[Range(1, int.MaxValue, ErrorMessage = "Debes seleccionar un profesor.")]
         //[Required(ErrorMessage = "El campo {0} es obligatorio.")]
-
-
         public string UserId { get; set; }
-
         public IEnumerable<SelectListItem> Users { get; set; }
 
         //public int Id { get; set; }
@@ -72,8 +66,6 @@ namespace ADASOFT.Models
         //[Display(Name = "Precio")]
         //[Required(ErrorMessage = "El campo {0} es obligatorio.")]
         //public decimal Price { get; set; }
-
-
 
         ////public User UserId { get; set; }
         //[Display(Name = "Horaio")]
@@ -101,6 +93,5 @@ namespace ADASOFT.Models
 
         //[Display(Name = "Image")]
         //public IFormFile? ImageFile { get; set; }
-
     }
 }
