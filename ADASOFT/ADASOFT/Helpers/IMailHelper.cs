@@ -6,5 +6,4 @@ namespace ADASOFT.Helpers
     {
         Response SendMail(string toName, string toEmail, string subject, string body);
     }
-
 }

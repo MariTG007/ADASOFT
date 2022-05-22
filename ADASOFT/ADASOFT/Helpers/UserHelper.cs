@@ -52,8 +52,6 @@ namespace ADASOFT.Helpers
             return newUser;
         }
 
-    
-
         public async Task AddUserToRoleAsync(User user, string roleName)
         {
             await _userManager.AddToRoleAsync(user, roleName);
@@ -70,7 +68,6 @@ namespace ADASOFT.Helpers
                     Name = roleName
                 });
             }
-
         }
 
         public async Task<User> GetUserAsync(string email)
@@ -85,7 +82,6 @@ namespace ADASOFT.Helpers
         public async Task<bool> IsUserInRoleAsync(User user, string roleName)
         {
             return await _userManager.IsInRoleAsync(user, roleName);
-
         }
 
         public async Task<SignInResult> LoginAsync(LoginViewModel model)
@@ -135,6 +131,5 @@ namespace ADASOFT.Helpers
         {
             return await _userManager.ResetPasswordAsync(user, token, password);
         }
-
     }
 }

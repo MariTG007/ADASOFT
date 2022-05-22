@@ -85,35 +85,17 @@ namespace ADASOFT.Data
         {
             if (!_context.Courses.Any())
             {
-                await AddCourseAsync("Pintura", "Pintura Expresionista", 270000M, "Lunes-Miércoles", "", 20, new List<string>() { "elgrito.png" }, "4040");
-                await AddCourseAsync("Baile", "Merengue,porro,salsa,Bachata,break dance", 800000M, "Lunes-Miércoles", "", 20, new List<string>() { "elgrito.png" }, "1010");
+                await AddCourseAsync("Pintura", "Pintura Expresionista", 270000M, "Lunes-Miércoles", "", 12, new List<string>() { "elgrito.png" }, "4040");
+                await AddCourseAsync("Baile", "Estilo Urbano", 200000M, "Lunes-Miércoles", "", 20, new List<string>() { "elgrito.png" }, "1010");
+                await AddCourseAsync("Baile", "Regional Colombiano", 200000M, "Martes-Jueves", "", 20, new List<string>() { "elgrito.png" }, "6060");
+                await AddCourseAsync("Literatura", "Narrativa, lírica y dramática", 320000M, "Lunes-Martes", "", 8, new List<string>() { "elgrito.png" }, "3030");
+                await AddCourseAsync("Música", "Música clásica, de consumo, tradicional y étnica", 800000M, "Miércoles-Jueves", "", 10, new List<string>() { "elgrito.png" }, "4040");
+                await AddCourseAsync("Cine", "Géneros cinematográficos", 429000M, "Jueves-Viernes", "", 25, new List<string>() { "elgrito.png" }, "5050");
+                await AddCourseAsync("Pintura", "Pintura Abstracta", 215000M, "Martes-Jueves", "", 12, new List<string>() { "elgrito.png" }, "1010");
+                await AddCourseAsync("Escultura", "Creación de formas y figuras en 3D", 800000M, "Miércoles-Viernes", "", 10, new List<string>() { "elgrito.png" }, "7070");
 
-                //await AddCourseAsync("Adidas Superstar", 250000M, 12F, new List<string>() { "Calzado", "Deportes" }, new List<string>() { "Adidas_superstar.png" });
-                //await AddCourseAsync("AirPods", 1300000M, 12F, new List<string>() { "Tecnología", "Apple" }, new List<string>() { "airpos.png", "airpos2.png" });
-                //await AddCourseAsync("Audifonos Bose", 870000M, 12F, new List<string>() { "Tecnología" }, new List<string>() { "audifonos_bose.png" });
-                //await AddCourseAsync("Bicicleta Ribble", 12000000M, 6F, new List<string>() { "Deportes" }, new List<string>() { "bicicleta_ribble.png" });
-                //await AddCourseAsync("Camisa Cuadros", 56000M, 24F, new List<string>() { "Ropa" }, new List<string>() { "camisa_cuadros.png" });
-                //await AddCourseAsync("Casco Bicicleta", 820000M, 12F, new List<string>() { "Deportes" }, new List<string>() { "casco_bicicleta.png", "casco.png" });
-                //await AddCourseAsync("iPad", 2300000M, 6F, new List<string>() { "Tecnología", "Apple" }, new List<string>() { "ipad.png" });
-                //await AddCourseAsync("iPhone 13", 5200000M, 6F, new List<string>() { "Tecnología", "Apple" }, new List<string>() { "iphone13.png", "iphone13b.png", "iphone13c.png", "iphone13d.png" });
-                //await AddCourseAsync("Mac Book Pro", 12100000M, 6F, new List<string>() { "Tecnología", "Apple" }, new List<string>() { "mac_book_pro.png" });
-                //await AddCourseAsync("Mancuernas", 370000M, 12F, new List<string>() { "Deportes" }, new List<string>() { "mancuernas.png" });
-                //await AddCourseAsync("Mascarilla Cara", 26000M, 100F, new List<string>() { "Belleza" }, new List<string>() { "mascarilla_cara.png" });
-                //await AddCourseAsync("New Balance 530", 180000M, 12F, new List<string>() { "Calzado", "Deportes" }, new List<string>() { "newbalance530.png" });
-                //await AddCourseAsync("New Balance 565", 179000M, 12F, new List<string>() { "Calzado", "Deportes" }, new List<string>() { "newbalance565.png" });
-                //await AddCourseAsync("Nike Air", 233000M, 12F, new List<string>() { "Calzado", "Deportes" }, new List<string>() { "nike_air.png" })
-                //await AddCourseAsync("Nike Zoom", 249900M, 12F, new List<string>() { "Calzado", "Deportes" }, new List<string>() { "nike_zoom.png" });
-                //await AddCourseAsync("Buso Adidas Mujer", 134000M, 12F, new List<string>() { "Ropa", "Deportes" }, new List<string>() { "buso_adidas.png" });
-                //await AddCourseAsync("Suplemento Boots Original", 15600M, 12F, new List<string>() { "Nutrición" }, new List<string>() { "Boost_Original.png" });
-                //await AddCourseAsync("Whey Protein", 252000M, 12F, new List<string>() { "Nutrición" }, new List<string>() { "whey_protein.png" });
-                //await AddCourseAsync("Arnes Mascota", 25000M, 12F, new List<string>() { "Mascotas" }, new List<string>() { "arnes_mascota.png" });
-                //await AddCourseAsync("Cama Mascota", 99000M, 12F, new List<string>() { "Mascotas" }, new List<string>() { "cama_mascota.png" });
-                //await AddCourseAsync("Teclado Gamer", 67000M, 12F, new List<string>() { "Gamer", "Tecnología" }, new List<string>() { "teclado_gamer.png" });
-                //await AddCourseAsync("Silla Gamer", 980000M, 12F, new List<string>() { "Gamer", "Tecnología" }, new List<string>() { "silla_gamer.png" });
-                //await AddCourseAsync("Mouse Gamer", 132000M, 12F, new List<string>() { "Gamer", "Tecnología" }, new List<string>() { "mouse_gamer.png" });
                 await _context.SaveChangesAsync();
             }
-
         }
         private async Task AddCourseAsync(
             string name, 
@@ -127,7 +109,6 @@ namespace ADASOFT.Data
         {
             Course course = new()
             {
-
                 Name = name,
                 Description = description,
                 Price = price,
@@ -144,15 +125,14 @@ namespace ADASOFT.Data
                 Guid imageId = await _blobHelper.UploadBlobAsync($"{Environment.CurrentDirectory}\\wwwroot\\Images\\courses\\{image}", "courses");
                 course.CourseImages.Add(new CourseImage { ImageId = imageId });
             }
-
             _context.Courses.Add(course);
         }
 
         private async Task CheckRolesAsync()
         {
-                 await _userHelper.CheckRoleAsync(UserType.Admin.ToString());
-                //await _userHelper.CheckRoleAsync(UserType.Teacher.ToString());
-                await _userHelper.CheckRoleAsync(UserType.User.ToString()); //User Types are only in classes usertype and seedDb 
+            await _userHelper.CheckRoleAsync(UserType.Admin.ToString());
+            //await _userHelper.CheckRoleAsync(UserType.Teacher.ToString());
+            await _userHelper.CheckRoleAsync(UserType.User.ToString()); //User Types are only in classes usertype and seedDb 
         }
 
         private async Task CheckLocationsAsync()
@@ -172,7 +152,6 @@ namespace ADASOFT.Data
                                 new Campus() { Name = "Fraternidad" },
                                 new Campus() { Name = "Floresta" },
                                 new Campus() { Name = "Castilla" },
-
                             }
                         },
                         new City()
@@ -181,7 +160,6 @@ namespace ADASOFT.Data
                             Campuses = new List<Campus>() {
                                 new Campus() { Name = "Las Palmas" },
                                 new Campus() { Name = "Área Urbana" },
-
                             }
                         },
                     }
@@ -198,7 +176,6 @@ namespace ADASOFT.Data
                                 new Campus() { Name = "Sagrado Corazón" },
                                 new Campus() { Name = "La Macarena" },
                                 new Campus() { Name = "Lourdes" },
-
                             }
                         },
                         new City()
@@ -208,7 +185,6 @@ namespace ADASOFT.Data
                                 new Campus() { Name = "Chicó Lago" },
                                 new Campus() { Name = "El Refugio" },
                                 new Campus() { Name = "Pardo Rubio" },
-
                             }
                         },
                     }
@@ -217,5 +193,4 @@ namespace ADASOFT.Data
             }
         }
     }
-    
 }

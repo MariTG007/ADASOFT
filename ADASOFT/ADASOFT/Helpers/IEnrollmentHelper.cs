@@ -7,11 +7,7 @@ namespace ADASOFT.Helpers
     public interface IEnrollmentHelper
     {
         Task<Response> ProcessOrderAsync(ShowCartViewModel model);
-
         Task<Response> ConfirmEnrollment(Enrollment enrollment);
-
-
         Task<Response> CancelOrderAsync(int id);
-
     }
 }

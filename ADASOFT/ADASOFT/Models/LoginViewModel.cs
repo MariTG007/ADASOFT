@@ -18,5 +18,4 @@ namespace ADASOFT.Models
         [Display(Name = "Recordarme en este navegador")]
         public bool RememberMe { get; set; }
     }
-
 }
