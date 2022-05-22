@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace ADASOFT.Migrations
 {
-    public partial class AddCorrectionNote : Migration
+    public partial class AverageScore : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

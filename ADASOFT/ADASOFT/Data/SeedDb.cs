@@ -85,13 +85,13 @@ namespace ADASOFT.Data
         {
             if (!_context.Courses.Any())
             {
-                await AddCourseAsync("Pintura", "Pintura Expresionista", 270000M, "Lunes-Miércoles", "", 12, new List<string>() { "elgrito.png" }, "4040");
-                await AddCourseAsync("Baile", "Estilo Urbano", 200000M, "Lunes-Miércoles", "", 20, new List<string>() { "elgrito.png" }, "1010");
-                await AddCourseAsync("Baile", "Regional Colombiano", 200000M, "Martes-Jueves", "", 20, new List<string>() { "elgrito.png" }, "6060");
+                await AddCourseAsync("Pintura Expresionista", "Pintura Expresionista", 270000M, "Lunes-Miércoles", "", 12, new List<string>() { "elgrito.png" }, "4040");
+                await AddCourseAsync("Baile Urbano", "Estilo Urbano", 200000M, "Lunes-Miércoles", "", 20, new List<string>() { "elgrito.png" }, "1010");
+                await AddCourseAsync("Baile Regional", "Regional Colombiano", 200000M, "Martes-Jueves", "", 20, new List<string>() { "elgrito.png" }, "6060");
                 await AddCourseAsync("Literatura", "Narrativa, lírica y dramática", 320000M, "Lunes-Martes", "", 8, new List<string>() { "elgrito.png" }, "3030");
                 await AddCourseAsync("Música", "Música clásica, de consumo, tradicional y étnica", 800000M, "Miércoles-Jueves", "", 10, new List<string>() { "elgrito.png" }, "4040");
                 await AddCourseAsync("Cine", "Géneros cinematográficos", 429000M, "Jueves-Viernes", "", 25, new List<string>() { "elgrito.png" }, "5050");
-                await AddCourseAsync("Pintura", "Pintura Abstracta", 215000M, "Martes-Jueves", "", 12, new List<string>() { "elgrito.png" }, "1010");
+                await AddCourseAsync("Pintura Abstracta", "Pintura Abstracta", 215000M, "Martes-Jueves", "", 12, new List<string>() { "elgrito.png" }, "1010");
                 await AddCourseAsync("Escultura", "Creación de formas y figuras en 3D", 800000M, "Miércoles-Viernes", "", 10, new List<string>() { "elgrito.png" }, "7070");
 
                 await _context.SaveChangesAsync();

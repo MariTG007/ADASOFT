@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ADASOFT.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20220521180233_AddCorrectionNote")]
-    partial class AddCorrectionNote
+    [Migration("20220522203427_AverageScore")]
+    partial class AverageScore
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

@@ -136,20 +136,18 @@ namespace ADASOFT.Controllers
                         }
                         if ((studentCourse.porcentageCourse + model.Percentage -grade2.Percentage) <= 100)
                         {
-                            Grade grade = new()
-                            {
-                                Id = model.Id,
-                                Percentage = model.Percentage,
-                                Grades = model.Grades,
+                           
+                            grade2.Id = model.Id;
+                            grade2.Percentage = model.Percentage;
+                            grade2.Grades = model.Grades;
 
-                            };
-                            _context.Update(grade);
+                            _context.Update(grade2);
                             await _context.SaveChangesAsync();
                             return RedirectToAction(nameof(DetailsGrade), new { Id = model.StudentCourseId });
                         }
                         else
                         {
-                            ModelState.AddModelError(string.Empty, "El porcentage total no puede ser mayor q 100%");
+                            ModelState.AddModelError(string.Empty, "El porcentaje total no puede ser mayor q 100%");
                         }
                     }
                     else
@@ -162,6 +160,7 @@ namespace ADASOFT.Controllers
                     ModelState.AddModelError(string.Empty, exception.Message);
                 }
             }
+            
             return View(model);
         }
 
