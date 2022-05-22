@@ -123,27 +123,38 @@ namespace ADASOFT.Controllers
             {
                 try
                 {
-                    Grade grade = new()
+                    if (0 <= model.Grades && model.Grades <= 5)
                     {
-                        Id = model.Id,
-                        Percentage = model.Percentage,
-                        Grades = model.Grades,
+                        StudentCourse studentCourse = await _context.StudentCourses
+                        .Include(s => s.Grades)
+                        .FirstOrDefaultAsync(u => u.Id == model.StudentCourseId);
+                        studentCourse.porcentageCourse = 0;
+                        Grade grade2 = await _context.Grades.FindAsync(model.Id);
+                        foreach (Grade grade1 in studentCourse.Grades)
+                        {
+                            studentCourse.porcentageCourse += grade1.Percentage;
+                        }
+                        if ((studentCourse.porcentageCourse + model.Percentage -grade2.Percentage) <= 100)
+                        {
+                            Grade grade = new()
+                            {
+                                Id = model.Id,
+                                Percentage = model.Percentage,
+                                Grades = model.Grades,
 
-                    };
-                    _context.Update(grade);
-                    await _context.SaveChangesAsync();
-                    return RedirectToAction(nameof(DetailsGrade), new { Id = model.StudentCourseId });
-                }
-                catch (DbUpdateException dbUpdateException)
-                {
-                    if (dbUpdateException.InnerException.Message.Contains("duplicate"))
-                    {
-                        _flashMessage.Danger("Ya existe una sede " +
-                                                     "con el mismo nombre en esta ciudad.");
+                            };
+                            _context.Update(grade);
+                            await _context.SaveChangesAsync();
+                            return RedirectToAction(nameof(DetailsGrade), new { Id = model.StudentCourseId });
+                        }
+                        else
+                        {
+                            ModelState.AddModelError(string.Empty, "El porcentage total no puede ser mayor q 100%");
+                        }
                     }
                     else
                     {
-                        ModelState.AddModelError(string.Empty, dbUpdateException.InnerException.Message);
+                        ModelState.AddModelError(string.Empty, "No se puede ingresar una nota que no este en el rango de 0 a 5");
                     }
                 }
                 catch (Exception exception)
@@ -206,29 +217,16 @@ namespace ADASOFT.Controllers
                     .FirstOrDefaultAsync(u => u.Id == model.StudentCourseId);
                     studentCourse.porcentageCourse = 0;
                     foreach (Grade grade1 in studentCourse.Grades)
-
-
-
                     {
                         studentCourse.porcentageCourse += grade1.Percentage;
-
-
-
                     }
                     if ((studentCourse.porcentageCourse + model.Percentage) <= 100)
                     {
                         Grade grade = new()
                         {
-
-
-
-
                             StudentCourse = await _context.StudentCourses.FindAsync(model.StudentCourseId),
                             Grades = model.Grades,
                             Percentage = model.Percentage,
-
-
-
                         };
                         _context.Add(grade);
                         await _context.SaveChangesAsync();
@@ -236,21 +234,11 @@ namespace ADASOFT.Controllers
                     }
                     {
                         ModelState.AddModelError(string.Empty, "El porcentage total no puede ser mayor q 100%");
-
-
-
                     }
                 }
                 else
                 {
                     ModelState.AddModelError(string.Empty, "No se puede ingresar una nota que no este en el rango de 0 a 5");
-
-
-
-                    // return RedirectToAction(nameof(AddGrade), new { Id = model.StudentCourseId });
-
-
-
                 }
             }
             catch (Exception exception)
