@@ -9,6 +9,10 @@
     {
       "library": "jquery@3.6.0",
       "destination": "wwwroot/lib/jquery/"
+    },
+    {
+      "library": "bootstrap@5.2.0-beta1",
+      "destination": "wwwroot/lib/bootstrap/"
     }
   ]
 }

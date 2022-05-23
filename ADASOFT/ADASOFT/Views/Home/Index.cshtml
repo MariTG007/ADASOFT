@@ -3,10 +3,6 @@
         ViewData["Title"] = "Home Page";
   }
     <flash dismissable="true" />
-
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/ADASOFT.styles.css" asp-append-version="true" />
  
 
 <style type="text/css">
@@ -20,34 +16,24 @@
         font-family: sans-serif;
         margin: 5px;
     }
-    .selector-for-some-widget {
-      box-sizing: content-box;
-    }
-  .selector-for-some-widget {
-      box-sizing: content-box;
-    }
+
     .carousel-inner img {
-        position: relative;
-        width: 100%;
-        min-width: 500px;
-        max-height: 540px;
-}
- /*   .carousel-inner {
-        position: relative;
+         height: 34rem;
+    }
+
+    .carousel-inner{
+        
+        position:relative;
+        height: 34rem;
+        width: 84.7rem;
+
+    }
    
-        min-width: 540px;
-        max-width: 1350px;
-        max-height: 540px;
-    
-        width: 127.8%;
-        right: 118px;
-        top: -16.6px;
-    }*/
 </style>
 
-<div class="row"> 
-    <div class="col-lg-12">
-<div id="carouselExampleCaptions" class="carousel slide" data-mdb-ride="carousel" style="position: relative;margin-top:-1.3%; margin-left:-11%;width:115.9%;">
+
+
+<div id="carouselExampleCaptions" class="carousel slide" data-mdb-ride="carousel" style="margin-top:-1.5%; margin-left:-11%">
  
       
   <div class="carousel-indicators">
@@ -55,43 +41,88 @@
     <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1" aria-label="Slide 2"></button>
     <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2" aria-label="Slide 3"></button>
     <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="3" aria-label="Slide 4"></button>
+    <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="4" aria-label="Slide 5"></button>
   </div>
   
   <div class="carousel-inner">
     <div class="carousel-item active">
-      <img  src="~/Images/ADASOFT-A.png" class="d-block w-100" alt="..." style="filter:brightness(0.4)">
-      <div class="carousel-caption d-none d-md-block">
-        
-        <font  face="Arial" size=6  >
-            <h1><i>“El aprendizaje nunca agota la mente.”</i></h1>
-            <sub>Leonardo Da Vinci</sub>
-        </font>
-        
-      </div>
-    </div>
-    <div class="carousel-item" >
-  
 
-      <img src="~/Images/baile.jpg" class="d-block w-100" alt="..." style="filter:brightness(0.4)" >
+         <div class="row align-items-center">
+                            <div class="col-md py-2">
+                              <video src="~/Images/art.mp4" autoplay muted loop height="540"></video>
+                            </div>
+                            <div class="col-md py-2">
+                                @*<marquee  behavior="scroll" direction="up"> *@
+                                <div align="center">
+                                <img class="d-block img-fluid w-50" src="~/Images/Adasoft.png" alt="First slide" style="height:100px; top:-10px;">
+                                </div>
+                                @*</marquee>*@
+                                <br />
+                                <br />
+                                <br />
+
+                                <font  face="Arial">
+                                   <p><b>ADASOFT es un espacio que busca la creación y expansión formativa de diferentes manifestaciones artísticas, 
+                                        estéticas y culturales a través de una apuesta por el aprendizaje y la experimentación,
+                                        en una labor conjunta entre docentes y alumnos en diferentes cursos permanentes 
+                                        de artes plásticas, danza, música y artes visuales.
+                                    </b></p>
+            
+                                </font>
+                            </div>
+                        </div>
+                    </div>
+    @*  <img  src="~/Images/ADASOFT-A.png" class="d-block w-100" alt="..." style="filter:brightness(0.4)">
+      <div class="carousel-caption d-none d-md-block">
+        <font  face="Arial">
+           <p><b>ADASOFT es un espacio que busca la creación y expansión formativa de diferentes manifestaciones artísticas, 
+                estéticas y culturales a través de una apuesta por el aprendizaje y la experimentación,
+                en una labor conjunta entre docentes y alumnos en diferentes cursos permanentes 
+                de artes plásticas, danza, música y artes visuales.
+            </b></p>
+            
+        </font>
+      </div>*@
+    @*</div>*@
+    <div class="carousel-item" >
+      <img src="~/Images/danza.jpg" class="d-block w-100" alt="..." style="filter:brightness(0.4)" >
     
       <div class="carousel-caption d-none d-md-block">
         <h1><b>Baile</b></h1>
-        <p><b>Some representative placeholder content for the second slide.</b></p>
+        <p><b>Explorando posibilidades de movimiento, 
+              profundizando en el arte, 
+              potenciando la creatividad.
+         </b></p>
       </div>
     </div>
     <div class="carousel-item" >
-      <img src="~/Images/musica.jpg" class="d-block w-100" alt="..." style="filter:brightness(0.4)">
+      <img src="~/Images/musica1.jpg" class="d-block w-100" alt="..." style="filter:brightness(0.4)">
       <div class="carousel-caption d-none d-md-block">
         <h1><b>Música</b></h1>
-        <p><b>Some representative placeholder content for the third slide.</b></p>
+        <p><b>Desarrollar la creatividad, la inteligencia emocional y la sensibilidad.
+            A su vez, la práctica de ésta disciplina estimula las capacidades motoras, 
+            cognitivas, afectivas, introspectivas, perceptivas de las personas. 
+            Como también fomenta el trabajo en equipo y la valoración individual.</b></p>
       </div>
     </div>
-
     <div class="carousel-item" >
-      <img  src="~/Images/pintura.jpg" class="d-block w-100" alt="..." style="filter:brightness(0.4)">
+      <img  src="~/Images/pintura1.jpg" class="d-block w-100" alt="..." style="filter:brightness(0.4)">
       <div class="carousel-caption d-none d-md-block">
         <h1><b>Pintura</b></h1>
-        <p><b>Some representative placeholder content for the third slide.</b></p>
+        <p><b>Aprender a profundizar en las diferentes técnicas pictóricas, 
+            dándole profundidad y madurez al trabajo personal. Permitiendo así, 
+            la capacidad de creación y expresión artística.</b></p>
+      </div>
+    </div>
+      <div class="carousel-item" >
+      <img  src="~/Images/escultura.jpg" class="d-block w-100" alt="..." style="filter:brightness(0.4)">
+      <div class="carousel-caption d-none d-md-block">
+        <h1><b>Escultura</b></h1>
+        <p><b>Descubrir los volúmenes reales de los objetos y las personas; 
+            esa esencia que transmite la tridimensionalidad, y que tan bien 
+            reflejan hoy día los gráficos 3D de muchos videojuegos o
+            proyectos de animación. Porque solo con ver no es suficiente.
+        </b></p>
       </div>
     </div>
 
@@ -104,13 +135,7 @@
     <span class="carousel-control-next-icon" aria-hidden="true"></span>
     <span class="visually-hidden">Next</span>
   </button>
-  
   </div>
-  </div>
-  </div>
-
-  
-
  <br />
  <br />
 
