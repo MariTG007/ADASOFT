@@ -2,6 +2,7 @@
 using ADASOFT.Data.Entities;
 using ADASOFT.Helpers;
 using ADASOFT.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Vereyon.Web;
@@ -19,6 +20,8 @@ namespace ADASOFT.Controllers
             _userHelper= userHelper;
             _flashMessage =  flashMessage;
         }
+
+        [Authorize(Roles = "User")]
         public async Task<IActionResult> Index()
         {
             User user = await _userHelper.GetUserAsync(User.Identity.Name);
@@ -77,6 +80,11 @@ namespace ADASOFT.Controllers
                 .Include(s => s.Course)
                 .Include(s => s.Grades)
                 .FirstOrDefaultAsync(m => m.Id == id);
+            //studentCourse.FinalGrade = 0;
+            //foreach (Grade? grade in studentCourse.Grades)
+            //{
+            //    studentCourse.FinalGrade += ((grade.Percentage/100) * grade.Grades);
+            //}
             if (studentCourse == null)
             {
                 return NotFound();
@@ -142,6 +150,13 @@ namespace ADASOFT.Controllers
                             grade2.Grades = model.Grades;
 
                             _context.Update(grade2);
+                            await _context.SaveChangesAsync();
+                            studentCourse.FinalGrade = 0;
+                            foreach (Grade? grade3 in studentCourse.Grades)
+                            {
+                                studentCourse.FinalGrade += ((grade3.Percentage / 100) * grade3.Grades);
+                            }
+                            _context.StudentCourses.Update(studentCourse);
                             await _context.SaveChangesAsync();
                             return RedirectToAction(nameof(DetailsGrade), new { Id = model.StudentCourseId });
                         }
@@ -227,7 +242,15 @@ namespace ADASOFT.Controllers
                             Grades = model.Grades,
                             Percentage = model.Percentage,
                         };
+
                         _context.Add(grade);
+                        await _context.SaveChangesAsync();
+                        studentCourse.FinalGrade = 0;
+                        foreach (Grade? grade2 in studentCourse.Grades)
+                        {
+                            studentCourse.FinalGrade += ((grade2.Percentage / 100) * grade2.Grades);
+                        }
+                        _context.StudentCourses.Update(studentCourse);
                         await _context.SaveChangesAsync();
                         return RedirectToAction(nameof(DetailsGrade), new { Id = model.StudentCourseId });
                     }
@@ -244,6 +267,7 @@ namespace ADASOFT.Controllers
             {
                 ModelState.AddModelError(string.Empty, exception.Message);
             }
+
 
             return View(model);
 
@@ -276,6 +300,17 @@ namespace ADASOFT.Controllers
                 .FirstOrDefaultAsync(c => c.Id == id);
             _context.Grades.Remove(grade);
             await _context.SaveChangesAsync();
+            StudentCourse studentCourse = await _context.StudentCourses
+                .Include(s => s.Grades)
+                .FirstOrDefaultAsync(u => u.Id == grade.StudentCourse.Id); 
+            studentCourse.FinalGrade = 0;
+            foreach (Grade? grade2 in studentCourse.Grades)
+            {
+                studentCourse.FinalGrade += ((grade2.Percentage / 100) * grade2.Grades);
+            }
+            _context.StudentCourses.Update(studentCourse);
+            await _context.SaveChangesAsync();
+           
             return RedirectToAction(nameof(DetailsGrade), new { Id = grade.StudentCourse.Id });
         }
 

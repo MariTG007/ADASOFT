@@ -12,5 +12,7 @@ namespace ADASOFT.Data.Entities
 
         [Display(Name = "Notas")]
         public int GradesNumber => Grades == null ? 0 : Grades.Count;
+
+        public decimal FinalGrade { get; set; }
     }
 }

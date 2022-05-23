@@ -116,7 +116,7 @@ namespace ADASOFT.Controllers
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
-
+        
         public async Task<IActionResult> Add(int? id)
         {
             if (id == null)

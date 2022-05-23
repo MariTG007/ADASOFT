@@ -4,6 +4,9 @@
   }
     <flash dismissable="true" />
  
+      <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+      <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+      <link rel="stylesheet" href="~/ADASOFT.styles.css" asp-append-version="true" />
 
 <style type="text/css">
     .card {
@@ -19,19 +22,19 @@
 
     .carousel-inner img {
          height: 34rem;
+         
     }
 
     .carousel-inner{
         
         position:relative;
-        height: 34rem;
+        height: 540px;
         width: 84.7rem;
-
+        background: #7FB3D5;
+ 
     }
    
 </style>
-
-
 
 <div id="carouselExampleCaptions" class="carousel slide" data-mdb-ride="carousel" style="margin-top:-1.5%; margin-left:-11%">
  
@@ -53,7 +56,7 @@
                             </div>
                             <div class="col-md py-2">
                                 @*<marquee  behavior="scroll" direction="up"> *@
-                                <div align="center">
+                               <div align="center">
                                 <img class="d-block img-fluid w-50" src="~/Images/Adasoft.png" alt="First slide" style="height:100px; top:-10px;">
                                 </div>
                                 @*</marquee>*@
@@ -72,7 +75,7 @@
                             </div>
                         </div>
                     </div>
-    @*  <img  src="~/Images/ADASOFT-A.png" class="d-block w-100" alt="..." style="filter:brightness(0.4)">
+  @*    <img  src="~/Images/ADASOFT-A.png" class="d-block w-100" alt="..." style="filter:brightness(0.4)">
       <div class="carousel-caption d-none d-md-block">
         <font  face="Arial">
            <p><b>ADASOFT es un espacio que busca la creación y expansión formativa de diferentes manifestaciones artísticas, 
@@ -82,8 +85,8 @@
             </b></p>
             
         </font>
-      </div>*@
-    @*</div>*@
+      </div>
+    </div>*@
     <div class="carousel-item" >
       <img src="~/Images/danza.jpg" class="d-block w-100" alt="..." style="filter:brightness(0.4)" >
     
@@ -139,6 +142,7 @@
  <br />
  <br />
 
+
 @if(Model.Quantity > 0)
 {
     <a asp-action="ShowCart" class="btn btn-outline-primary">Ver Cursos Inscritos(@Model.Quantity)</a>
@@ -162,8 +166,11 @@
                         <p class="card-text smfnt">@item.Days</p>
                     </div>
                     <div class="card-footer text-center">
-                        <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-secondary">Detalles</a>                      
-                        <a asp-action="Add" asp-route-id="@item.Id" class="btn btn-sm btn-primary">Inscribirse</a>
+                        <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-secondary">Detalles</a> 
+                        @*@if (!User.Identity.IsAuthenticated || User.IsInRole("User"))
+                        {*@
+                            <a asp-action="Add" asp-route-id="@item.Id" class="btn btn-sm btn-primary">Inscribirse</a>
+                        @*}*@
                     </div>
                 </div>
             </div>

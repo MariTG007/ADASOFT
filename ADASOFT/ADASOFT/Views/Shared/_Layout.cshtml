@@ -10,21 +10,22 @@
     <link rel="stylesheet" href="~/lib/jqueryui/jquery-ui.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/ADASOFT.styles.css" asp-append-version="true" />
-   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
     <style>
-        .nav-bk {
-            background: #0575E6;
-            background: -webkit-linear-gradient(to right, #021B79, #0575E6);
-            background: linear-gradient(to right, #021B79, #0575E6);
-        }
+    .nav-bk{
+ 
+        background: #0575E6;  
+        background: -webkit-linear-gradient(to right, #021B79, #0575E6);  
+        background: linear-gradient(to right, #021B79, #0575E6); 
+    }
     </style>
 
 </head>
 <body>
     <header>
-        @*  <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-info border-bottom box-shadow mb-3">*@
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark nav-bk border-bottom box-shadow mb-3">
+      @*  <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-info border-bottom box-shadow mb-3">*@
+          <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark nav-bk border-bottom box-shadow mb-3">
             <div class="container-fluid">
                 <a class="navbar-brand text-white" asp-area="" asp-controller="Home" asp-action="Index"><i class="fa-solid fa-masks-theater"></i> || ADASOFT@*<img src="~/Images/adasoft4.png" alt="" width="150" height="49">*@</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
@@ -39,97 +40,98 @@
                         <li class="nav-item">
                             <a class="nav-link text-white" asp-area="" asp-controller="Home" asp-action="Privacy"><b>Políticas</b></a>
                         </li>
-
+                      
                         @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
                         {
                             <li class="nav-item dropdown">
-
-                                 <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <b>Administrador</b>
-                                </a>
-
-                                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-
-                                    <li><a class="dropdown-item" asp-area="" asp-controller="Courses" asp-action="Index"><b>Cursos</b></a></li>
-                                     <li><hr class="dropdown-divider"></li>
-                                    <li><a class="dropdown-item" asp-area="" asp-controller="Locations" asp-action="Index"><b>Ubicación</b></a></li>
-                                     <li><hr class="dropdown-divider"></li>
-                                    <li><a class="dropdown-item" asp-area="" asp-controller="Users" asp-action="Index"><b>Usuarios</b></a></li>
-
-                                </ul>
-                            </li>
+ 
+                                    <a class="nav-link dropdown-toggle text-white" href="#" id="adminDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                         <b>Administrador</b>
+                                    </a>
+ 
+                                    <div class="dropdown-menu" aria-labelledby="adminDropdown">
+ 
+                                      <a class="dropdown-item" asp-area="" asp-controller="Courses" asp-action="Index"><b>Cursos</b></a>
+                                      <hr class="dropdown-divider">
+                                      <a class="dropdown-item" asp-area="" asp-controller="Locations" asp-action="Index"><b>Ubicación</b></a>
+                                      <hr class="dropdown-divider">
+                                      <a class="dropdown-item" asp-area="" asp-controller="Users" asp-action="Index"><b>Usuarios</b></a>
+ 
+                                    </div>
+                               </li>
                             <li class="nav-item dropdown">
+ 
+                                    <a class="nav-link dropdown-toggle text-white" href="#" id="academyDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+ 
+                                      <b>Academia</b>
+ 
+                                    </a>
+ 
+                                    <div class="dropdown-menu" aria-labelledby="academyDropdown">
+ 
+                                      <a class="dropdown-item" asp-area="" asp-controller="Enrollment" asp-action="Index"><b>Matrículas</b></a>
+                                      <hr class="dropdown-divider">
+                                      @*<a class="dropdown-item" asp-area="" asp-controller="StudentCourse"  asp-action="Index"><b>Cursos matriculados</b></a>
+                                      <hr class="dropdown-divider">*@
+                                      <a class="dropdown-item" asp-area="" asp-area="" asp-controller="StudentCourse"  asp-action="IndexCourse"><b>Seguimiento</b></a>
+ 
+                                    </div>
+ 
+                          </li>
 
-                               <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <b>Academia</b>
-                               </a>
+                             @*<li class="nav-item">
+                                <a class="nav-link text-white" asp-area="" asp-controller="Courses" asp-action="Index"><b>Cursos</b></a>
+                            </li>*@
 
-                                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                          @*  <li class="nav-item">
+                                <a class="nav-link text-white" asp-area="" asp-controller="Locations" asp-action="Index"><b>Ubicación</b></a>
+                            </li>*@
+                           @* <li class="nav-item">
+                                <a class="nav-link text-white" asp-area="" asp-controller="Enrollment" asp-action="Index"><b>Matrículas</b></a>
+                            </li>*@
+                            @*
+                            <li class="nav-item">
+                                <a class="nav-link text-white" asp-area="" asp-controller="Users" asp-action="Index"><b>Usuarios</b></a>
+                            </li>*@
 
-                                    <li><a class="dropdown-item" asp-area="" asp-controller="Enrollment" asp-action="Index"><b>Matrículas</b></a></li>
-                                     <li><hr class="dropdown-divider"></li>
-                                    <li><a class="dropdown-item" asp-area="" asp-controller="StudentCourse" asp-action="Index"><b>Cursos matriculados</b></a></li>
-                                     <li><hr class="dropdown-divider"></li>
-                                    <li><a class="dropdown-item" asp-area="" asp-area="" asp-controller="StudentCourse" asp-action="IndexCourse"><b>Seguimiento</b></a></li>
-
-                                </ul>
-
+                           @* <li class="nav-item">
+                                <a class="nav-link text-white" asp-area="" asp-controller="StudentCourse"  asp-action="Index"><b>Cursos matriculados</b></a>
                             </li>
 
-                            @*<li class="nav-item">
-                                <a class="nav-link text-white" asp-area="" asp-controller="Courses" asp-action="Index"><b>Cursos</b></a>
-                                </li>*@
-
-                            @*  <li class="nav-item">
-                                <a class="nav-link text-white" asp-area="" asp-controller="Locations" asp-action="Index"><b>Ubicación</b></a>
-                                </li>*@
-                            @* <li class="nav-item">
-                                <a class="nav-link text-white" asp-area="" asp-controller="Enrollment" asp-action="Index"><b>Matrículas</b></a>
-                                </li>*@
-                            @*
-                                <li class="nav-item">
-                                <a class="nav-link text-white" asp-area="" asp-controller="Users" asp-action="Index"><b>Usuarios</b></a>
-                                </li>*@
-
-                            @* <li class="nav-item">
-                                <a class="nav-link text-white" asp-area="" asp-controller="StudentCourse"  asp-action="Index"><b>Cursos matriculados</b></a>
-                                </li>
-
-                                <li class="nav-item">
+                            <li class="nav-item">
                                 <a class="nav-link text-white" asp-area="" asp-controller="StudentCourse"  asp-action="IndexCourse"><b>Seguimiento</b></a>
-                                </li>*@
-
+                            </li>*@
+                           
                         }
 
                         @if (User.Identity.IsAuthenticated && User.IsInRole("User"))
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-white" asp-area="" asp-controller="StudentCourse" asp-action="Index"><b>Cursos matriculados</b></a>
+                                <a class="nav-link text-white" asp-area="" asp-controller="StudentCourse"  asp-action="Index"><b>Cursos matriculados</b></a>
                             </li>
                         }
                     </ul>
-                    <ul class="nav navbar-nav navbar-left">
+                    <ul class="nav navbar-nav navbar-left"> 
                         @if (User.Identity.IsAuthenticated)
                         {
                             <li class="nav-item dropdown">
 
-                                <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="margin-left:50px">
-                                    @*<b>@User.Identity.Name</b>*@
-                                    <img id="userImage" alt="" src="" style="width: 60px;height: 60px;border-radius: 50%;"/>
-                                </a>
-                                
-                               <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    <li><a class="dropdown-item" asp-area="" asp-controller="Account" asp-action="ChangeUser"><b><i class="fa-solid fa-bars"></i> Perfil</b></a></li>
-                                    <li><hr class="dropdown-divider"></li>
-                                    <li><a class="dropdown-item" asp-area="" asp-controller="Account" asp-action="Logout"><b><i class="fa-solid fa-right-from-bracket"></i> Salir</b></a></li>
-                                </ul>
-                            </li>
+                                <a class="nav-link dropdown-toggle text-white" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="margin-left:50px">
+                                        <img id="userImage" alt="" src="" style="width: 60px;height: 60px;border-radius: 50%;"/>
+                                    </a>
+ 
+                                    <div class="dropdown-menu" aria-labelledby="userDropdown">
+                                        <a class="dropdown-item" asp-area="" asp-controller="Account" asp-action="ChangeUser"><b><i class="fa-solid fa-bars"></i> Perfil</b></a>
+                                        <hr class="dropdown-divider"> 
+                                        <a class="dropdown-item" asp-area="" asp-controller="Account" asp-action="Logout"><b><i class="fa-solid fa-right-from-bracket"></i> Salir</b></a>
+                                    </div>
+                                </li>
                             @*<li class="nav-item">
-                                <a class="nav-link text-white" asp-area="" asp-controller="Account" asp-action="ChangeUser"><b><i class="fa-solid fa-bars"></i> Perfil</b></a> @*TODO: verify if we can change user*@
+                                <a class="nav-link text-white" asp-area="" asp-controller="Account" asp-action="ChangeUser"><b><i class="fa-solid fa-bars"></i> Perfil</b></a> @*TODO: verify if we can change user*@ 
                             @*</li>
-                                <li class="nav-item">
+                            <li class="nav-item">
                                 <a class="nav-link text-white" asp-area="" asp-controller="Account" asp-action="Logout"><b><i class="fa-solid fa-right-from-bracket"></i> Salir</b></a>
-                                </li>*@
+                            </li>*@
                         }
                         else
                         {
@@ -148,130 +150,138 @@
         </main>
     </div>
 
-    <div style="height: 200px">
+<div  style="height: 200px" >
+</div>
+
+
+<!-- Footer -->
+<footer class="text-center text-lg-start bg-light text-muted" style="position: relative; bottom:-75px">
+  <!-- Section: Social media -->
+  <section
+    class="d-flex justify-content-center justify-content-lg-between p-4 border-bottom"
+  >
+    <!-- Left -->
+    <div class="me-5 d-none d-lg-block">
+      <span>Get connected with us on social networks:</span>
     </div>
+    <!-- Left -->
 
+    <!-- Right -->
+    <div>
+      <a href="" class="me-4 text-reset">
+        <i class="fab fa-facebook-f"></i>
+      </a>
+      <a href="" class="me-4 text-reset">
+        <i class="fab fa-twitter"></i>
+      </a>
+      <a href="" class="me-4 text-reset">
+        <i class="fab fa-google"></i>
+      </a>
+      <a href="" class="me-4 text-reset">
+        <i class="fab fa-instagram"></i>
+      </a>
+      <a href="" class="me-4 text-reset">
+        <i class="fab fa-linkedin"></i>
+      </a>
+      <a href="" class="me-4 text-reset">
+        <i class="fab fa-github"></i>
+      </a>
+    </div>
+    <!-- Right -->
+  </section>
+  <!-- Section: Social media -->
 
-    <!-- Footer -->
-    <footer class="text-center text-lg-start bg-light text-muted" style="position: relative; bottom:-75px">
-        <!-- Section: Social media -->
-        <section class="d-flex justify-content-center justify-content-lg-between p-4 border-bottom">
-            <!-- Left -->
-            <div class="me-5 d-none d-lg-block">
-                <span>Get connected with us on social networks:</span>
-            </div>
-            <!-- Left -->
-            <!-- Right -->
-            <div>
-                <a href="" class="me-4 text-reset">
-                    <i class="fab fa-facebook-f"></i>
-                </a>
-                <a href="" class="me-4 text-reset">
-                    <i class="fab fa-twitter"></i>
-                </a>
-                <a href="" class="me-4 text-reset">
-                    <i class="fab fa-google"></i>
-                </a>
-                <a href="" class="me-4 text-reset">
-                    <i class="fab fa-instagram"></i>
-                </a>
-                <a href="" class="me-4 text-reset">
-                    <i class="fab fa-linkedin"></i>
-                </a>
-                <a href="" class="me-4 text-reset">
-                    <i class="fab fa-github"></i>
-                </a>
-            </div>
-            <!-- Right -->
-        </section>
-        <!-- Section: Social media -->
-        <!-- Section: Links  -->
-        <section class="">
-            <div class="container text-center text-md-start mt-5">
-                <!-- Grid row -->
-                <div class="row mt-3">
-                    <!-- Grid column -->
-                    <div class="col-md-3 col-lg-4 col-xl-3 mx-auto mb-4">
-                        <!-- Content -->
-                        <h6 class="text-uppercase fw-bold mb-4">
-                            <i class="fa-solid fa-masks-theater me-3"></i>ADASOFT
-                        </h6>
-                        <p>
-                            Here you can use rows and columns to organize your footer content. Lorem ipsum
-                            dolor sit amet, consectetur adipisicing elit.
-                        </p>
-                    </div>
-                    <!-- Grid column -->
-                    <!-- Grid column -->
-                    <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-4">
-                        <!-- Links -->
-                        <h6 class="text-uppercase fw-bold mb-4">
-                            Productos
-                        </h6>
-                        <p>
-                            <a href="#!" class="text-reset">Baile</a>
-                        </p>
-                        <p>
-                            <a href="#!" class="text-reset">Música</a>
-                        </p>
-                        <p>
-                            <a href="#!" class="text-reset">Pintura</a>
-                        </p>
-                        <p>
-                            <a href="#!" class="text-reset">Escultura</a>
-                        </p>
-                    </div>
-                    <!-- Grid column -->
-                    <!-- Grid column -->
-                    <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mb-4">
-                        <!-- Links -->
-                        <h6 class="text-uppercase fw-bold mb-4">
-                            Useful links
-                        </h6>
-                        <p>
-                            <a href="#!" class="text-reset">Pricing</a>
-                        </p>
-                        <p>
-                            <a href="#!" class="text-reset">Settings</a>
-                        </p>
-                        <p>
-                            <a href="#!" class="text-reset">Orders</a>
-                        </p>
-                        <p>
-                            <a href="#!" class="text-reset">Help</a>
-                        </p>
-                    </div>
-                    <!-- Grid column -->
-                    <!-- Grid column -->
-                    <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mb-md-0 mb-4">
-                        <!-- Links -->
-                        <h6 class="text-uppercase fw-bold mb-4">
-                            ContactO
-                        </h6>
-                        <p><i class="fas fa-home me-3"></i> Medellín, ANT 10012, CO</p>
-                        <p>
-                            <i class="fas fa-envelope me-3"></i>
-                            adasoft03@gmail.com
-                        </p>
-                        <p><i class="fas fa-phone me-3"></i> + 01 234 567 88</p>
-                        <p><i class="fas fa-print me-3"></i> + 01 234 567 89</p>
-                    </div>
-                    <!-- Grid column -->
-                </div>
-                <!-- Grid row -->
-            </div>
-        </section>
-        <!-- Section: Links  -->
-        <!-- Copyright -->
-        <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2); bottom:5%">
+  <!-- Section: Links  -->
+  <section class="">
+    <div class="container text-center text-md-start mt-5">
+      <!-- Grid row -->
+      <div class="row mt-3">
+        <!-- Grid column -->
+        <div class="col-md-3 col-lg-4 col-xl-3 mx-auto mb-4">
+          <!-- Content -->
+          <h6 class="text-uppercase fw-bold mb-4">
+            <i class="fa-solid fa-masks-theater me-3"></i>ADASOFT  
+          </h6>
+          <p>
+            Here you can use rows and columns to organize your footer content. Lorem ipsum
+            dolor sit amet, consectetur adipisicing elit.
+          </p>
+        </div>
+        <!-- Grid column -->
+
+        <!-- Grid column -->
+        <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-4">
+          <!-- Links -->
+          <h6 class="text-uppercase fw-bold mb-4">
+            Productos
+          </h6>
+          <p>
+            <a href="#!" class="text-reset">Baile</a>
+          </p>
+          <p>
+            <a href="#!" class="text-reset">Música</a>
+          </p>
+          <p>
+            <a href="#!" class="text-reset">Pintura</a>
+          </p>
+          <p>
+            <a href="#!" class="text-reset">Escultura</a>
+          </p>
+        </div>
+        <!-- Grid column -->
+
+        <!-- Grid column -->
+        <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mb-4">
+          <!-- Links -->
+          <h6 class="text-uppercase fw-bold mb-4">
+            Useful links
+          </h6>
+          <p>
+            <a href="#!" class="text-reset">Pricing</a>
+          </p>
+          <p>
+            <a href="#!" class="text-reset">Settings</a>
+          </p>
+          <p>
+            <a href="#!" class="text-reset">Orders</a>
+          </p>
+          <p>
+            <a href="#!" class="text-reset">Help</a>
+          </p>
+        </div>
+        <!-- Grid column -->
+
+        <!-- Grid column -->
+        <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mb-md-0 mb-4">
+          <!-- Links -->
+          <h6 class="text-uppercase fw-bold mb-4">
+            ContactO
+          </h6>
+          <p><i class="fas fa-home me-3"></i> Medellín, ANT 10012, CO</p>
+          <p>
+            <i class="fas fa-envelope me-3"></i>
+            adasoft03@gmail.com
+          </p>
+          <p><i class="fas fa-phone me-3"></i> + 01 234 567 88</p>
+          <p><i class="fas fa-print me-3"></i> + 01 234 567 89</p>
+        </div>
+        <!-- Grid column -->
+      </div>
+      <!-- Grid row -->
+    </div>
+  </section>
+  <!-- Section: Links  -->
+
+  <!-- Copyright -->
+  <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2); bottom:5%">
             © TODOS LOS DERECHOS RESERVADOS
             - 2022 - ADASOFT - <a asp-area="" asp-controller="Home" asp-action="Privacy">Políticas</a>
-        </div>
-        <!-- Copyright -->
-    </footer>
-    <!-- Footer -->
+  </div>
+  <!-- Copyright -->
+</footer>
+<!-- Footer -->
 
-     <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/lib/font-awesome/js/fontawesome.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
@@ -279,8 +289,8 @@
     <script src="~/lib/datatables/js/jquery.dataTables.min.js"></script>
     <script src="~/lib/jquery-ui/jquery-ui.min.js"></script>
     <script src="~/lib/font-awesome/js/all.min.js"></script>
-   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
-
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     @await RenderSectionAsync("Scripts", required: false)
      @if (User.Identity.IsAuthenticated)
     {
@@ -304,5 +314,3 @@
 
 </body>
 </html>
-
-
