@@ -29,15 +29,68 @@ namespace ADASOFT.Controllers
             _flashMessage = flashMessage;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string sortOrder, string currentFilter,
+                                                string searchString, int? pageNumber)
         {
+            ViewData["CurrentSort"] = sortOrder;
+            ViewData["NameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "NameDesc" : "";
+            ViewData["PriceSortParm"] = sortOrder == "Price" ? "PriceDesc" : "Price";
+
+            if (searchString != null)
+            {
+                pageNumber = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+
+            ViewData["CurrentFilter"] = searchString;
+
+            IQueryable<Course> query = _context.Courses
+                .Include(p => p.CourseImages)
+                //.Include(p => p.ProductCategories)
+                .Where(p => p.Quota > 0);
+
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                query = query.Where(p => (p.Name.ToLower().Contains(searchString.ToLower()) && p.Quota > 0));
+            }
+            else
+            {
+                query = query.Where(p => p.Quota > 0);
+            }
+
+            switch (sortOrder)
+            {
+                case "NameDesc":
+                    query = query.OrderByDescending(p => p.Name);
+                    break;
+                case "Price":
+                    query = query.OrderBy(p => p.Price);
+                    break;
+                case "PriceDesc":
+                    query = query.OrderByDescending(p => p.Price);
+                    break;
+                default:
+                    query = query.OrderBy(p => p.Name);
+                    break;
+            }
+
+            int pageSize = 8;
+
             List<Course> courses = await _context.Courses
                 .Include(c => c.CourseImages)
                 .Where(p => p.Quota > 0)
                 .OrderBy(c => c.Name)
                 .ToListAsync();
 
-            HomeViewModel model = new() { Courses = courses };
+            HomeViewModel model = new() 
+            {
+                Courses = await query.ToListAsync(),
+                Subjects = await PaginatedList<Course>.CreateAsync(query, pageNumber ?? 1, pageSize)
+            };
+
             User user = await _userHelper.GetUserAsync(User.Identity.Name);
             if (user != null)
             {
