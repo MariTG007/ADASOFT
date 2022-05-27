@@ -128,6 +128,10 @@ namespace ADASOFT.Controllers
             {
                 return RedirectToAction("Login", "Account");
             }
+            if (User.IsInRole("Admin")) { 
+                return RedirectToAction("NotAuthorized", "Account");
+
+            }
 
             Course course = await _context.Courses.FindAsync(id);
             if (course == null)
@@ -157,6 +161,11 @@ namespace ADASOFT.Controllers
         [Authorize]
         public async Task<IActionResult> ShowCart()
         {
+            if (User.IsInRole("Admin"))
+            {
+                return RedirectToAction("NotAuthorized", "Account");
+
+            }
             User user = await _userHelper.GetUserAsync(User.Identity.Name);
             if (user == null)
             {

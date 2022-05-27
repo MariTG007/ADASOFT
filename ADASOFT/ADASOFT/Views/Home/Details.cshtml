@@ -112,7 +112,7 @@
                         <span asp-validation-for="Quantity" class="text-danger"></span>
                     </div>
                     <div class="form-group mt-2">
-                        @if (User.Identity.IsAuthenticated && User.IsInRole("User"))
+                       @if (!User.Identity.IsAuthenticated || User.IsInRole("User"))
                         {
                             <input type="submit" value="Inscribirse a Curso" class="btn btn-outline-primary" />
                         }

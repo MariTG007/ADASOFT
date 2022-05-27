@@ -12,7 +12,7 @@
   
      <div class="form-group mt-4">
     <div class="col-md-4 offset-4"> @*column position*@ 
-     <div class="card mb-3" style="width: 350px; height: 400px; border:none">
+     <div class="card mb-3" style="width: 350px; height: 500px; border:none">
       
         
         <center><h1 >
@@ -58,13 +58,9 @@
     </div>
    </div>
    </div>
-
-
-
-
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-
+}
            
 
 
@@ -77,7 +73,7 @@
          });
     </script>
 }*@
-    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+  @*  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
     <script type="text/javascript">
         function Confirmationfun() {
         var input = $("<input />");
@@ -102,3 +98,4 @@
     }
     
 }
+*@
