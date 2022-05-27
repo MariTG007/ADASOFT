@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Vereyon.Web;
+using static ADASOFT.Helpers.ModalHelper;
 
 namespace ADASOFT.Controllers
 {
@@ -32,6 +33,8 @@ namespace ADASOFT.Controllers
            .Include(p => p.CourseImages)
            .ToListAsync());
         }
+
+        [NoDirectAccess]
 
         public async Task<IActionResult> Create()
         {
@@ -81,7 +84,15 @@ namespace ADASOFT.Controllers
                 {
                     _context.Add(course);
                     await _context.SaveChangesAsync();
-                    return RedirectToAction(nameof(Index));
+                    _flashMessage.Confirmation("Registro creado.");
+                    return Json(new
+                    {
+                        isValid = true,
+                        html = ModalHelper.RenderRazorViewToString(this, "_ViewAllCourses", _context.Courses
+                        .Include(c => c.CourseImages)
+                        .Include(c => c.User))
+                    });
+
                 }
                 catch (DbUpdateException dbUpdateException)
                 {
@@ -100,9 +111,10 @@ namespace ADASOFT.Controllers
                 }
             }
             model.Users = await _combosHelper.GetComboTeachersAsync();
-            return View(model);
+               return Json(new { isValid = false, html = ModalHelper.RenderRazorViewToString(this, "Create", model) });
         }
 
+        [NoDirectAccess]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -155,7 +167,14 @@ namespace ADASOFT.Controllers
 
                 _context.Update(course);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                _flashMessage.Confirmation("Registro actualizado.");
+                return Json(new
+                {
+                    isValid = true,
+                    html = ModalHelper.RenderRazorViewToString(this, "_ViewAllCourses", _context.Courses
+                    .Include(c => c.CourseImages)
+                    .Include(c => c.User))
+                });
             }
             catch (DbUpdateException dbUpdateException)
             {
@@ -173,7 +192,7 @@ namespace ADASOFT.Controllers
                 ModelState.AddModelError(string.Empty, exception.Message);
             }
             model.Users = await _combosHelper.GetComboTeachersAsync();
-            return View(model);
+            return Json(new { isValid = false, html = ModalHelper.RenderRazorViewToString(this, "Edit", model) });
         }
 
         public async Task<IActionResult> Details(int? id)
@@ -194,40 +213,29 @@ namespace ADASOFT.Controllers
             return View(course);
         }
 
-        public async Task<IActionResult> Delete(int? id)
+        [NoDirectAccess]
+        public async Task<IActionResult> Delete(int id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
             Course course = await _context.Courses
-                .Include(c => c.User)
-                .Include(c => c.CourseImages)
-                .FirstOrDefaultAsync(c => c.Id == id);
+                .Include(C => C.CourseImages)
+                .Include(C => C.User)
+                .FirstOrDefaultAsync(p => p.Id == id);
             if (course == null)
             {
                 return NotFound();
             }
-            return View(course);
-        }
-
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            Course course = await _context.Courses
-                 .Include(c => c.CourseImages)
-                 .FirstOrDefaultAsync(c => c.Id == id);
 
             foreach (CourseImage courseImage in course.CourseImages)
             {
                 await _blobHelper.DeleteBlobAsync(courseImage.ImageId, "products");
             }
+
             _context.Courses.Remove(course);
             await _context.SaveChangesAsync();
+            _flashMessage.Info("Registro borrado.");
             return RedirectToAction(nameof(Index));
         }
+
 
         public async Task<IActionResult> AddImage(int? id)
         {

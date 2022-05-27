@@ -1,6 +1,32 @@
 ﻿@model ADASOFT.Models.CreateCourseViewModel
-
 @{
+    ViewData["Title"] = "Curso";
+    Layout = null;
+}
+
+<flash dismissable="true" />
+
+<div class="container smfont">
+    <form asp-action="Edit" enctype="multipart/form-data" autocomplete="off" asp-route-id="@Model.Id" onsubmit="return jQueryAjaxPost(this);">
+        <div class="box-body">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Users" />
+            <input type="hidden" asp-for="Id" />
+            <partial name="_Course"/>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-sm btn-primary" data-bs-dismiss="modal"><i class="fa fa-ban"></i> Cancelar</button>
+            <button type="submit" class="btn btn-sm btn-success"><i class="fa fa-save"></i> Guardar</button>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+
+
+@*@{
     ViewData["Title"] = "Edit";
 }
 
@@ -29,7 +55,7 @@
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
 
-
+*@
 
 
 
