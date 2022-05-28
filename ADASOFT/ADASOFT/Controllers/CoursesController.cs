@@ -227,7 +227,7 @@ namespace ADASOFT.Controllers
 
             foreach (CourseImage courseImage in course.CourseImages)
             {
-                await _blobHelper.DeleteBlobAsync(courseImage.ImageId, "products");
+                await _blobHelper.DeleteBlobAsync(courseImage.ImageId, "courses");
             }
 
             _context.Courses.Remove(course);
@@ -308,6 +308,7 @@ namespace ADASOFT.Controllers
             await _blobHelper.DeleteBlobAsync(courseImage.ImageId, "courses");
             _context.CourseImages.Remove(courseImage);
             await _context.SaveChangesAsync();
+            _flashMessage.Info("Registro borrado.");
             return RedirectToAction(nameof(Details), new { Id = courseImage.Course.Id });
         }
     }

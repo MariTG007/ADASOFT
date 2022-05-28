@@ -179,6 +179,7 @@ namespace ADASOFT.Controllers
 
             if (!User.Identity.IsAuthenticated)
             {
+                _flashMessage.Info("Señor(a) usuario(a) para inscribirse en nuestros cursos, primero debe ingresar sus credenciales. En caso de olvidarlas, dar clic en la opción ¿Has olvidado tu contraseña; de lo contrario es necesario que se registre en nuestra base de datos dando clic en la opción Registrar Nuevo Usuario.");
                 return RedirectToAction("Login", "Account");
             }
             if (User.IsInRole("Admin")) { 

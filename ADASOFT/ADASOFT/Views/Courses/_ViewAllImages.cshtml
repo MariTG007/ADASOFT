@@ -11,7 +11,7 @@
                 @Html.DisplayNameFor(model => model.CourseImages.FirstOrDefault().ImageFullPath)
             </th>
             <th>
-                <a onclick="showInPopup('@Url.Action("AddImage", "Products", new { Id = Model.Id }, Context.Request.Scheme)' , 'Nueva Imagen')" class="btn btn-sm btn-primary text-white"><i class="fa fa-plus-circle"></i> Imagen</a>
+                <a onclick="showInPopup('@Url.Action("AddImage", "Courses", new { Id = Model.Id }, Context.Request.Scheme)' , 'Nueva Imagen')" class="btn btn-sm btn-primary text-white"><i class="fa fa-plus-circle"></i> Imagen</a>
             </th>
         </tr>
     </thead>
