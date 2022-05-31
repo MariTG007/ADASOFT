@@ -49,6 +49,7 @@ namespace ADASOFT.Controllers
 
             IQueryable<Course> query = _context.Courses
                 .Include(p => p.CourseImages)
+                .Include(p => p.User)
                 //.Include(p => p.ProductCategories)
                 .Where(p => p.Quota > 0);
 

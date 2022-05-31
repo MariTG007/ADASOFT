@@ -41,6 +41,7 @@ namespace ADASOFT.Controllers
             CourseViewModel model = new()
             {
                 Users = await _combosHelper.GetComboTeachersAsync(),
+                Schedule = DateTime.Now
             };
             return View(model);
         }
@@ -135,7 +136,7 @@ namespace ADASOFT.Controllers
                 Id = course.Id,
                 Name = course.Name,
                 Resume = course.Resume,
-                Schedule = (DateTime)course.Schedule,
+                Schedule = DateTime.Now,
                 Days = course.Days,
                 Price = course.Price,
                 Quota = course.Quota,
@@ -161,6 +162,7 @@ namespace ADASOFT.Controllers
                 course.Price = model.Price;
                 course.Resume = model.Resume;
                 course.Schedule = (DateTime)model.Schedule;
+                //course.Schedule = DateTime.Now;
                 course.Days = model.Days;
                 course.Quota = model.Quota;
                 course.User = await _context.Users.FindAsync(model.UserId);
@@ -237,6 +239,7 @@ namespace ADASOFT.Controllers
         }
 
 
+        [NoDirectAccess]
         public async Task<IActionResult> AddImage(int? id)
         {
             if (id == null)
@@ -254,6 +257,7 @@ namespace ADASOFT.Controllers
             {
                 CourseId = course.Id,
             };
+
             return View(model);
         }
 
@@ -263,12 +267,7 @@ namespace ADASOFT.Controllers
         {
             if (ModelState.IsValid)
             {
-                Guid imageId = Guid.Empty;
-                if (model.ImageFile != null)
-                {
-                    imageId = await _blobHelper.UploadBlobAsync(model.ImageFile, "courses");
-                }
-
+                Guid imageId = await _blobHelper.UploadBlobAsync(model.ImageFile, "courses");
                 Course course = await _context.Courses.FindAsync(model.CourseId);
                 CourseImage courseImage = new()
                 {
@@ -280,14 +279,23 @@ namespace ADASOFT.Controllers
                 {
                     _context.Add(courseImage);
                     await _context.SaveChangesAsync();
-                    return RedirectToAction(nameof(Details), new { Id = course.Id });
+                    _flashMessage.Confirmation("Imagen agregada.");
+                    return Json(new
+                    {
+                        isValid = true,
+                        html = ModalHelper.RenderRazorViewToString(this, "Details", _context.Courses
+                            .Include(c => c.CourseImages)
+                            .Include(c => c.User)
+                            .FirstOrDefaultAsync(p => p.Id == model.CourseId))
+                    });
                 }
                 catch (Exception exception)
                 {
-                    ModelState.AddModelError(string.Empty, exception.Message);
+                    _flashMessage.Danger(exception.Message);
                 }
             }
-            return View(model);
+
+            return Json(new { isValid = false, html = ModalHelper.RenderRazorViewToString(this, "AddImage", model) });
         }
 
         public async Task<IActionResult> DeleteImage(int? id)

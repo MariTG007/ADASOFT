@@ -43,7 +43,6 @@ h4 {
 
 @charset "utf-8";
 
-
 /*Zoom images*/
 .zoom {
     padding: 5px;
@@ -59,6 +58,7 @@ h4 {
         -webkit-transform: scale(2); /* Safari 3-8 */
         transform: scale(2);
     }
+
 
 /* Absolute Center Spinner */
 .loading {

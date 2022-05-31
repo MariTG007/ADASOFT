@@ -22,7 +22,6 @@ namespace ADASOFT.Models
 
         [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd hh:mm tt}")]
         [Display(Name = "Horario")]
-      
         public DateTime Schedule { get; set; }
 
         [Display(Name = "Días")]
@@ -44,9 +43,6 @@ namespace ADASOFT.Models
         [Display(Name = "Cupos")]
         [Required(ErrorMessage = "El campo {0} es obligatorio.")]
         public float Quota { get; set; }
-
-        //[Display(Name = "Categorías")]
-        //public string Categories { get; set; }
 
         [DataType(DataType.MultilineText)]
         [Display(Name = "Descripción")]
