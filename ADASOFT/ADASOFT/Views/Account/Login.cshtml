@@ -3,10 +3,8 @@
 @{
     ViewData["Title"] = "Login";
 }
-
+<div class="container-sm">
 <flash dismissable="true" />
-
-   
    
 <div class="row">
   
@@ -58,44 +56,10 @@
     </div>
    </div>
    </div>
+   </div>
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
            
 
 
-           <!--script para javascript para que carga el modal -->
-@*    <script>
-       
-             $(document).ready(function()
-         {
-            $("#Modal").modal("show");
-         });
-    </script>
-}*@
-  @*  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
-    <script type="text/javascript">
-        function Confirmationfun() {
-        var input = $("<input />");
-        input.attr("type", "hidden").attr("name", "confirm_value");
-        if (confirm("Hi, Do you want delete the value?")) {
-        input.val("Yes");
-        } else {
-        input.val("No");
-        }
-        $("form")[0].appendChild(input[0]);
-        }
-</script>
-@if (ViewBag.Message != null)
-{
-    
-    <script type="text/javascript">
-        
-            $(function () {
-              window.alert("@ViewBag.Message")
-            });
-        </script>
-    }
-    
-}
-*@

@@ -41,6 +41,7 @@ namespace ADASOFT.Controllers
             CourseViewModel model = new()
             {
                 Users = await _combosHelper.GetComboTeachersAsync(),
+                Schedule = DateTime.Now
             };
             return View(model);
         }
@@ -135,7 +136,7 @@ namespace ADASOFT.Controllers
                 Id = course.Id,
                 Name = course.Name,
                 Resume = course.Resume,
-                Schedule = (DateTime)course.Schedule,
+                Schedule = DateTime.Now,
                 Days = course.Days,
                 Price = course.Price,
                 Quota = course.Quota,
@@ -161,6 +162,7 @@ namespace ADASOFT.Controllers
                 course.Price = model.Price;
                 course.Resume = model.Resume;
                 course.Schedule = (DateTime)model.Schedule;
+                //course.Schedule = DateTime.Now;
                 course.Days = model.Days;
                 course.Quota = model.Quota;
                 course.User = await _context.Users.FindAsync(model.UserId);

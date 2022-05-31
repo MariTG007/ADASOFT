@@ -49,6 +49,7 @@ namespace ADASOFT.Controllers
 
             IQueryable<Course> query = _context.Courses
                 .Include(p => p.CourseImages)
+                .Include(p => p.User)
                 //.Include(p => p.ProductCategories)
                 .Where(p => p.Quota > 0);
 
@@ -87,8 +88,7 @@ namespace ADASOFT.Controllers
 
             HomeViewModel model = new() 
             {
-                Courses = await query.ToListAsync(),
-                Subjects = await PaginatedList<Course>.CreateAsync(query, pageNumber ?? 1, pageSize)
+                Courses = await PaginatedList<Course>.CreateAsync(query, pageNumber ?? 1, pageSize)
             };
 
             User user = await _userHelper.GetUserAsync(User.Identity.Name);
