@@ -237,6 +237,7 @@ namespace ADASOFT.Controllers
         }
 
 
+        [NoDirectAccess]
         public async Task<IActionResult> AddImage(int? id)
         {
             if (id == null)
@@ -254,6 +255,7 @@ namespace ADASOFT.Controllers
             {
                 CourseId = course.Id,
             };
+
             return View(model);
         }
 
@@ -263,12 +265,7 @@ namespace ADASOFT.Controllers
         {
             if (ModelState.IsValid)
             {
-                Guid imageId = Guid.Empty;
-                if (model.ImageFile != null)
-                {
-                    imageId = await _blobHelper.UploadBlobAsync(model.ImageFile, "courses");
-                }
-
+                Guid imageId = await _blobHelper.UploadBlobAsync(model.ImageFile, "courses");
                 Course course = await _context.Courses.FindAsync(model.CourseId);
                 CourseImage courseImage = new()
                 {
@@ -280,14 +277,23 @@ namespace ADASOFT.Controllers
                 {
                     _context.Add(courseImage);
                     await _context.SaveChangesAsync();
-                    return RedirectToAction(nameof(Details), new { Id = course.Id });
+                    _flashMessage.Confirmation("Imagen agregada.");
+                    return Json(new
+                    {
+                        isValid = true,
+                        html = ModalHelper.RenderRazorViewToString(this, "Details", _context.Courses
+                            .Include(c => c.CourseImages)
+                            .Include(c => c.User)
+                            .FirstOrDefaultAsync(p => p.Id == model.CourseId))
+                    });
                 }
                 catch (Exception exception)
                 {
-                    ModelState.AddModelError(string.Empty, exception.Message);
+                    _flashMessage.Danger(exception.Message);
                 }
             }
-            return View(model);
+
+            return Json(new { isValid = false, html = ModalHelper.RenderRazorViewToString(this, "AddImage", model) });
         }
 
         public async Task<IActionResult> DeleteImage(int? id)

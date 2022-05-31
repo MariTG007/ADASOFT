@@ -5,9 +5,8 @@
     Layout = null;
 }
 
-<flash dismissable="true" />
-
 <div class="container smfont">
+    <flash dismissable="true" />
     <form asp-action="Create" enctype="multipart/form-data" autocomplete="off" asp-route-id="@Model.Id" onsubmit="return jQueryAjaxPost(this);">
         <div class="box-body">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>

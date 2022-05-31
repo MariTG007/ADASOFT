@@ -13,7 +13,10 @@ namespace ADASOFT.Data.Entities
         public ICollection<City> Cities { get; set; }
 
         [Display(Name = "Ciudades")]
-        public int CitiesNumber => Cities == null ? 0 : Cities.Count; 
+        public int CitiesNumber => Cities == null ? 0 : Cities.Count;
+        [Display(Name = "Campuses")]
+        public int CampusesNumber => Cities == null ? 0 : Cities.Sum(s => s.CampusesNumber);
+
     }
 }
 

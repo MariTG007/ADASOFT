@@ -6,6 +6,8 @@ using ADASOFT.Data;
 using ADASOFT.Data.Entities;
 using ADASOFT.Models;
 using Vereyon.Web;
+using static ADASOFT.Helpers.ModalHelper;
+using ADASOFT.Helpers;
 
 namespace ADASOFT.Controllers
 {
@@ -25,6 +27,7 @@ namespace ADASOFT.Controllers
         {
             return View(await _context.States
                 .Include(s => s.Cities)
+                .ThenInclude(c => c.Campuses)
                 .ToListAsync());
         }
        
@@ -66,69 +69,79 @@ namespace ADASOFT.Controllers
             return View(city);
         }
 
-        public async Task<IActionResult> DetailsCampus(int? id)
+        [NoDirectAccess]
+        public async Task<IActionResult> AddOrEdit(int id = 0)
         {
-            if (id == null)
+            if (id == 0)
             {
-                return NotFound();
+                return View(new State());
             }
-
-            Campus campus = await _context.Campuses
-                .Include(c => c.City)
-                .FirstOrDefaultAsync(c => c.Id == id);
-            if (campus == null)
+            else
             {
-                return NotFound();
+                State state = await _context.States.FindAsync(id);
+                if (state == null)
+                {
+                    return NotFound();
+                }
+
+                return View(state);
             }
-
-            return View(campus);
-        }
-
-        [HttpGet]
-        public IActionResult Create()
-        {
-            State state = new() { Cities = new List<City>() };
-            return View(state);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(State state)
+        public async Task<IActionResult> AddOrEdit(int id, State state)
         {
             if (ModelState.IsValid)
             {
                 try
                 {
-                    _context.Add(state);
-                    await _context.SaveChangesAsync();
-                    return RedirectToAction(nameof(Index));
+                    if (id == 0) //Insert
+                    {
+                        _context.Add(state);
+                        await _context.SaveChangesAsync();
+                        _flashMessage.Info("Registro creado.");
+                    }
+                    else //Update
+                    {
+                        _context.Update(state);
+                        await _context.SaveChangesAsync();
+                        _flashMessage.Info("Registro actualizado.");
+                    }
+                    return Json(new
+                    {
+                        isValid = true,
+                        html = ModalHelper.RenderRazorViewToString(
+                            this,
+                            "_ViewAllStates",
+                            _context.States
+                                .Include(s => s.Cities)
+                                .ThenInclude(c => c.Campuses)
+                                .ToList())
+                    });
                 }
                 catch (DbUpdateException dbUpdateException)
                 {
                     if (dbUpdateException.InnerException.Message.Contains("duplicate"))
                     {
-                        _flashMessage.Danger("Ya existe un departamento con el mismo nombre.");
+                        _flashMessage.Danger("Ya existe un Departamento con el mismo nombre.");
                     }
                     else
                     {
-                        ModelState.AddModelError(string.Empty, dbUpdateException.InnerException.Message);
+                        _flashMessage.Danger(dbUpdateException.InnerException.Message);
                     }
                 }
                 catch (Exception exception)
                 {
-                    ModelState.AddModelError(string.Empty, exception.Message);
+                    _flashMessage.Danger(exception.Message);
                 }
             }
-            return View(state);
+
+            return Json(new { isValid = false, html = ModalHelper.RenderRazorViewToString(this, "AddOrEdit", state) });
         }
-
-        public async Task<IActionResult> AddCity(int? id)
+        [NoDirectAccess]
+        public async Task<IActionResult> AddCity(int id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
             State state = await _context.States.FindAsync(id);
 
             if (state == null)
@@ -162,7 +175,13 @@ namespace ADASOFT.Controllers
                     };
                     _context.Add(city);
                     await _context.SaveChangesAsync();
-                    return RedirectToAction(nameof(Details), new { Id = model.StateId });
+                     State state = await _context.States
+                    .Include(s => s.Cities)
+                    .ThenInclude(c => c.Campuses)
+                    .FirstOrDefaultAsync(c => c.Id == model.StateId);
+                    _flashMessage.Info("Registro creado.");
+                    return Json(new { isValid = true, html = ModalHelper.RenderRazorViewToString(this, "_ViewAllCities", state) });
+
                 }
                 catch (DbUpdateException dbUpdateException)
                 {
@@ -180,9 +199,10 @@ namespace ADASOFT.Controllers
                     ModelState.AddModelError(string.Empty, exception.Message);
                 }
             }
-            return View(model);
-
+            return Json(new { isValid = false, html = ModalHelper.RenderRazorViewToString(this, "AddCity", model) });
         }
+
+        [NoDirectAccess]
         public async Task<IActionResult> AddCampus(int? id)
         {
             if (id == null)
@@ -219,16 +239,19 @@ namespace ADASOFT.Controllers
                         City = await _context.Cities.FindAsync(model.CityId),
                         Name = model.Name,
                     };
-
                     _context.Add(campus);
                     await _context.SaveChangesAsync();
-                    return RedirectToAction(nameof(DetailsCity), new { Id = model.CityId });
+                    City city = await _context.Cities
+                        .Include(s => s.Campuses)
+                        .FirstOrDefaultAsync(c => c.Id == model.CityId);
+                    _flashMessage.Confirmation("Registro creado.");
+                    return Json(new { isValid = true, html = ModalHelper.RenderRazorViewToString(this, "_ViewAllCampuses", city) });
                 }
                 catch (DbUpdateException dbUpdateException)
                 {
                     if (dbUpdateException.InnerException.Message.Contains("duplicate"))
                     {
-                        _flashMessage.Danger("Ya existe una sede con el mismo nombre en esta ciudad.");
+                        ModelState.AddModelError(string.Empty, "Ya existe un campus con el mismo nombre en esta ciudad.");
                     }
                     else
                     {
@@ -240,62 +263,11 @@ namespace ADASOFT.Controllers
                     ModelState.AddModelError(string.Empty, exception.Message);
                 }
             }
-            return View(model);
+
+            return Json(new { isValid = false, html = ModalHelper.RenderRazorViewToString(this, "AddCampus", model) });
         }
 
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            State state = await _context.States
-                .Include(s => s.Cities)
-                .FirstOrDefaultAsync(s => s.Id == id);
-            if (state == null)
-            {
-                return NotFound();
-            }
-            return View(state);
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, State state)
-        {
-            if (id != state.Id)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(state);
-                    await _context.SaveChangesAsync();
-                    return RedirectToAction(nameof(Index));
-                }
-                catch (DbUpdateException dbUpdateException)
-                {
-                    if (dbUpdateException.InnerException.Message.Contains("duplicate"))
-                    {
-                        _flashMessage.Danger("Ya existe un departamento con el mismo nombre.");
-                    }
-                    else
-                    {
-                        ModelState.AddModelError(string.Empty, dbUpdateException.InnerException.Message);
-                    }
-                }
-                catch (Exception exception)
-                {
-                    ModelState.AddModelError(string.Empty, exception.Message);
-                }
-            }
-            return View(state);
-        }
-
+        [NoDirectAccess]
         public async Task<IActionResult> EditCity(int? id)
         {
             if (id == null)
@@ -339,8 +311,13 @@ namespace ADASOFT.Controllers
                         Name = model.Name,
                     };
                     _context.Update(city);
+                    State state = await _context.States
+                     .Include(s => s.Cities)
+                     .ThenInclude(c => c.Campuses)
+                     .FirstOrDefaultAsync(s => s.Id == model.StateId);
                     await _context.SaveChangesAsync();
-                    return RedirectToAction(nameof(Details), new { Id = model.StateId });
+                    _flashMessage.Confirmation("Registro actualizado.");
+                    return Json(new { isValid = true, html = ModalHelper.RenderRazorViewToString(this, "_ViewAllCities", state) });
                 }
                 catch (DbUpdateException dbUpdateException)
                 {
@@ -359,9 +336,10 @@ namespace ADASOFT.Controllers
                     ModelState.AddModelError(string.Empty, exception.Message);
                 }
             }
-            return View(model);
+            return Json(new { isValid = false, html = ModalHelper.RenderRazorViewToString(this, "EditCity", model) });
         }
 
+        [NoDirectAccess]
         public async Task<IActionResult> EditCampus(int? id)
         {
             if (id == null)
@@ -407,7 +385,12 @@ namespace ADASOFT.Controllers
                     };
                     _context.Update(campus);
                     await _context.SaveChangesAsync();
-                    return RedirectToAction(nameof(DetailsCity), new { Id = model.CityId });
+                    City city = await _context.Cities
+                   .Include(c => c.Campuses)
+                   .FirstOrDefaultAsync(c => c.Id == model.CityId);
+                    _flashMessage.Confirmation("Registro actualizado.");
+                    return Json(new { isValid = true, html = ModalHelper.RenderRazorViewToString(this, "_ViewAllCampuses", city) });
+
                 }
                 catch (DbUpdateException dbUpdateException)
                 {
@@ -426,9 +409,10 @@ namespace ADASOFT.Controllers
                     ModelState.AddModelError(string.Empty, exception.Message);
                 }
             }
-            return View(model);
+            return Json(new { isValid = false, html = ModalHelper.RenderRazorViewToString(this, "EditCampus", model) });
         }
 
+        [NoDirectAccess]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -436,26 +420,26 @@ namespace ADASOFT.Controllers
                 return NotFound();
             }
 
-            State state = await _context.States
-                .Include(s => s.Cities)
-                .FirstOrDefaultAsync(c => c.Id == id);
+            State state = await _context.States.FirstOrDefaultAsync(s => s.Id == id);
             if (state == null)
             {
                 return NotFound();
             }
 
-            return View(state);
-        }
+            try
+            {
+                _context.States.Remove(state);
+                await _context.SaveChangesAsync();
+                _flashMessage.Info("Registro borrado.");
+            }
+            catch
+            {
+                _flashMessage.Danger("No se puede borrar el Departamento porque tiene registros relacionados.");
+            }
 
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            State state = await _context.States.FindAsync(id);
-            _context.States.Remove(state);
-            await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
+
 
         public async Task<IActionResult> DeleteCity(int? id)
         {
@@ -472,18 +456,17 @@ namespace ADASOFT.Controllers
                 return NotFound();
             }
 
-            return View(city);
-        }
+            try
+            {
+                _context.Cities.Remove(city);
+                await _context.SaveChangesAsync();
+                _flashMessage.Info("Registro borrado.");
+            }
+            catch
+            {
+                _flashMessage.Danger("No se puede borrar la ciudad porque tiene registros relacionados.");
+            }
 
-        [HttpPost, ActionName("DeleteCity")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteCityConfirmed(int id)
-        {
-            City city = await _context.Cities
-               .Include(c => c.State)
-               .FirstOrDefaultAsync(c => c.Id == id);
-            _context.Cities.Remove(city);
-            await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Details), new { Id = city.State.Id });
         }
 
@@ -496,25 +479,26 @@ namespace ADASOFT.Controllers
 
             Campus campus = await _context.Campuses
                 .Include(c => c.City)
-                .FirstOrDefaultAsync(c => c.Id == id); //FirstOrDefault instead of FindAsync, allows to use Include
+                .FirstOrDefaultAsync(c => c.Id == id);
             if (campus == null)
             {
                 return NotFound();
             }
 
-            return View(campus);
-        }
+            try
+            {
+                _context.Campuses.Remove(campus);
+                await _context.SaveChangesAsync();
+            }
+            catch
+            {
+                _flashMessage.Danger("No se puede borrar el campus porque tiene registros relacionados.");
+            }
 
-        [HttpPost, ActionName("DeleteCampus")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteCampusConfirmed(int id)
-        {
-            Campus campus = await _context.Campuses
-               .Include(c => c.City)
-               .FirstOrDefaultAsync(c => c.Id == id);
-            _context.Campuses.Remove(campus);
-            await _context.SaveChangesAsync();
+            _flashMessage.Info("Registro borrado.");
             return RedirectToAction(nameof(DetailsCity), new { Id = campus.City.Id });
         }
+
+
     }
 }
