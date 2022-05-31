@@ -226,21 +226,21 @@
 </div>
 
 @{
-    var prevDisabled = !Model.Subjects.HasPreviousPage ? "disabled" : "";
-    var nextDisabled = !Model.Subjects.HasNextPage ? "disabled" : "";
+    var prevDisabled = !Model.Courses.HasPreviousPage ? "disabled" : "";
+    var nextDisabled = !Model.Courses.HasNextPage ? "disabled" : "";
 }
 
 <div class="mt-5">
     <a asp-action="Index"
        asp-route-sortOrder="@ViewData["CurrentSort"]"
-       asp-route-pageNumber="@(Model.Subjects.PageIndex - 1)"
+       asp-route-pageNumber="@(Model.Courses.PageIndex - 1)"
        asp-route-currentFilter="@ViewData["CurrentFilter"]"
        class="btn btn-warning @prevDisabled">
         Anterior
     </a>
     <a asp-action="Index"
        asp-route-sortOrder="@ViewData["CurrentSort"]"
-       asp-route-pageNumber="@(Model.Subjects.PageIndex + 1)"
+       asp-route-pageNumber="@(Model.Courses.PageIndex + 1)"
        asp-route-currentFilter="@ViewData["CurrentFilter"]"
        class="btn btn-success @nextDisabled">
         Siguiente
