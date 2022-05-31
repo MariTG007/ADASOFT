@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Vereyon.Web;
+using static ADASOFT.Helpers.ModalHelper;
 
 namespace ADASOFT.Controllers
 {
@@ -93,6 +94,7 @@ namespace ADASOFT.Controllers
             return View(studentCourse);
         }
 
+        [NoDirectAccess]
         public async Task<IActionResult> EditGrade(int? id)
         {
             if (id == null)
@@ -158,7 +160,14 @@ namespace ADASOFT.Controllers
                             }
                             _context.StudentCourses.Update(studentCourse);
                             await _context.SaveChangesAsync();
-                            return RedirectToAction(nameof(DetailsGrade), new { Id = model.StudentCourseId });
+                            _flashMessage.Confirmation("Registro actualizado.");
+                            //return RedirectToAction(nameof(DetailsGrade), new { Id = model.StudentCourseId });
+                            return Json(new
+                            {
+                                isValid = true,
+                                html = ModalHelper.RenderRazorViewToString(this, "_ViewAllGrades", studentCourse)
+                            });
+
                         }
                         else
                         {
@@ -175,8 +184,8 @@ namespace ADASOFT.Controllers
                     ModelState.AddModelError(string.Empty, exception.Message);
                 }
             }
-            
-            return View(model);
+
+            return Json(new { isValid = false, html = ModalHelper.RenderRazorViewToString(this, "EditGrade", model) });
         }
 
         public async Task<IActionResult> Details(int id)
@@ -193,6 +202,8 @@ namespace ADASOFT.Controllers
             }
             return View(studentCourse);
         }
+
+        [NoDirectAccess]
 
         public async Task<IActionResult> AddGrade(int? id)
         {
@@ -219,9 +230,7 @@ namespace ADASOFT.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddGrade(GradeViewModel model)
-        {
-            // if (ModelState.IsValid)
-            //{
+        { 
             try
             {
                 if (0 <= model.Grades && model.Grades <= 5)
@@ -252,7 +261,9 @@ namespace ADASOFT.Controllers
                         }
                         _context.StudentCourses.Update(studentCourse);
                         await _context.SaveChangesAsync();
-                        return RedirectToAction(nameof(DetailsGrade), new { Id = model.StudentCourseId });
+                        _flashMessage.Confirmation("Registro creado.");
+                        return Json(new{isValid = true,html = ModalHelper.RenderRazorViewToString(this, "_ViewAllGrades", studentCourse)});
+
                     }
                     {
                         ModelState.AddModelError(string.Empty, "El porcentage total no puede ser mayor q 100%");
@@ -267,42 +278,26 @@ namespace ADASOFT.Controllers
             {
                 ModelState.AddModelError(string.Empty, exception.Message);
             }
-
-
-            return View(model);
-
-        }
-
-        public async Task<IActionResult> DeleteGrade(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
+            return Json(new { isValid = false, html = ModalHelper.RenderRazorViewToString(this, "AddGrade", model) });
             }
+
+        [NoDirectAccess]
+        public async Task<IActionResult> DeleteGrade(int id)
+        {
 
             Grade grade = await _context.Grades
                 .Include(c => c.StudentCourse)
-                .FirstOrDefaultAsync(c => c.Id == id); //FirstOrDefault instead of FindAsync, allows to use Include
+                .FirstOrDefaultAsync(c => c.Id == id); 
             if (grade == null)
             {
                 return NotFound();
             }
 
-            return View(grade);
-         }
-
-        [HttpPost, ActionName("DeleteGrade")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteGradeConfirmed(int id)
-        {
-            Grade grade = await _context.Grades
-                .Include(c => c.StudentCourse)
-                .FirstOrDefaultAsync(c => c.Id == id);
             _context.Grades.Remove(grade);
             await _context.SaveChangesAsync();
             StudentCourse studentCourse = await _context.StudentCourses
                 .Include(s => s.Grades)
-                .FirstOrDefaultAsync(u => u.Id == grade.StudentCourse.Id); 
+                .FirstOrDefaultAsync(u => u.Id == grade.StudentCourse.Id);
             studentCourse.FinalGrade = 0;
             foreach (Grade? grade2 in studentCourse.Grades)
             {
@@ -310,7 +305,7 @@ namespace ADASOFT.Controllers
             }
             _context.StudentCourses.Update(studentCourse);
             await _context.SaveChangesAsync();
-           
+            _flashMessage.Info("Registro borrado.");
             return RedirectToAction(nameof(DetailsGrade), new { Id = grade.StudentCourse.Id });
         }
 

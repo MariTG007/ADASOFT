@@ -4,23 +4,17 @@
     <colgroup>
         <col span="1" />
         <col span="1" />
-        <col span="1" />
-        <col span="1" />
-        <col span="1" />
-        <col span="1" />
-        <col span="1" />
-        <col span="1" />
     </colgroup>
     <thead>
         <tr>
-            <th>
+           <th>
                 @Html.DisplayNameFor(model => model.Grades.FirstOrDefault().Percentage)
             </th>
              <th>
                @Html.DisplayNameFor(model => model.Grades.FirstOrDefault().Grades)
              </th>
-             <th>
-                <a onclick="showInPopup('@Url.Action("AddGrade", "StudentCourse", new { }, Context.Request.Scheme)' , 'Nuevo Curso')" class="btn btn-sm btn-primary text-white"><i class="fa fa-plus-circle"></i>Curso</a>
+            <th>
+                <a onclick="showInPopup('@Url.Action("AddGrade", "StudentCourse", new { Id = Model.Id }, Context.Request.Scheme)' , 'Nueva Nota')" class="btn btn-sm btn-primary text-white"><i class="fa fa-plus-circle"></i> Nota</a>
             </th>
         </tr>
     </thead>
@@ -34,12 +28,17 @@
             <th>
                 @Html.DisplayFor(modelItem => item.Grades)
            </th>
-           <td>
-                <a onclick="showInPopup('@Url.Action("EditGrade", "StudentCourse", new { id = item.Id }, Context.Request.Scheme)' , 'Actualizar Curso')" class="btn btn-sm btn-warning"><i class="fa fa-pencil-alt"></i> </a>
+            <td>
+                 <a onclick="showInPopup('@Url.Action("EditGrade", "StudentCourse", new { id = item.Id }, Context.Request.Scheme)' , 'Actualizar Curso')" class="btn btn-sm btn-warning"><i class="fa fa-pencil-alt"></i> </a>
                 <button data-id="@item.Id" class="btn btn-sm btn-danger deleteItem" data-bs-toggle="modal" data-bs-target="#deleteDialog"><i class="fa fa-trash"></i></button>
-           </td>
+            </td>
         </tr>
         }
+         <tr>
+         <th scope="row">Nota Final</th>
+          <td> @Html.DisplayFor(model => model.FinalGrade)</td>
+          </tr>
     </tbody>
 </table>
+
 
