@@ -10,9 +10,13 @@
         justify-content: space-between;
         border: 1px solid lightgray;
         box-shadow: 2px 2px 8px 4px #d3d3d3d1;
-        border-radius: 15px;
+        border-radius: 5px;
         font-family: sans-serif;
         margin: 5px;
+    }
+    .card-footer{
+        background: #3366FF;
+        color: white;
     }
 
     .carousel-inner img {
@@ -200,21 +204,25 @@
             {
                 <div class="col">
                     <div class="card h-100">
+                         <div class="card-header bg-transparent">
                         <div class="text-center zoom">
-                            <img src="@item.ImageFullPath" style="height:150px; max-width:200px;" class="text-center" alt=@item.Name />
+                            @*<img src="@item.ImageFullPath" style="height:150px; max-width:200px;" class="text-center" alt=@item.Name />*@
+                             <img class="card-img-top" src="@item.ImageFullPath" style="height:150px; max-width:200px;" alt=@item.Name />
+                        </div>
                         </div>
                         <div class="card-body">
-                            <h5 class="card-title text-navy"> @item.Name</h5>
+                            <h5 class="card-title text-navy"><b>@item.Name</b></h5>
                             <p class="card-text smfnt">@item.Description</p>
-                            <h5 class="text-muted">@Html.DisplayFor(modelItem => item.Price)</h5>
-                            <p class="card-text smfnt">@item.Schedule</p>
-                            <p class="card-text smfnt">@item.Days</p>
+                            <p class="card-text smfnt">@item.User.FullName</p>
+                           @* <p class="card-text smfnt">@item.Schedule</p>
+                            <p class="card-text smfnt">@item.Days</p>*@
+                            <h5 class="text-navy"><b>@Html.DisplayFor(modelItem => item.Price)</b></h5>
                         </div>
                         <div class="card-footer text-center">
                             <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-secondary">Detalles</a>
                             @if (!User.Identity.IsAuthenticated || User.IsInRole("User"))
                             {
-                                <a asp-action="Add" asp-route-id="@item.Id" class="btn btn-sm btn-primary">Inscribirse</a>
+                                <a asp-action="Add" asp-route-id="@item.Id" class="btn btn-sm btn-success">Inscribirse</a>
                             }
                         </div>
                     </div>

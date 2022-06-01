@@ -3,7 +3,130 @@
 @{
     ViewData["Title"] = "Matrícula";
 }
+<div class="container">
+<flash dismissable="true" />
+<div class="row">
+    <div class="col-md-4">
+        <dl class="row">
+            <dt class="col-sm-4">
+                @Html.DisplayNameFor(model => model.Quantity)
+            </dt>
+            <dd class="col-sm-8">
+                <h3>@Html.DisplayFor(model => model.Quantity)</h3>
+            </dd>
+            <dt class="col-sm-4">
+                @Html.DisplayNameFor(model => model.Value)
+            </dt>
+            <dd class="col-sm-8">
+                <h3>@Html.DisplayFor(model => model.Value)</h3>
+            </dd>
+        </dl>
+    </div>
+    <div class="col-md-8">
+            <div class="col-md-12">
+                <form asp-action="ShowCart">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-group">
+                        <label asp-for="Remarks" class="control-label"></label>
+                        <div class="card">
+                      <div class="card-header p-0" id="headingTwo">
+                        <h2 class="mb-0">
+                          <button class="btn btn-light btn-block text-left collapsed p-3 rounded-0 border-bottom-custom" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                            <div class="d-flex align-items-center justify-content-between">
 
+                              <span>Paypal</span>
+                              <img src="~/Images/paypal.png" width="30">
+                              
+                            </div>
+                          </button>
+                        </h2>
+                      </div>
+                      <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
+                        <div class="card-body">
+                          <input asp-for="Remarks" class="form-control" placeholder="Paypal email"/>
+                            <span asp-validation-for="Remarks" class="text-danger"></span>
+                        </div>
+                      </div>
+                   </div>
+                        
+                    </div>
+                    <div class="form-group mt-2">
+                        <input type="submit" value="Confirmar Inscripción" class="btn btn-outline-primary" />
+                        <a asp-action="Index" class="btn btn-outline-success">Regresar</a>
+                    </div>
+                </form>
+            </div>
+    </div>
+</div>
+
+
+<!-- Content Wrapper. Contains page content -->
+<div class="row">
+    <div class="col-md-12">
+        <div class="container-fluid">
+            <div class="card mt-2">
+                <div class="card-header text-danger">
+                   <i class="fa-solid fa-dollar-sign"></i> <strong>Pre-Matrícula</strong>
+                </div>
+                <div class="card-body">
+                    <div id="view-all">
+                        @await Html.PartialAsync("_ViewAllDetails", Model)
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--modal placeholder. Also you can place this modal form in the _Layout.cshtml-->
+<div class="modal fade in" tabindex="-1" role="dialog" data-bs-backdrop="static" id="form-modal">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-primary">
+                <h5 class="modal-title text-white"></h5>
+                <button type="button" class="btn-close text-white" data-bs-dismiss="modal" aria-label="Close">                   
+                </button>
+            </div>
+            <div class="modal-body">
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+<partial name="_DeleteDialog" />
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script src="~/js/showmodal.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#EnrollmentTable').DataTable({
+                "language": {
+                    "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"
+                },
+                "aLengthMenu": [
+                    [25, 50, 100, 200, -1],
+                    [25, 50, 100, 200, "Todos"]
+                ]
+            });
+                "aLengthMenu": [
+                    [25, 50, 100, 200, -1],
+                    [25, 50, 100, 200, "Todos"]
+                ]
+        });
+    </script>
+
+     <script>
+        sc_deleteDialog.openModal('deleteItem', true, 'btnYesDelete', '/Home/Delete/', false);
+       
+    </script>
+}
+
+
+
+@*<div class="container">
 <flash dismissable="true" />
 
 
@@ -30,9 +153,28 @@
                 <form asp-action="ShowCart">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     <div class="form-group">
-                        <label asp-for="Remarks" class="control-label"></label>
-                        <input asp-for="Remarks" class="form-control" />
-                        <span asp-validation-for="Remarks" class="text-danger"></span>
+                        @*<label asp-for="Remarks" class="control-label"></label>
+                        @*<div class="card">
+                      <div class="card-header p-0" id="headingTwo">
+                        <h2 class="mb-0">
+                          <button class="btn btn-light btn-block text-left collapsed p-3 rounded-0 border-bottom-custom" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                            <div class="d-flex align-items-center justify-content-between">
+
+                              <span>Paypal</span>
+                              <img src="~/Images/paypal.png" width="30">
+                              
+                            </div>
+                          </button>
+                        </h2>
+                      </div>
+                      @*<div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">*@
+                        @*<div class="card-body">
+                          <input asp-for="Remarks" class="form-control" placeholder="Paypal email"/>
+                            <span asp-validation-for="Remarks" class="text-danger"></span>
+                        </div>
+                      @*</div>*@
+                   @* </div>
+                        
                     </div>
                     <div class="form-group mt-2">
                         <input type="submit" value="Confirmar Inscripción" class="btn btn-outline-primary" />
@@ -41,10 +183,10 @@
                 </form>
             </div>
     </div>
-</div>
+</div>*@
 
 
-<div class="row">
+@*<div class="row">
     <div class="col-md-12">
         <div class="panel panel-default">
             <div class="panel-heading">
@@ -65,14 +207,14 @@
                             </th>
                             <th>
                                 @Html.DisplayNameFor(model => model.EnrollmentCourses.FirstOrDefault().Course.Price)
-                            </th>
+                            </th>*@
                           @*  <th></th>*@
                          @*   <th>
                                 @Html.DisplayNameFor(model => model.EnrollmentCourses.FirstOrDefault().Quantity)
                             </th>
                             *@
                             @*<th></th>*@
-                            <th>
+                           @* <th>
                                 @Html.DisplayNameFor(model => model.EnrollmentCourses.FirstOrDefault().Value)
                             </th>
                             <th></th>
@@ -95,7 +237,7 @@
                                 </td>
                                 <td>
                                     @Html.DisplayFor(modelItem => item.Course.Price)
-                                </td>
+                                </td>*@
                                @* <td>
                                     <a asp-action="DecreaseQuantity" asp-route-id="@item.Id" class="btn btn-secondary">-</a>
                                 </td>
@@ -105,7 +247,7 @@
                                 <td>
                                     <a asp-action="IncreaseQuantity" asp-route-id="@item.Id" class="btn btn-primary">+</a>
                                 </td>*@
-                                <td>
+                               @* <td>
                                     @Html.DisplayFor(modelItem => item.Value)
                                 </td>
                                 <td>
@@ -120,7 +262,7 @@
         </div>
     </div>
 </div>
-
+</div>
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
     
@@ -138,6 +280,6 @@
             });
         });
     </script>
-}
+}*@
 
 

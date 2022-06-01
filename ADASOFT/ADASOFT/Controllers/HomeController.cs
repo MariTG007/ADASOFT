@@ -331,7 +331,9 @@ namespace ADASOFT.Controllers
                     ModelState.AddModelError(string.Empty, exception.Message);
                     return View(model);
                 }
+                _flashMessage.Confirmation("Registro actualizado.");
                 return RedirectToAction(nameof(ShowCart));
+               
             }
             return View(model);
         }

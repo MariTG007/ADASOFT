@@ -1,0 +1,78 @@
+﻿@model ADASOFT.Models.ShowCartViewModel
+
+
+<table class="table table-striped table-responsive-md table-bordered smfont" id="EnrollmentTable">
+    <colgroup>
+        <col span="1" />
+        <col span="1" />
+        <col span="1" />
+        <col span="1" />
+        <col span="1" />
+        <col span="1" />
+        <col span="1" />
+        <col span="1" />
+    </colgroup>
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.EnrollmentCourses.FirstOrDefault().Course.ImageFullPath)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EnrollmentCourses.FirstOrDefault().Course.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EnrollmentCourses.FirstOrDefault().Remarks)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EnrollmentCourses.FirstOrDefault().Course.Price)
+            </th>
+            @*  <th></th>*@
+            @*   <th>
+                @Html.DisplayNameFor(model => model.EnrollmentCourses.FirstOrDefault().Quantity)
+                </th>
+            *@
+            @*<th></th>*@
+            <th>
+                @Html.DisplayNameFor(model => model.EnrollmentCourses.FirstOrDefault().Value)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.EnrollmentCourses)
+        {
+            <tr>
+                <td>
+                    <div class="zoom">
+                        <img src="@item.Course.ImageFullPath" style="width:100px;" />
+                    </div>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Course.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Remarks)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Course.Price)
+                </td>
+                @* <td>
+                    <a asp-action="DecreaseQuantity" asp-route-id="@item.Id" class="btn btn-secondary">-</a>
+                    </td>
+                    <td>
+                    @Html.DisplayFor(modelItem => item.Quantity)
+                    </td>
+                    <td>
+                    <a asp-action="IncreaseQuantity" asp-route-id="@item.Id" class="btn btn-primary">+</a>
+                    </td>*@
+                <td>
+                    @Html.DisplayFor(modelItem => item.Value)
+                </td>
+                <td>
+                    <a onclick="showInPopup('@Url.Action("Edit", "Home", new { id = item.Id }, Context.Request.Scheme)' , 'Actualizar Curso')" class="btn btn-sm btn-warning"><i class="fa fa-pencil-alt"></i> </a>
+                    <button data-id="@item.Id" class="btn btn-sm btn-danger deleteItem" data-bs-toggle="modal" data-bs-target="#deleteDialog"><i class="fa fa-trash"></i></button>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
