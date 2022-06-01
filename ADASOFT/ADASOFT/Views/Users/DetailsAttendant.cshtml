@@ -3,16 +3,16 @@
 @{
     ViewData["Title"] = "DetailsAttendant";
 }
-
+<div class="container">
 <h1>Detalles acudiente</h1>
 
 <div>
      <partial name="_DetailsAttendant"/>
 </div>
 <div>
-    <a asp-action="Details" asp-route-id="@Model?.User.Id" class="btn btn-outline-success"><i class="fa-solid fa-arrow-rotate-left"> Regresar</a>
+    <a asp-action="Details" asp-route-id="@Model?.User.Id" class="btn btn-outline-success"><i class="fa-solid fa-arrow-rotate-left"></i> Regresar</a>
 </div>
-
+</div>
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }

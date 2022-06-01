@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Vereyon.Web;
+using static ADASOFT.Helpers.ModalHelper;
 
 namespace ADASOFT.Controllers
 {
@@ -132,9 +133,10 @@ namespace ADASOFT.Controllers
              }
 
              return Json(city.Campuses.OrderBy(c => c.Name));
-         } 
-        
-       public async Task<IActionResult> AddAttendant(string id)
+         }
+
+        [NoDirectAccess]
+        public async Task<IActionResult> AddAttendant(string id)
        {
            if (id == null)
            {
@@ -177,8 +179,9 @@ namespace ADASOFT.Controllers
                    };
                    _context.Add(attendant);
                    await _context.SaveChangesAsync();
-                   return RedirectToAction(nameof(Index));
-               }
+                _flashMessage.Confirmation("Registro creado.");
+                return Json(new { isValid = true, html = ModalHelper.RenderRazorViewToString(this, "_ViewAttendant", attendant) });
+            }
                //TODO: remmember that duplicate is with first name and lastname
                
                catch (DbUpdateException dbUpdateException)
@@ -234,7 +237,8 @@ namespace ADASOFT.Controllers
            return View(attendant);
        }
 
-       public async Task<IActionResult> EditAttendant(int? id)
+        [NoDirectAccess]
+        public async Task<IActionResult> EditAttendant(int? id)
        {
            if (id == null)
            {
@@ -290,8 +294,13 @@ namespace ADASOFT.Controllers
 
                    _context.Update(attendant);
                    await _context.SaveChangesAsync();
-                   return RedirectToAction(nameof(Details), new { Id = model.UserId });
-               }
+                    _flashMessage.Confirmation("Registro actualizado.");
+                    return Json(new
+                    {
+                        isValid = true,
+                        html = ModalHelper.RenderRazorViewToString(this, "_ViewAttendant", attendant)
+                    });
+                }
                catch (DbUpdateException dbUpdateException)
                {
                    if (dbUpdateException.InnerException.Message.Contains("duplicate"))
@@ -309,37 +318,24 @@ namespace ADASOFT.Controllers
                    ModelState.AddModelError(string.Empty, exception.Message);
                }
            }
-           return View(model);
-       }
+            return Json(new { isValid = false, html = ModalHelper.RenderRazorViewToString(this, "EditAttendant", model) });
+        }
 
        public async Task<IActionResult> DeleteAttendant(int? id)
        {
-           if (id == null)
-           {
-               return NotFound();
-           }
-
             Attendant attendant = await _context.Attendantes
-               .Include(a => a.User)
-               .FirstOrDefaultAsync(c => c.Id == id); //FirstOrDefault instead of FindAsync, allows to use Include
+                    .Include(a => a.User)
+                    .FirstOrDefaultAsync(c => c.Id == id); //FirstOrDefault instead of FindAsync, allows to use Include
             if (attendant == null)
             {
-               return NotFound();
+                return NotFound();
             }
-           return View(attendant);
-       }
 
-       [HttpPost, ActionName("DeleteAttendant")]
-       [ValidateAntiForgeryToken]
-       public async Task<IActionResult> DeleteAttendantConfirmed(int id)
-       {
-           Attendant attendant = await _context.Attendantes
-              .Include(a => a.User)
-              .FirstOrDefaultAsync(c => c.Id == id);
-           _context.Attendantes.Remove(attendant);
-           await _context.SaveChangesAsync();
-           return RedirectToAction(nameof(Details), new { Id = attendant.User.Id });
-       }
+            _context.Attendantes.Remove(attendant);
+            await _context.SaveChangesAsync();
+            _flashMessage.Info("Registro borrado.");
+            return RedirectToAction(nameof(Details), new { Id = attendant.User.Id });
+        }
 
         public async Task<IActionResult> IndexAttendant(int? id)
         {

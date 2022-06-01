@@ -52,9 +52,9 @@
             <th>
                 Estado
             </th>
-            <th>
-                Acudiente
-            </th>
+           @* <th>
+                Detalles
+            </th>*@
             <th>
                 @Html.DisplayNameFor(model => model.ImageFullPath)
             </th>
@@ -71,7 +71,8 @@
                 @Html.DisplayFor(modelItem => item.Email)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.FullName)
+                @*@Html.DisplayFor(modelItem => item.FullName)*@
+                <a asp-action="Details" asp-controller="Users" asp-route-Id="@item.Id">@Html.DisplayFor(modelItem => item.FullName)</a>
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Campus.City.State.Name)
@@ -94,9 +95,9 @@
             <td>
                 @Html.DisplayFor(modelItem => item.EmailConfirmed)
             </td>
-            <td>
+            @*<td>
               <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-outline-warning"><i class="fa-solid fa-circle-info"></i> </a>
-            </td>
+            </td>*@
             <td>
                     <div class="zoom">
                     <img src="@item.ImageFullPath" style="width:100px; height:100px; border-radius:50px" />

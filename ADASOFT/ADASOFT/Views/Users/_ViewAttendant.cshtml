@@ -7,13 +7,9 @@
 <flash dismissable="true" />
 
 <h1>Detalles</h1>
-
 <div>
-    <partial name="_UserDetails"/>    
-</div>
-<div>
-    <a asp-action="AddAttendant" asp-route-id="@Model?.Id" class="btn btn-outline-warning">Crear Acudiente</a>
-    <a asp-action="Index" asp-route-id="@Model?.Id" class="btn btn-outline-success">Regresar</a>
+    @*<a asp-action="AddAttendant" asp-route-id="@Model?.Id" class="btn btn-outline-warning">Crear Acudiente</a>*@
+    @*<a asp-action="Index" asp-route-id="@Model?.Id" class="btn btn-outline-success">Regresar</a>*@
 </div>
 <hr />
 
@@ -42,6 +38,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.Attendantes.FirstOrDefault().LastName)
             </th>
+            <th>
+                <a onclick="showInPopup('@Url.Action("AddAttendant", "Users", new { Id = Model.Id }, Context.Request.Scheme)' , 'Nuevo Acudiente')" class="btn btn-sm btn-primary text-white"><i class="fa fa-plus-circle"></i> Acudiente</a>
+            </th>
        </tr>
     </thead>
     <tbody>
@@ -49,7 +48,8 @@
         {
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Document)
+                   @* @Html.DisplayFor(modelItem => item.Document)*@
+                    <a asp-action="DetailsAttendant" asp-controller="Users" asp-route-Id="@item.Id">@Html.DisplayFor(modelItem => item.Document)</a>
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.FirstName)
@@ -58,10 +58,15 @@
 
                     @Html.DisplayFor(modelItem => item.LastName)
                 </td>
+
                 <td>
+                 <a onclick="showInPopup('@Url.Action("EditAttendant", "Users", new { id = item.Id }, Context.Request.Scheme)' , 'Actualizar Acudiente')" class="btn btn-sm btn-warning"><i class="fa fa-pencil-alt"></i> </a>
+                <button data-id="@item.Id" class="btn btn-sm btn-danger deleteItem" data-bs-toggle="modal" data-bs-target="#deleteDialog"><i class="fa fa-trash"></i></button>
+            </td>
+                @*<td>
                     <a asp-action="EditAttendant" asp-route-id="@item.Id" class="btn btn-outline-warning"><i class="fa-solid fa-pen-to-square"></i></a>
                     <a asp-action="DetailsAttendant" asp-route-id="@item.Id" class="btn btn-outline-info"><i class="fa-solid fa-circle-info"></i></a>
-                    <a asp-action="DeleteAttendant" asp-route-id="@item.Id" class="btn btn-outline-danger"><i class="fa-solid fa-trash"></i></a>
+                    <a asp-action="DeleteAttendant" asp-route-id="@item.Id" class="btn btn-outline-danger"><i class="fa-solid fa-trash"></i></a>*@
             </tr>
         }
     </tbody>

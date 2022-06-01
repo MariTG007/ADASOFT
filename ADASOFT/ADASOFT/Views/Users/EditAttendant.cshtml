@@ -2,85 +2,58 @@
 
 @{
     ViewData["Title"] = "EditAttendant";
+
+ Layout = null;
 }
 
 <flash dismissable="true" />
 
-<h1>Editar</h1>
-
-<h4>Acudiente </h4>
-<hr />
-<div class="row">
-    <div class="col-md-8">
-        <form asp-action="EditAttendant" enctype="multipart/form-data">
+<div class="container smfont">
+    <form asp-action="EditAttendant" enctype="multipart/form-data" autocomplete="off" asp-route-id="@Model.Id" onsubmit="return jQueryAjaxPost(this);">
+        <div class="box-body">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Id" />
             <input type="hidden" asp-for="UserId" />
-
-            <partial name="_Attendant" />
-
-            <div class="form-group mt-2">
-                <input type="submit" value="Guardar" class="btn btn-outline-primary" />
-                <a asp-action="Details" asp-route-id="@Model.UserId" class="btn btn-outline-secondary">Regresar</a>
-            </div>
-        </form>
-     </div>
+            <input type="hidden" asp-for="Id" />
+            <partial name="_Attendant"/>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-sm btn-primary" data-bs-dismiss="modal"><i class="fa fa-ban"></i> Cancelar</button>
+            <button type="submit" class="btn btn-sm btn-success"><i class="fa fa-save"></i> Guardar</button>
+        </div>
+    </form>
 </div>
-  
+
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
 
-@*@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-    <script type="text/javascript">
-        $(document).ready(function () {
-            $("#StateId").change(function () {
-                debugger;
-                $("#CityId").empty();
-                $("#CityId").append('<option value="0">[Selecciona una ciudad...]</option>');
-                $("#CampusId").empty();
-                $("#CampusId").append('<option value="0">[Selecciona un campus...]</option>');
-                $.ajax({
-                    type: 'POST',
-                    url: '@Url.Action("GetCities")',
-                    dataType: 'json',
-                    data: { stateId: $("#StateId").val() },
-                    success: function (cities) {
-                        $.each(cities, function (i, city) {
-                            $("#CityId").append('<option value="'
-                                + city.id + '">'
-                                + city.name + '</option>');
-                        });
-                    },
-                    error: function (ex) {
-                        alert('Failed to retrieve cities.' + ex);
-                    }
-                });
-                return false;
-            })
-            $("#CityId").change(function () {
-                $("#CampusId").empty();
-                $("#CampusId").append('<option value="0">[Selecciona un campus...]</option>');
-                $.ajax({
-                    type: 'POST',
-                    url: '@Url.Action("GetCampuses")',
-                    dataType: 'json',
-                    data: { cityId: $("#CityId").val() },
-                    success: function (campuses) {
-                        $.each(campuses, function (i, campus) {
-                            debugger;
-                            $("#CampusId").append('<option value="'
-                                + campus.id + '">'
-                                + campus.name + '</option>');
-                        });
-                    },
-                    error: function (ex) {
-                        alert('Failed to retrieve cities.' + ex);
-                    }
-                });
-                return false;
-            })
-        });
-    </script>
-}*@
+@*//    Layout = null;
+//}
+
+//<flash dismissable="true" />
+
+//<h1>Editar</h1>
+
+//<h4>Acudiente </h4>
+//<hr />
+//<div class="row">
+//    <div class="col-md-8">
+//        <form asp-action="EditAttendant" enctype="multipart/form-data">
+//            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+//            <input type="hidden" asp-for="Id" />
+//            <input type="hidden" asp-for="UserId" />
+
+//            <partial name="_Attendant" />
+
+//            <div class="form-group mt-2">
+//                <input type="submit" value="Guardar" class="btn btn-outline-primary" />
+//                <a asp-action="Details" asp-route-id="@Model.UserId" class="btn btn-outline-secondary">Regresar</a>
+//            </div>
+//        </form>
+//     </div>
+//</div>
+  
+//@section Scripts {
+//    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+//}
+*@

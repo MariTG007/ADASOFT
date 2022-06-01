@@ -39,8 +39,11 @@ namespace ADASOFT.Data
             await CheckUserAsync("1310", "Beatrix", "Kiddo", "lanovia@yopmail.com", "301 312 9041", "Cl. 67 # 53", "beatrixkiddo.jpg", UserType.User);
             await CheckUserAsync("1410", "Phil", "Jones", "jonesta@yopmail.com", "301 356 6281", "Carrera 48A # 23", "philjones.png", UserType.User);
             await CheckUserAsync("1510", "Johnny", "Depp", "sparrow@yopmail.com", "311 696 1241", "calle de salto 21", "johnnydepp.jpg", UserType.User);
+            await CheckAttendantsAsync();
             await CheckCoursesAsync();
         }
+
+       
 
         private async Task<User> CheckUserAsync(
            string document,
@@ -80,20 +83,62 @@ namespace ADASOFT.Data
 
             return user;
         }
+        private async Task CheckAttendantsAsync()
+        {
+            if (!_context.Courses.Any())
+            {
+                await AddAttendantAsync("1001", "Andres", "Perez", "Carrera 50b # 47-58", "200 6589", "314 587 9758", "andres1@yopmail.com", "9090");
+                await AddAttendantAsync("2002", "Juan", "Perez", "Carrera 50b # 47-58", "200 6589", "314 587 9758", "juan1@yopmail.com", "8080");
+                await AddAttendantAsync("3003", "Julio", "Perez", "Carrera 50b # 47-58", "200 6589", "314 587 9758", "julio1@yopmail.com", "2020");
+                await AddAttendantAsync("4004", "Sebastian", "Perez", "Carrera 50b # 47-58", "200 6589", "314 587 9758", "sebastian1@yopmail.com", "10010");
+                await AddAttendantAsync("5005", "Mariana", "Perez", "Carrera 50b # 47-58", "200 6589", "314 587 9758", "mariana1@yopmail.com", "1110");
+                await AddAttendantAsync("6006", "Claudia", "Perez", "Carrera 50b # 47-58", "200 6589", "314 587 9758", "claudia1@yopmail.com", "1210");
+                await AddAttendantAsync("7007", "Ana", "Perez", "Carrera 50b # 47-58", "200 6589", "314 587 9758", "ana1@yopmail.com", "1310");
+                await AddAttendantAsync("8008", "Cristian", "Perez", "Carrera 50b # 47-58", "200 6589", "314 587 9758", "cristian1@yopmail.com", "1410");
+                await AddAttendantAsync("9009", "Luisa", "Perez", "Carrera 50b # 47-58", "200 6589", "314 587 9758", "luisa1@yopmail.com", "1510");
+
+            }
+        }
+        private async Task AddAttendantAsync(
+            string document,
+            string name,
+            string lastname,
+            string adress,
+            string phone,
+            string cellphone,
+            string email,
+            string studentDocument)
+        {
+            Attendant attendant = new()
+            {
+                Document = document,
+                FirstName = name,
+                LastName = lastname,
+                Address = adress,
+                Phone = phone,
+                Cellphone = cellphone,
+                Email = email,
+                User = await _context.Users.FirstOrDefaultAsync(u => u.Document == studentDocument),
+                
+            };
+
+            
+            _context.Attendantes.Add(attendant);
+        }
 
         private async Task CheckCoursesAsync()
         {
             if (!_context.Courses.Any())
             {
-                await AddCourseAsync("Pintura Expresionista", "Pintura Expresionista", 270000M, "Lunes-Miércoles", "", 12, new List<string>() { "elgrito.png" }, "4040");
-                await AddCourseAsync("Baile Urbano", "Estilo Urbano", 200000M, "Lunes-Miércoles", "", 20, new List<string>() { "elgrito.png" }, "1010");
-                await AddCourseAsync("Baile Regional", "Regional Colombiano", 200000M, "Martes-Jueves", "", 20, new List<string>() { "elgrito.png" }, "6060");
-                await AddCourseAsync("Literatura", "Narrativa, lírica y dramática", 320000M, "Lunes-Martes", "", 8, new List<string>() { "elgrito.png" }, "3030");
-                await AddCourseAsync("Música", "Música clásica, de consumo, tradicional y étnica", 800000M, "Miércoles-Jueves", "", 10, new List<string>() { "elgrito.png" }, "4040");
-                await AddCourseAsync("Cine", "Géneros cinematográficos", 429000M, "Jueves-Viernes", "", 25, new List<string>() { "elgrito.png" }, "5050");
-                await AddCourseAsync("Pintura Abstracta", "Pintura Abstracta", 215000M, "Martes-Jueves", "", 12, new List<string>() { "elgrito.png" }, "1010");
-                await AddCourseAsync("Escultura", "Creación de formas y figuras en 3D", 800000M, "Miércoles-Viernes", "", 10, new List<string>() { "elgrito.png" }, "7070");
-
+                await AddCourseAsync("Pintura Expresionista", "Pintura Expresionista", 270000M, "Lunes-Miércoles", "Aprender a profundizar en las diferentes técnicas pictórica dándole profundidad y madurez al trabajo personal.Permitiendo así la capacidad de creación y expresión artística.", 12, new List<string>() { "elgrito.png" }, "4040");
+                await AddCourseAsync("Baile Urbano", "Estilo Urbano", 200000M, "Lunes-Miércoles", "Explorando posibilidades de movimiento,profundizando en el arte, potenciando la creatividad.", 20, new List<string>() { "breakdance.jpeg" }, "1010");
+                await AddCourseAsync("Baile Regional", "Regional Colombiano", 200000M, "Martes-Jueves", "Explorando posibilidades de movimiento,profundizando en el arte, potenciando la creatividad.", 20, new List<string>() { "baile.jpeg" }, "6060");
+                await AddCourseAsync("Literatura", "Narrativa, lírica y dramática", 320000M, "Lunes-Martes", "Desarrollar la creatividad, la inteligencia emocional y la sensibilidad.", 8, new List<string>() { "escritura.jpeg" }, "3030");
+                await AddCourseAsync("Música", "Música clásica, de consumo, tradicional y étnica", 800000M, "Miércoles-Jueves", "Desarrollar la creatividad, la inteligencia emocional y la sensibilidad. A su vez, la práctica de ésta disciplina estimula las capacidades motoras,cognitivas, afectivas, introspectivas, perceptivas de las personas. Como también fomenta el trabajo en equipo y la valoración individual.", 10, new List<string>() { "musica.jpeg" }, "4040");
+                await AddCourseAsync("Cine", "Géneros cinematográficos", 429000M, "Jueves-Viernes", "Desarrollar la creatividad, la inteligencia emocional y la sensibilidad.", 25, new List<string>() { "cine.jpeg" }, "5050");
+                await AddCourseAsync("Pintura Abstracta", "Pintura Abstracta", 215000M, "Martes-Jueves", "Aprender a profundizar en las diferentes técnicas pictórica dándole profundidad y madurez al trabajo personal.Permitiendo así la capacidad de creación y expresión artística.", 12, new List<string>() { "pintura.jpeg" }, "1010");
+                await AddCourseAsync("Escultura", "Creación de formas y figuras en 3D", 800000M, "Miércoles-Viernes", "Descubrir los volúmenes reales de los objetos y las personas.", 10, new List<string>() { "escultura.jpeg" }, "7070");
+                await AddCourseAsync("Escultura Griega", "Creación de formas y figuras en 3D", 800000M, "Miércoles-Viernes", "Descubrir los volúmenes reales de los objetos y las personas.", 10, new List<string>() { "escultura2.jpeg" }, "7070");
                 await _context.SaveChangesAsync();
             }
         }

@@ -4,19 +4,13 @@
     ViewData["Title"] = "Register";
 }
 
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+<div class="container">
 <flash dismissable="true" />
 
 <h2>Registrar</h2>
 
 <h4>Administrador</h4>
-
-<div class="text-success">
-    <h2>
-        @*@ViewBag.Message*@
-        _flashMessage
-    </h2>
-</div>
-
 <hr />
 <div class="row">
     <div class="col-md-12">
@@ -59,7 +53,8 @@
         </form>
     </div>
 </div>
-
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
     <script type="text/javascript">
