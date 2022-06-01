@@ -8,14 +8,14 @@
 <flash dismissable="true" />
 <div>
     <partial name="_UserDetails"/>    
-    <a asp-action="Index" asp-route-id="@Model?.Id" class="btn btn-outline-success">Regresar</a>
+    <a asp-action="Index" asp-route-id="@Model?.Id" class="btn btn-outline-success"><i class="fa-solid fa-arrow-rotate-left"></i> Regresar</a>
 </div>
 
 @if(@Model.UserType == UserType.User ){
 
 <div class="container-fluid">
     <div class="card mt-2">
-        <div class="card-header text-danger">
+        <div class="card-header text-info">
             <i class="fa fa-users"></i>  
         </div>
         <div class="card-body">

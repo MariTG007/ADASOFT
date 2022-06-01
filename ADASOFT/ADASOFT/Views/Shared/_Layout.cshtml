@@ -4,13 +4,6 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - ADASOFT</title>
-   @* <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/lib/font-awesome/css/all.min.css" />
-    <link rel="stylesheet" href="~/lib/datatables/css/jquery.dataTables.min.css" />
-    <link rel="stylesheet" href="~/lib/jqueryui/jquery-ui.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/ADASOFT.styles.css" asp-append-version="true" />
-   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">*@
    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/lib/font-awesome/css/all.min.css" />
     <link rel="stylesheet" href="~/lib/datatables/css/jquery.dataTables.min.css" />
@@ -45,7 +38,6 @@
 </head>
 <body>
     <header>
-      @*  <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-info border-bottom box-shadow mb-3">*@
           <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark nav-bk border-bottom box-shadow mb-3">
             <div class="container-fluid">
                 <a class="navbar-brand text-white" asp-area="" asp-controller="Home" asp-action="Index"><i class="fa-solid fa-masks-theater"></i> || ADASOFT@*<img src="~/Images/adasoft4.png" alt="" width="150" height="49">*@</a>
@@ -70,63 +62,29 @@
                                     <a class="nav-link dropdown-toggle text-white" href="#" id="adminDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                          <b>Administrador</b>
                                     </a>
- 
                                     <div class="dropdown-menu" aria-labelledby="adminDropdown">
-
-                                      <a class="dropdown-item" asp-area="" asp-controller="Dashboard" asp-action="Index"><i class="fa fa-tachometer-alt text-danger"></i> Dashboard</a>
+                                      <a class="dropdown-item" asp-area="" asp-controller="Dashboard" asp-action="Index"><i class="fa fa-tachometer-alt text-info"></i> Dashboard</a>
                                       <hr class="dropdown-divider" />
-
-                                      <a class="dropdown-item" asp-area="" asp-controller="Courses" asp-action="Index"><i class="fa-solid fa-masks-theater text-danger"></i> Cursos</a>
+                                      <a class="dropdown-item" asp-area="" asp-controller="Courses" asp-action="Index"><i class="fa-solid fa-masks-theater text-info"></i> Cursos</a>
                                       <hr class="dropdown-divider">
-                                      <a class="dropdown-item" asp-area="" asp-controller="Locations" asp-action="Index"><i class="fa fa-earth-americas text-danger"></i> Ubicación</a>
+                                      <a class="dropdown-item" asp-area="" asp-controller="Locations" asp-action="Index"><i class="fa fa-earth-americas text-info"></i> Ubicación</a>
                                       <hr class="dropdown-divider">
-                                      <a class="dropdown-item" asp-area="" asp-controller="Users" asp-action="Index"><i class="fa fa-users text-danger"></i> Usuarios</a>
+                                      <a class="dropdown-item" asp-area="" asp-controller="Users" asp-action="Index"><i class="fa fa-users text-info"></i> Usuarios</a>
  
                                     </div>
                                </li>
                             <li class="nav-item dropdown">
- 
                                     <a class="nav-link dropdown-toggle text-white" href="#" id="academyDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
- 
-                                      <b>Academia</b>
- 
+                                         <b>Academia</b>
                                     </a>
  
                                     <div class="dropdown-menu" aria-labelledby="academyDropdown">
- 
-                                      <a class="dropdown-item" asp-area="" asp-controller="Enrollment" asp-action="Index"><i class="fa fa-bell text-danger"></i> Matrículas</a>
+                                      <a class="dropdown-item" asp-area="" asp-controller="Enrollment" asp-action="Index"><i class="fa fa-bell text-info"></i> Matrículas</a>
                                       <hr class="dropdown-divider">
-                                      @*<a class="dropdown-item" asp-area="" asp-controller="StudentCourse"  asp-action="Index"><b>Cursos matriculados</b></a>
-                                      <hr class="dropdown-divider">*@
-                                      <a class="dropdown-item" asp-area="" asp-area="" asp-controller="StudentCourse"  asp-action="IndexCourse"><i class="fa-solid fa-book-open text-danger"></i> Seguimiento</a>
+                                      <a class="dropdown-item" asp-area="" asp-area="" asp-controller="StudentCourse"  asp-action="IndexCourse"><i class="fa-solid fa-book-open text-info"></i> Seguimiento</a>
  
                                     </div>
- 
-                          </li>
-
-                             @*<li class="nav-item">
-                                <a class="nav-link text-white" asp-area="" asp-controller="Courses" asp-action="Index"><b>Cursos</b></a>
-                            </li>*@
-
-                          @*  <li class="nav-item">
-                                <a class="nav-link text-white" asp-area="" asp-controller="Locations" asp-action="Index"><b>Ubicación</b></a>
-                            </li>*@
-                           @* <li class="nav-item">
-                                <a class="nav-link text-white" asp-area="" asp-controller="Enrollment" asp-action="Index"><b>Matrículas</b></a>
-                            </li>*@
-                            @*
-                            <li class="nav-item">
-                                <a class="nav-link text-white" asp-area="" asp-controller="Users" asp-action="Index"><b>Usuarios</b></a>
-                            </li>*@
-
-                           @* <li class="nav-item">
-                                <a class="nav-link text-white" asp-area="" asp-controller="StudentCourse"  asp-action="Index"><b>Cursos matriculados</b></a>
                             </li>
-
-                            <li class="nav-item">
-                                <a class="nav-link text-white" asp-area="" asp-controller="StudentCourse"  asp-action="IndexCourse"><b>Seguimiento</b></a>
-                            </li>*@
-                           
                         }
 
                         @if (User.Identity.IsAuthenticated && User.IsInRole("User"))
@@ -151,14 +109,8 @@
                                         <a class="dropdown-item" asp-area="" asp-controller="Account" asp-action="Logout"><b><i class="fa-solid fa-right-from-bracket"></i> Salir</b></a>
                                     </div>
                                 </li>
-                            @*<li class="nav-item">
-                                <a class="nav-link text-white" asp-area="" asp-controller="Account" asp-action="ChangeUser"><b><i class="fa-solid fa-bars"></i> Perfil</b></a> @*TODO: verify if we can change user*@ 
-                            @*</li>
-                            <li class="nav-item">
-                                <a class="nav-link text-white" asp-area="" asp-controller="Account" asp-action="Logout"><b><i class="fa-solid fa-right-from-bracket"></i> Salir</b></a>
-                            </li>*@
-                        }
-                        else
+                                }
+                         else
                         {
                             <li class="nav-item">
                                 <a class="nav-link text-white" asp-area="" asp-controller="Account" asp-action="Login"><b><i class="fa-solid fa-user"></i> Acceder</b></a>
@@ -229,8 +181,9 @@
             <i class="fa-solid fa-masks-theater me-3"></i>ADASOFT  
           </h6>
           <p>
-            Here you can use rows and columns to organize your footer content. Lorem ipsum
-            dolor sit amet, consectetur adipisicing elit.
+             ADASOFT es un espacio que busca la creación y expansión formativa de diferentes manifestaciones artísticas,
+             estéticas y culturales a través de una apuesta por el aprendizaje y la experimentación, en una labor conjunta 
+             entre docentes y alumnos en diferentes cursos permanentes de artes plásticas, danza, música y artes visuales.
           </p>
         </div>
         <!-- Grid column -->
