@@ -7,68 +7,18 @@
 
 <flash dismissable="true" />
 
-<h1>Detalles</h1>
-
-<div>
-     <partial name="_UserDetails"/>
-</div>
-   
-   
-<div>
-   
-    <a asp-action="Index" asp-route-id="@Model?.Id" class="btn btn-outline-success"><i class="fa-solid fa-arrow-rotate-left"></i> Regresar</a>
-</div>
-<br/>
-
 @if(@Model.UserType == UserType.User ){
-<h1>Acudientes </h1>
 
-<a asp-action="AddAttendant" asp-route-id="@Model?.Id" class="btn btn-outline-primary"><i class="fa-solid fa-user-plus"></i> Nuevo acudiente </a>
-
- <div class="panel-body">
-                <table class="table table-hover table-responsive table-striped" id="MyTable">
-
-                    <thead>
-                        <tr>
-                            <th>
-                                @Html.DisplayNameFor(model => model.Attendantes.FirstOrDefault().Document)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.Attendantes.FirstOrDefault().FirstName)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.Attendantes.FirstOrDefault().LastName)
-                            </th>
-                           @* <th>
-                                @Html.DisplayNameFor(model => model.Attendantes.FirstOrDefault().AttendantesNumber)
-                            </th>*@
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var item in Model.Attendantes)
-                        {
-                            <tr>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Document)
-                                </td>
-                                <th>
-                                @Html.DisplayFor(model => model.Attendantes.FirstOrDefault().FirstName)
-                                </th>
-                                <th>
-                                @Html.DisplayFor(model => model.Attendantes.FirstOrDefault().LastName)
-                                </th>
-                                @*<td>
-                                    @Html.DisplayFor(modelItem => item.AttendantesNumber)
-                                </td>*@
-                                <td>
-                                    <a asp-action="EditAttendant" asp-route-id="@item.Id" class="btn btn-outline-warning"><i class="fa-solid fa-pen-to-square"></i></a>
-                                    <a asp-action="DetailsAttendant" asp-route-id="@item.Id" class="btn btn-outline-info"><i class="fa-solid fa-circle-info"></i></a>
-                                    <a asp-action="DeleteAttendant" asp-route-id="@item.Id" class="btn btn-outline-danger"><i class="fa-solid fa-trash"></i></a>
-                                </td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
+<div class="container-fluid">
+    <div class="card mt-2">
+        <div class="card-header text-danger">
+            <i class="fa fa-users"></i>  
+        </div>
+        <div class="card-body">
+            <div id="view-all">
+                @await Html.PartialAsync("_ViewAttendant", Model)
             </div>
-            }
+        </div>
+    </div>
+</div>
+}

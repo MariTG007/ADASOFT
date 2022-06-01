@@ -4,76 +4,46 @@
     ViewData["Title"] = "Details";
 }
 
+<flash dismissable="true" />
 
-
-<h1>Detalles</h1>
+@*<h1>Detalles</h1>
 
 <div>
     <partial name="_UserDetails"/>    
 </div>
-<div>
-    <a asp-action="AddAttendant" asp-route-id="@Model?.Id" class="btn btn-outline-warning">Crear Acudiente</a>
+<div>*@
+    <a asp-action="AddAttendant" asp-route-id="@Model?.Id" class="btn btn-outline-warning">Añadir Acudiente</a>
     <a asp-action="Details" asp-route-id="@Model?.Id" class="btn btn-outline-success">Regresar</a>
 </div>
 <hr />
 
-<div class="row">
-    <div class="col-md-12">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <h3 class="panel-title">Ciuades</h3>
-            </div>
-            <div class="panel-body">
-                <table class="table table-hover table-responsive table-striped" id="MyTable">
-                    <thead>
-                        <tr>
-                            <th>
-                                @Html.DisplayNameFor(model => model.Attendantes.FirstOrDefault().Document)
-                            </th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var item in Model.Attendantes)
-                        {
-                            <tr>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Document)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.FirstName)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.LastName)
-                                </td>
-                                <td>
-                                 @*<a asp-action="EditCampus" asp-route-id="@item.Id" class="btn btn-outline-warning">Editar</a>
-                                    <a asp-action="DetailsCampus" asp-route-id="@item.Id" class="btn btn-outline-info">Detalles</a>
-                                    <a asp-action="DeleteCampus" asp-route-id="@item.Id" class="btn btn-outline-danger">Borrar</a>*@
-                            </tr>
-                        }
-                    </tbody>
-                </table>
+<div class="container-fluid">
+    <div class="card mt-2">
+        <div class="card-header text-danger">
+            <i class="fa fa-users"></i>  <strong>Acudientes</strong>
+        </div>
+        <div class="card-body">
+            <div id="view-all">
+                @await Html.PartialAsync("_ViewAttendant", Model)
             </div>
         </div>
     </div>
 </div>
 
 @section Scripts {
-    @{
-    await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
-    
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script src="~/js/showmodal.js"></script>
 
     <script type="text/javascript">
         $(document).ready(function () {
-            $('#MyTable').DataTable({
+            $('#UsersTable').DataTable({
                 "language": {
                     "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"
                 },
                 "aLengthMenu": [
-                    [25, 50, 100, 200, -1],
-                    [25, 50, 100, 200, "Todos"]
+                    [3, 6, 9, 12, -1],
+                    [3, 6, 9, 12, "Todos"]
                 ]
             });
         });
