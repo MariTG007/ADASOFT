@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ADASOFT.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20220523160920_AddFinalGrade")]
+    [Migration("20220703153547_AddFinalGrade")]
     partial class AddFinalGrade
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

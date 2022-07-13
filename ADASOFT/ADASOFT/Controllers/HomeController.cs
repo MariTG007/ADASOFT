@@ -156,18 +156,47 @@ namespace ADASOFT.Controllers
             {
                 return NotFound();
             }
-
-            EnrollmentCourse enrollmentCourse = new()
+            bool x = false;
+            foreach (EnrollmentCourse? item in _context.EnrollmentCourses)
             {
-                Course = course,
-                Quantity = model.Quantity,
-                Remarks = model.Remarks,
-                User = user
-            };
+                if (course == item.Course && user == item.User)
+                {
+                    //_flashMessage.Info("Ya tiene este curso");
+                    x = true;
+                }
+            }
+            if (x == false)
+            {
+                EnrollmentCourse enrollmentCourse = new()
+                {
+                    Course = course,
+                    Quantity = model.Quantity,
+                    Remarks = model.Remarks,
+                    User = user
+                };
+                _context.EnrollmentCourses.Add(enrollmentCourse);
+                await _context.SaveChangesAsync();
+                ViewData["mymessage"] = "this is a message";
+                return RedirectToAction(nameof(Index));
+            }
+            else
+            {
+                _flashMessage.Info("Ya tiene este curso");
+                return RedirectToAction("Index", "Home");
 
-            _context.EnrollmentCourses.Add(enrollmentCourse);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            }
+
+            //EnrollmentCourse enrollmentCourse = new()
+            //{
+            //    Course = course,
+            //    Quantity = model.Quantity,
+            //    Remarks = model.Remarks,
+            //    User = user
+            //};
+
+            //_context.EnrollmentCourses.Add(enrollmentCourse);
+            //await _context.SaveChangesAsync();
+            //return RedirectToAction(nameof(Index));
         }
         
         public async Task<IActionResult> Add(int? id)
@@ -198,18 +227,45 @@ namespace ADASOFT.Controllers
             {
                 return NotFound();
             }
-
-            EnrollmentCourse enrollmentCourse = new()
+            bool x = false;
+            foreach (EnrollmentCourse? item in _context.EnrollmentCourses)
+            { 
+                if (course == item.Course && user == item.User)
+                {
+                    //_flashMessage.Info("Ya tiene este curso");
+                    x = true;
+                }
+            }
+            if (x==false)
             {
-                Course = course,
-                Quantity = 1,
-                User = user
-            };
+                EnrollmentCourse enrollmentCourse = new()
+                {
+                    Course = course,
+                    Quantity = 1,
+                    User = user
+                };
+                _context.EnrollmentCourses.Add(enrollmentCourse);
+                await _context.SaveChangesAsync();
+                ViewData["mymessage"] = "this is a message";
+                return RedirectToAction(nameof(Index));
+            }
+            else
+            {
+                _flashMessage.Info("Ya tiene este curso");
+                return RedirectToAction("Index", "Home");
 
-            _context.EnrollmentCourses.Add(enrollmentCourse);
-            await _context.SaveChangesAsync();
-            ViewData["mymessage"] = "this is a message";
-            return RedirectToAction(nameof(Index));
+            }
+
+            //EnrollmentCourse enrollmentCourse = new()
+            //{
+            //    Course = course,
+            //    Quantity = 1,
+            //    User = user
+            //};
+
+            //_context.EnrollmentCourses.Add(enrollmentCourse);
+
+            //return RedirectToAction(nameof(Index));
         }
 
         [Authorize]

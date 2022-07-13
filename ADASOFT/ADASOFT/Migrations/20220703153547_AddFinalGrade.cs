@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace ADASOFT.Migrations
 {
-    public partial class AverageScore : Migration
+    public partial class AddFinalGrade : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -341,7 +341,8 @@ namespace ADASOFT.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     CourseId = table.Column<int>(type: "int", nullable: true),
-                    porcentageCourse = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
+                    porcentageCourse = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    FinalGrade = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -392,7 +393,8 @@ namespace ADASOFT.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     StudentCourseId = table.Column<int>(type: "int", nullable: true),
                     Percentage = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    Grades = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
+                    Grades = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    FinalGrade = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -401,25 +403,6 @@ namespace ADASOFT.Migrations
                         name: "FK_Grades_StudentCourses_StudentCourseId",
                         column: x => x.StudentCourseId,
                         principalTable: "StudentCourses",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "FinalGrades",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    GradeId = table.Column<int>(type: "int", nullable: true),
-                    note = table.Column<float>(type: "real", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_FinalGrades", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_FinalGrades_Grades_GradeId",
-                        column: x => x.GradeId,
-                        principalTable: "Grades",
                         principalColumn: "Id");
                 });
 
@@ -549,18 +532,6 @@ namespace ADASOFT.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_FinalGrades_GradeId",
-                table: "FinalGrades",
-                column: "GradeId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_FinalGrades_Id_GradeId",
-                table: "FinalGrades",
-                columns: new[] { "Id", "GradeId" },
-                unique: true,
-                filter: "[GradeId] IS NOT NULL");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Grades_Id_StudentCourseId",
                 table: "Grades",
                 columns: new[] { "Id", "StudentCourseId" },
@@ -633,7 +604,7 @@ namespace ADASOFT.Migrations
                 name: "EnrollmentCourses");
 
             migrationBuilder.DropTable(
-                name: "FinalGrades");
+                name: "Grades");
 
             migrationBuilder.DropTable(
                 name: "Payments");
@@ -642,13 +613,10 @@ namespace ADASOFT.Migrations
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "Grades");
+                name: "StudentCourses");
 
             migrationBuilder.DropTable(
                 name: "Enrollments");
-
-            migrationBuilder.DropTable(
-                name: "StudentCourses");
 
             migrationBuilder.DropTable(
                 name: "Courses");

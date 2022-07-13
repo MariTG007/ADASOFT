@@ -76,7 +76,7 @@ namespace ADASOFT.Migrations
                         .IsUnique()
                         .HasFilter("[UserId] IS NOT NULL");
 
-                    b.ToTable("Attendantes", (string)null);
+                    b.ToTable("Attendantes");
                 });
 
             modelBuilder.Entity("ADASOFT.Data.Entities.Campus", b =>
@@ -103,7 +103,7 @@ namespace ADASOFT.Migrations
                         .IsUnique()
                         .HasFilter("[CityId] IS NOT NULL");
 
-                    b.ToTable("Campuses", (string)null);
+                    b.ToTable("Campuses");
                 });
 
             modelBuilder.Entity("ADASOFT.Data.Entities.City", b =>
@@ -130,7 +130,7 @@ namespace ADASOFT.Migrations
                         .IsUnique()
                         .HasFilter("[StateId] IS NOT NULL");
 
-                    b.ToTable("Cities", (string)null);
+                    b.ToTable("Cities");
                 });
 
             modelBuilder.Entity("ADASOFT.Data.Entities.Course", b =>
@@ -176,7 +176,7 @@ namespace ADASOFT.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Courses", (string)null);
+                    b.ToTable("Courses");
                 });
 
             modelBuilder.Entity("ADASOFT.Data.Entities.CourseImage", b =>
@@ -197,7 +197,7 @@ namespace ADASOFT.Migrations
 
                     b.HasIndex("CourseId");
 
-                    b.ToTable("CourseImages", (string)null);
+                    b.ToTable("CourseImages");
                 });
 
             modelBuilder.Entity("ADASOFT.Data.Entities.Enrollment", b =>
@@ -228,7 +228,7 @@ namespace ADASOFT.Migrations
                         .IsUnique()
                         .HasFilter("[UserId] IS NOT NULL");
 
-                    b.ToTable("Enrollments", (string)null);
+                    b.ToTable("Enrollments");
                 });
 
             modelBuilder.Entity("ADASOFT.Data.Entities.EnrollmentCourse", b =>
@@ -261,7 +261,7 @@ namespace ADASOFT.Migrations
                         .IsUnique()
                         .HasFilter("[CourseId] IS NOT NULL");
 
-                    b.ToTable("EnrollmentCourses", (string)null);
+                    b.ToTable("EnrollmentCourses");
                 });
 
             modelBuilder.Entity("ADASOFT.Data.Entities.Grade", b =>
@@ -292,7 +292,7 @@ namespace ADASOFT.Migrations
                         .IsUnique()
                         .HasFilter("[StudentCourseId] IS NOT NULL");
 
-                    b.ToTable("Grades", (string)null);
+                    b.ToTable("Grades");
                 });
 
             modelBuilder.Entity("ADASOFT.Data.Entities.Payment", b =>
@@ -321,7 +321,7 @@ namespace ADASOFT.Migrations
 
                     b.HasIndex("EnrollmentId");
 
-                    b.ToTable("Payments", (string)null);
+                    b.ToTable("Payments");
                 });
 
             modelBuilder.Entity("ADASOFT.Data.Entities.State", b =>
@@ -342,7 +342,7 @@ namespace ADASOFT.Migrations
                     b.HasIndex("Name")
                         .IsUnique();
 
-                    b.ToTable("States", (string)null);
+                    b.ToTable("States");
                 });
 
             modelBuilder.Entity("ADASOFT.Data.Entities.StudentCourse", b =>
@@ -375,7 +375,7 @@ namespace ADASOFT.Migrations
                         .IsUnique()
                         .HasFilter("[CourseId] IS NOT NULL");
 
-                    b.ToTable("StudentCourses", (string)null);
+                    b.ToTable("StudentCourses");
                 });
 
             modelBuilder.Entity("ADASOFT.Data.Entities.User", b =>

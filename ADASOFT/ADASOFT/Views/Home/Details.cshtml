@@ -3,9 +3,7 @@
 @{
     ViewData["Title"] = "Details";
 }
-
-
-<style type="text/css">
+@*<style type="text/css">
     .carousel-inner {
     width: auto;
     height: 500px;
@@ -18,7 +16,7 @@
         text-align: center;
     }
 
-</style>
+</style>*@
 <div class="container">
 <flash dismissable="true" />
 <h1>@Model?.Name</h1>
@@ -111,11 +109,11 @@
                         <input asp-for="Remarks" class="form-control" />
                         <span asp-validation-for="Remarks" class="text-danger"></span>
                     </div>
-                  @*  <div class="form-group">
+                    <div class="form-group">
                         <label asp-for="Quantity" class="control-label"></label>
                         <input asp-for="Quantity" class="form-control" />
                         <span asp-validation-for="Quantity" class="text-danger"></span>
-                    </div>*@
+                    </div>
                     <div class="form-group mt-2">
                        @if (!User.Identity.IsAuthenticated || User.IsInRole("User"))
                         {
